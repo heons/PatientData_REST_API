@@ -1,17 +1,18 @@
 
 
-/* Basic constant values for the server */
+/*------ Basic constant values for the server ------*/
 let SERVER_NAME = 'healthrecords'   // Server name
 let DEFAULT_PORT = 5000             // Default port number
 let DEFAULT_HOST = '127.0.0.1'      // Default IP address
 let DEFAULT_MONGODB_URI = 'mongodb://localhost/healthrecords-db' // Default MongoDB URI
 
 
-/* Requirements */
+/*------ Requirements ------*/
 var mongoose = require ("mongoose") // Mongo DB
 var restify = require('restify')    // REST
 
 
+/*------ Assign values for the DB connection ------*/
 // Assign port value
 var port = process.env.PORT;
 if (typeof port === "undefined") {
@@ -32,8 +33,20 @@ if (typeof ipaddress === "undefined") {
 var uristring = process.env.MONGODB_URI || DEFAULT_MONGODB_URI;
 
 
-// Makes connection asynchronously.  Mongoose will queue up database
-// operations and release them when the connection is complete.
+/*------ MongoDB ------*/
+// This is the schema of the Patient. 
+// TODO : Check types, validation.
+var patientSchema = new mongoose.Schema({
+    first_name: String, 
+    last_name: String, 
+    address: String,
+    sex: String,
+    date_of_birth: String,
+    department: String,
+    doctor: String
+});
+
+// Connect to the MongoDB
 mongoose.connect(uristring, function (err, res) {
     if (err) { 
         console.log ('ERROR connecting to: ' + uristring + '. ' + err);
@@ -42,27 +55,22 @@ mongoose.connect(uristring, function (err, res) {
     }
 });
 
-// This is the schema of the Patient. 
-// TODO : Check types, validation.
-var patientSchema = new mongoose.Schema({
-		first_name: String, 
-		last_name: String, 
-        address: String,
-        sex: String,
-		date_of_birth: String,
-		department: String,
-        doctor: String
-});
-
 // Compiles the schema into a model, opening (or creating, if
 // nonexistent) the 'Patients' collection in the MongoDB database
 var Patient = mongoose.model('Patients', patientSchema);
 
 
+/*------ Sever implementation ------*/
 // Create the restify server
 server = restify.createServer({ name: SERVER_NAME})
+server
+    // Allow the use of POST
+    .use(restify.plugins.fullResponse())
 
-  
+    // Maps req.body to req.params so there is no switching between them
+    .use(restify.plugins.bodyParser())
+ 
+// Start listening
 server.listen(port, ipaddress, function () {
     console.log('Server %s listening at %s', server.name, server.url)
     console.log('Resources:')
@@ -70,13 +78,6 @@ server.listen(port, ipaddress, function () {
     console.log(' /patient/:id')
 })
 
-
-server
-    // Allow the use of POST
-    .use(restify.plugins.fullResponse())
-
-    // Maps req.body to req.params so there is no switching between them
-    .use(restify.plugins.bodyParser())
 
 // Get all patients in the system
 server.get('/patient', function (req, res, next) {
@@ -155,4 +156,4 @@ server.del('/patient/:id', function (req, res, next) {
         // Send a 200 OK response
         res.send()
     });
-  })
+})
