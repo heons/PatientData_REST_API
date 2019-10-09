@@ -46,6 +46,13 @@ var patientSchema = new mongoose.Schema({
     doctor: String
 });
 
+var clinicalDataSchema = new mongoose.Schema({
+    date: String, 
+    time: String, 
+    type: String,
+    value: String
+});
+
 // Connect to the MongoDB
 mongoose.connect(uristring, function (err, res) {
     if (err) { 
