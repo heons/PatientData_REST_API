@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/heons/MAPD713_PatientData_REST_API/issues"
   },
-  "homepage": "https://github.com/heons/MAPD713_PatientData_REST_API#readme"
+  "homepage": "https://github.com/heons/MAPD713_PatientData_REST_API#readme",
+  "dependencies": {
+    "mongoose": "^5.7.3",
+    "restify": "^8.4.0"
+  }
 }
