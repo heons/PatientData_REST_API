@@ -1,0 +1,23 @@
+{
+  "name": "mapd713_patientdata_rest_api",
+  "version": "1.0.0",
+  "description": "patientdata using rest api project for mapd713 class",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heons/MAPD713_PatientData_REST_API.git"
+  },
+  "keywords": [
+    "rest",
+    "node"
+  ],
+  "author": "Huen Oh, + 3",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heons/MAPD713_PatientData_REST_API/issues"
+  },
+  "homepage": "https://github.com/heons/MAPD713_PatientData_REST_API#readme"
+}
