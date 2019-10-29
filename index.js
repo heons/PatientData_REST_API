@@ -215,7 +215,7 @@ server.post('/patient', function (req, res, next) {
 // Delete patient with the given id
 server.del('/patient/:id', function (req, res, next) {
     console.log('DEL request: patient/' + req.params.id);
-    Patient.remove({ _id: req.params.id }, function (error, result) {
+    Patient.deleteOne({ _id: req.params.id }, function (error, result) {
         // If there are any errors, pass them to next in the correct format
         if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 
