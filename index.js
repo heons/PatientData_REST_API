@@ -84,8 +84,10 @@ server
 server.listen(port, ipaddress, function () {
     console.log('Server %s listening at %s', server.name, server.url)
     console.log('Resources:')
-    console.log(' /patient')
-    console.log(' /patient/:id')
+    console.log(' /patient                  GET, POST')
+    console.log(' /patient/:id              GET, PUT, DELETE')
+    console.log(' /patient/:id/records      GET, POST')
+    console.log(' /records/:id              GET')
 })
 
 
@@ -228,7 +230,7 @@ server.del('/patient/:id', function (req, res, next) {
 
 // Create a single record by its patient id
 server.post('/patient/:id/records', function (req, res, next) {
-    console.log('PUT request: patient/:id/records');
+    console.log('POST request: patient/:id/records');
 
    // Make sure field is defined
     if (req.params.date === undefined) {
@@ -273,6 +275,25 @@ server.get('/patient/:id/records', function (req, res, next) {
 
     // Find records by its id
     ClinicalData.find({ patient_id: req.params.id }).exec(function (error, record) {
+      // If there are any errors, pass them to next in the correct format
+      //if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+
+        if (record) {
+            // Send the patient if no issues
+            res.send(record)
+        } else {
+            // Send 404 header if the patient doesn't exist
+            res.send(404)
+        }
+    })
+})
+
+// Get a record by its record id
+server.get('/records/:id', function (req, res, next) {
+    console.log('GET request: records/:id -' + req.params.id);
+
+    // Find records by its id
+    ClinicalData.find({ _id: req.params.id }).exec(function (error, record) {
       // If there are any errors, pass them to next in the correct format
       //if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 
