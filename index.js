@@ -47,6 +47,7 @@ var patientSchema = new mongoose.Schema({
 });
 
 var clinicalDataSchema = new mongoose.Schema({
+    patient_id: String,
     date: String, 
     time: String, 
     type: String,
@@ -62,9 +63,11 @@ mongoose.connect(uristring, function (err, res) {
     }
 });
 
-// Compiles the schema into a model, opening (or creating, if
-// nonexistent) the 'Patients' collection in the MongoDB database
+// Compiles the schema into a model, opening (or creating, ifnonexistent) 
+// the 'Patients' collection in the MongoDB database
 var Patient = mongoose.model('Patients', patientSchema);
+// the 'ClinicalData' collection in the MongoDB database
+var ClinicalData = mongoose.model('ClinicalData', clinicalDataSchema);
 
 
 /*------ Sever implementation ------*/
@@ -217,4 +220,68 @@ server.del('/patient/:id', function (req, res, next) {
         // Send a 200 OK response
         res.send()
     });
+})
+
+
+
+
+
+// Create a single record by its patient id
+server.post('/patient/:id/records', function (req, res, next) {
+    console.log('PUT request: patient/:id/records');
+
+   // Make sure field is defined
+    if (req.params.date === undefined) {
+        // If there are any errors, pass them to next in the correct format
+        return next(new restify.InvalidArgumentError('date must be supplied'))
+    }
+    if (req.params.time === undefined) {
+        // If there are any errors, pass them to next in the correct format
+        return next(new restify.InvalidArgumentError('time must be supplied'))
+    }
+    if (req.params.type === undefined) {
+        // If there are any errors, pass them to next in the correct format
+        return next(new restify.InvalidArgumentError('type must be supplied'))
+    }
+    if (req.params.value === undefined) {
+        // If there are any errors, pass them to next in the correct format
+        return next(new restify.InvalidArgumentError('value must be supplied'))
+    }
+
+    // Creating new clinical data.
+    var newClinicalData = new ClinicalData({
+        patient_id: req.params.id,
+        date: req.params.date,
+        time: req.params.time,
+        type: req.params.type,
+        value: req.params.value
+    });
+
+    // Create the patient and saving to db
+    newClinicalData.save(function (error, result) {
+        // If there are any errors, pass them to next in the correct format
+        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+
+        // Send the patient if no issues
+        res.send(201, result)
+    });
+})
+
+// Get all the records by its patient id
+server.get('/patient/:id/records', function (req, res, next) {
+    console.log('GET request: patient/:id/records -' + req.params.id);
+
+    // Find records by its id
+    ClinicalData.find({ patient_id: req.params.id }).exec(function (error, record) {
+      // If there are any errors, pass them to next in the correct format
+      //if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+
+        if (record) {
+            // Send the patient if no issues
+            res.send(record)
+        } else {
+            // Send 404 header if the patient doesn't exist
+            res.send(404)
+        }
+    })
 })
