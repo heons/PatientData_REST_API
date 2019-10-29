@@ -99,7 +99,7 @@ server.get('/patient', function (req, res, next) {
 
 // Get a single patient by their patient id
 server.get('/patient/:id', function (req, res, next) {
-    console.log('GET request: patient/' + req.params.id);
+    console.log('GET request: patient/:id -' + req.params.id);
 
     // Find a single patient by their id
     Patient.find({ _id: req.params.id }).exec(function (error, patient) {
@@ -114,6 +114,60 @@ server.get('/patient/:id', function (req, res, next) {
             res.send(404)
         }
     })
+})
+
+
+// Update a single patient by its patient id
+server.put('/patient/:id', function (req, res, next) {
+    console.log('PUT request: patient/:id');
+
+     // Creating new patient.
+    var newPatient = new Patient({
+       _id: req.params.id
+    });
+
+    // Make add fields to patient data to update
+    if (req.params.first_name !== undefined) {
+        newPatient.first_name = req.params.first_name;
+    }
+    if (req.params.last_name !== undefined) {
+        newPatient.last_name = req.params.last_name;
+    }
+    if (req.params.address !== undefined) {
+        newPatient.address = req.params.address;
+    }
+    if (req.params.sex !== undefined) {
+        newPatient.sex = req.params.sex;
+    }
+    if (req.params.date_of_birth !== undefined) {
+        newPatient.date_of_birth = req.params.date_of_birth;
+    }
+    if (req.params.department !== undefined) {
+        newPatient.department = req.params.department;
+    }
+    if (req.params.doctor !== undefined) {
+        newPatient.doctor = req.params.doctor;
+    }
+
+    // Update
+    /*
+    it will return as
+        {
+        "n": 1,
+        "nModified": 1,
+        "ok": 1
+        }
+    */
+    Patient.updateOne(
+        { _id: req.params.id }
+        , { $set: newPatient }
+        , function (error, result) {
+            // If there are any errors, pass them to next in the correct format
+            if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+    
+            // Send the patient if no issues
+            res.send(201, result)
+        });
 })
 
 
