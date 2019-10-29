@@ -87,7 +87,7 @@ server.listen(port, ipaddress, function () {
     console.log(' /patient                  GET, POST')
     console.log(' /patient/:id              GET, PUT, DELETE')
     console.log(' /patient/:id/records      GET, POST')
-    console.log(' /records/:id              GET')
+    console.log(' /records/:id              GET, PUT')
 })
 
 
@@ -305,4 +305,48 @@ server.get('/records/:id', function (req, res, next) {
             res.send(404)
         }
     })
+})
+
+// Update a record by its record id
+server.put('/records/:id', function (req, res, next) {
+    console.log('PUT records: patient/:id');
+
+     // Creating new patient.
+    var newClinicalData = new ClinicalData({
+       _id: req.params.id
+    });
+
+    // Make add fields to patient data to update
+    if (req.params.date !== undefined) {
+        newClinicalData.date = req.params.date;
+    }
+    if (req.params.time !== undefined) {
+        newClinicalData.time = req.params.time;
+    }
+    if (req.params.type !== undefined) {
+        newClinicalData.type = req.params.type;
+    }
+    if (req.params.value !== undefined) {
+        newClinicalData.value = req.params.value;
+    }
+
+    // Update
+    /*
+    it will return as
+        {
+        "n": 1,
+        "nModified": 1,
+        "ok": 1
+        }
+    */
+    ClinicalData.updateOne(
+        { _id: req.params.id }
+        , { $set: newClinicalData }
+        , function (error, result) {
+            // If there are any errors, pass them to next in the correct format
+            if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+    
+            // Send the patient if no issues
+            res.send(201, result)
+        });
 })
