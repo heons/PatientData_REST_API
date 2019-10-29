@@ -10,6 +10,7 @@ let DEFAULT_MONGODB_URI = 'mongodb://localhost/healthrecords-db' // Default Mong
 /*------ Requirements ------*/
 var mongoose = require ("mongoose") // Mongo DB
 var restify = require('restify')    // REST
+var errs = require('restify-errors'); // To handle restify errors
 
 
 /*------ Assign values for the DB connection ------*/
@@ -96,7 +97,7 @@ server.get('/patient', function (req, res, next) {
     console.log('GET request: patient');
     // Find every entity within the given collection
     Patient.find({}).exec(function (error, result) {
-        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+        if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
         res.send(result);
     });
 })
@@ -109,7 +110,7 @@ server.get('/patient/:id', function (req, res, next) {
     // Find a single patient by their id
     Patient.find({ _id: req.params.id }).exec(function (error, patient) {
       // If there are any errors, pass them to next in the correct format
-      //if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+      //if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
         if (patient) {
             // Send the patient if no issues
@@ -168,7 +169,7 @@ server.put('/patient/:id', function (req, res, next) {
         , { $set: newPatient }
         , function (error, result) {
             // If there are any errors, pass them to next in the correct format
-            if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+            if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
     
             // Send the patient if no issues
             res.send(201, result)
@@ -182,11 +183,11 @@ server.post('/patient', function (req, res, next) {
     // Make sure name is defined
     if (req.params.first_name === undefined) {
         // If there are any errors, pass them to next in the correct format
-        return next(new restify.InvalidArgumentError('first_name must be supplied'))
+        return next(new errs.InvalidArgumentError('first_name must be supplied'))
     }
     if (req.params.last_name === undefined) {
         // If there are any errors, pass them to next in the correct format
-        return next(new restify.InvalidArgumentError('last_name must be supplied'))
+        return next(new errs.InvalidArgumentError('last_name must be supplied'))
     }
 
     // Creating new patient.
@@ -204,7 +205,7 @@ server.post('/patient', function (req, res, next) {
     // Create the patient and saving to db
     newPatient.save(function (error, result) {
         // If there are any errors, pass them to next in the correct format
-        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+        if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
         // Send the patient if no issues
         res.send(201, result)
@@ -217,7 +218,7 @@ server.del('/patient/:id', function (req, res, next) {
     console.log('DEL request: patient/' + req.params.id);
     Patient.deleteOne({ _id: req.params.id }, function (error, result) {
         // If there are any errors, pass them to next in the correct format
-        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+        if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
         // Send a 200 OK response
         res.send()
@@ -235,19 +236,19 @@ server.post('/patient/:id/records', function (req, res, next) {
    // Make sure field is defined
     if (req.params.date === undefined) {
         // If there are any errors, pass them to next in the correct format
-        return next(new restify.InvalidArgumentError('date must be supplied'))
+        return next(new errs.InvalidArgumentError('date must be supplied'))
     }
     if (req.params.time === undefined) {
         // If there are any errors, pass them to next in the correct format
-        return next(new restify.InvalidArgumentError('time must be supplied'))
+        return next(new errs.InvalidArgumentError('time must be supplied'))
     }
     if (req.params.type === undefined) {
         // If there are any errors, pass them to next in the correct format
-        return next(new restify.InvalidArgumentError('type must be supplied'))
+        return next(new errs.InvalidArgumentError('type must be supplied'))
     }
     if (req.params.value === undefined) {
         // If there are any errors, pass them to next in the correct format
-        return next(new restify.InvalidArgumentError('value must be supplied'))
+        return next(new errs.InvalidArgumentError('value must be supplied'))
     }
 
     // Creating new clinical data.
@@ -262,7 +263,7 @@ server.post('/patient/:id/records', function (req, res, next) {
     // Create the patient and saving to db
     newClinicalData.save(function (error, result) {
         // If there are any errors, pass them to next in the correct format
-        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+        if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
         // Send the patient if no issues
         res.send(201, result)
@@ -276,7 +277,7 @@ server.get('/patient/:id/records', function (req, res, next) {
     // Find records by its id
     ClinicalData.find({ patient_id: req.params.id }).exec(function (error, record) {
       // If there are any errors, pass them to next in the correct format
-      //if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+      //if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
         if (record) {
             // Send the patient if no issues
@@ -295,7 +296,7 @@ server.get('/records/:id', function (req, res, next) {
     // Find records by its id
     ClinicalData.find({ _id: req.params.id }).exec(function (error, record) {
       // If there are any errors, pass them to next in the correct format
-      //if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+      //if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
         if (record) {
             // Send the patient if no issues
@@ -344,7 +345,7 @@ server.put('/records/:id', function (req, res, next) {
         , { $set: newClinicalData }
         , function (error, result) {
             // If there are any errors, pass them to next in the correct format
-            if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+            if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
     
             // Send the patient if no issues
             res.send(201, result)
@@ -357,7 +358,7 @@ server.del('/records/:id', function (req, res, next) {
     console.log('DEL request: records/:id - ' + req.params.id);
     ClinicalData.deleteOne({ _id: req.params.id }, function (error, result) {
         // If there are any errors, pass them to next in the correct format
-        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+        if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
         console.log(result);
         // Send a 200 OK response
