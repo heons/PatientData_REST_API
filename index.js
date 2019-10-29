@@ -149,7 +149,7 @@ server.post('/patient', function (req, res, next) {
 
         // Send the patient if no issues
         res.send(201, result)
-        })
+    });
 })
 
 
