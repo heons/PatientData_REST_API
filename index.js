@@ -87,7 +87,7 @@ server.listen(port, ipaddress, function () {
     console.log(' /patient                  GET, POST')
     console.log(' /patient/:id              GET, PUT, DELETE')
     console.log(' /patient/:id/records      GET, POST')
-    console.log(' /records/:id              GET, PUT')
+    console.log(' /records/:id              GET, PUT, DELETE')
 })
 
 
@@ -290,7 +290,7 @@ server.get('/patient/:id/records', function (req, res, next) {
 
 // Get a record by its record id
 server.get('/records/:id', function (req, res, next) {
-    console.log('GET request: records/:id -' + req.params.id);
+    console.log('GET request: records/:id - ' + req.params.id);
 
     // Find records by its id
     ClinicalData.find({ _id: req.params.id }).exec(function (error, record) {
@@ -349,4 +349,18 @@ server.put('/records/:id', function (req, res, next) {
             // Send the patient if no issues
             res.send(201, result)
         });
+})
+
+
+// Delete a record with the given id
+server.del('/records/:id', function (req, res, next) {
+    console.log('DEL request: records/:id - ' + req.params.id);
+    ClinicalData.deleteOne({ _id: req.params.id }, function (error, result) {
+        // If there are any errors, pass them to next in the correct format
+        if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+
+        console.log(result);
+        // Send a 200 OK response
+        res.send()
+    });
 })
