@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </head>
+
+
+
+
+  <body>
+      <script>
+        /*
+        var xhttp;
+        if (window.XMLHttpRequest) {
+            xhttp = new XMLHttpRequest(); 
+        } else {    // code for IE6, IE5
+            xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        */
+
+/*         function loadDoc() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (xhttp.readyState == 4 && xhttp.status == 200) {
+                document.getElementById("testAjax").innerHTML = xhttp.responseText;
+              }
+            };
+            xhttp.open("GET", "http://127.0.0.1:5000/patient", true);
+            xhttp.send();
+            console.log("function run");
+        } */
+
+        var patientId = '5d9e47ea1d578d2721c8067c';
+        
+        var getAllPatients = function(){
+            
+            $.ajax({
+                url: "http://127.0.0.1:5000/patients",
+                method:"GET",
+                crossDomain:true,
+                success:function(data){
+                    
+                    var strDisplay = "";
+                    for (let i = 0; i< data.length; ++i) {
+                        strDisplay += "<div>" + "Patient Item : " + i + "</div>";
+                        strDisplay += "<div>" + "ID : " + data[i]._id + "</div>";
+                        strDisplay += "<div>" + "First Name : " + data[i].first_name + "</div>";
+                        strDisplay += "<div>" + "Last Name : " + data[i].last_name + "</div>";
+                        strDisplay += "<div>" + "Address : " + data[i].address + "</div>";
+                        strDisplay += "<div>" + "Sex : " + data[i].sex + "</div>";
+                        strDisplay += "<div>" + "Date of birth : " + data[i].date_of_birth + "</div>";
+                        strDisplay += "<div>" + "Department : " + data[i].department + "</div>";
+                        strDisplay += "<div>" + "Doctor : " + data[i].doctor + "</div>";
+                    }
+
+                    $("#div_getAllPatients").html(strDisplay);
+                }
+            }).fail(function(){
+                $("#div_getAllPatients").html("error");
+            });
+            console.log("getAllPatients");
+        }
+
+        var getAllRecordsByPatientID = function(patient_id){
+            
+            $.ajax({
+                url: "http://127.0.0.1:5000/patients/" + patient_id + "/records",
+                method:"GET",
+                crossDomain:true,
+                success:function(data){
+                    
+                    var strDisplay = "";
+                    for (let i = 0; i< data.length; ++i) {
+                        strDisplay += "<div>" + "Record Item : " + i + "</div>";
+                        strDisplay += "<div>" + "Date : " + data[i].date + "</div>";
+                        strDisplay += "<div>" + "Time : " + data[i].time + "</div>";
+                        strDisplay += "<div>" + "Type : " + data[i].type + "</div>";
+                        strDisplay += "<div>" + "Value : " + data[i].value + "</div>";
+                    }
+
+                    $("#div_getAllRecordsByPatientID").html(strDisplay);
+                }
+            }).fail(function(){
+                $("#div_getAllRecordsByPatientID").html("error");
+            });
+            console.log("getAllRecordsByPatientID");
+        }
+    </script>   
+
+
+
+    
+    <h1>Hello, world!</h1>
+
+    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+        <button type="button" class="btn btn-secondary" onclick="getAllPatients()">getAllPatients</button>
+        <button type="button" class="btn btn-secondary" onclick="getAllRecordsByPatientID(patientId);">getAllRecordsByPatientID</button>
+    </div>
+
+    <div id="div_getAllPatients">   </div>
+    <div id="div_getAllRecordsByPatientID">   </div>
+
+    
+  </body>
+</html>
