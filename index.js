@@ -35,7 +35,7 @@ var uristring = process.env.MONGODB_URI || DEFAULT_MONGODB_URI;
 
 
 /*------ MongoDB ------*/
-// This is the schema of the Patient. 
+// This is the schema of the Patients. 
 // TODO : Check types, validation.
 var patientSchema = new mongoose.Schema({
     first_name: String, 
@@ -49,6 +49,7 @@ var patientSchema = new mongoose.Schema({
 
 var clinicalDataSchema = new mongoose.Schema({
     patient_id: String,
+    nurse_name: String,
     date: String, 
     time: String, 
     type: String,
@@ -66,7 +67,7 @@ mongoose.connect(uristring, function (err, res) {
 
 // Compiles the schema into a model, opening (or creating, ifnonexistent) 
 // the 'Patients' collection in the MongoDB database
-var Patient = mongoose.model('Patients', patientSchema);
+var Patients = mongoose.model('Patients', patientSchema);
 // the 'ClinicalData' collection in the MongoDB database
 var ClinicalData = mongoose.model('ClinicalData', clinicalDataSchema);
 
@@ -85,18 +86,18 @@ server
 server.listen(port, ipaddress, function () {
     console.log('Server %s listening at %s', server.name, server.url)
     console.log('Resources:')
-    console.log(' /patient                  GET, POST')
-    console.log(' /patient/:id              GET, PUT, DELETE')
-    console.log(' /patient/:id/records      GET, POST')
+    console.log(' /patients                 GET, POST')
+    console.log(' /patients/:id             GET, PUT, DELETE')
+    console.log(' /patients/:id/records     GET, POST')
     console.log(' /records/:id              GET, PUT, DELETE')
 })
 
 
 // Get all patients in the system
-server.get('/patient', function (req, res, next) {
-    console.log('GET request: patient');
+server.get('/patients', function (req, res, next) {
+    console.log('GET request: patients');
     // Find every entity within the given collection
-    Patient.find({}).exec(function (error, result) {
+    Patients.find({}).exec(function (error, result) {
         if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
         res.send(result);
     });
@@ -104,11 +105,11 @@ server.get('/patient', function (req, res, next) {
 
 
 // Get a single patient by their patient id
-server.get('/patient/:id', function (req, res, next) {
-    console.log('GET request: patient/:id -' + req.params.id);
+server.get('/patients/:id', function (req, res, next) {
+    console.log('GET request: patients/:id - ' + req.params.id);
 
     // Find a single patient by their id
-    Patient.find({ _id: req.params.id }).exec(function (error, patient) {
+    Patients.find({ _id: req.params.id }).exec(function (error, patient) {
       // If there are any errors, pass them to next in the correct format
       //if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
@@ -124,11 +125,11 @@ server.get('/patient/:id', function (req, res, next) {
 
 
 // Update a single patient by its patient id
-server.put('/patient/:id', function (req, res, next) {
-    console.log('PUT request: patient/:id');
+server.put('/patients/:id', function (req, res, next) {
+    console.log('PUT request: patients/:id');
 
      // Creating new patient.
-    var newPatient = new Patient({
+    var newPatient = new Patients({
        _id: req.params.id
     });
 
@@ -164,7 +165,7 @@ server.put('/patient/:id', function (req, res, next) {
         "ok": 1
         }
     */
-    Patient.updateOne(
+    Patients.updateOne(
         { _id: req.params.id }
         , { $set: newPatient }
         , function (error, result) {
@@ -178,8 +179,8 @@ server.put('/patient/:id', function (req, res, next) {
 
 
 // Create a new patient
-server.post('/patient', function (req, res, next) {
-    console.log('POST request: patient');
+server.post('/patients', function (req, res, next) {
+    console.log('POST request: patients');
     // Make sure name is defined
     if (req.params.first_name === undefined) {
         // If there are any errors, pass them to next in the correct format
@@ -191,7 +192,7 @@ server.post('/patient', function (req, res, next) {
     }
 
     // Creating new patient.
-    var newPatient = new Patient({
+    var newPatient = new Patients({
         first_name: req.params.first_name,
         last_name: req.params.last_name,
         address: req.params.address,
@@ -214,9 +215,9 @@ server.post('/patient', function (req, res, next) {
 
 
 // Delete patient with the given id
-server.del('/patient/:id', function (req, res, next) {
-    console.log('DEL request: patient/' + req.params.id);
-    Patient.deleteOne({ _id: req.params.id }, function (error, result) {
+server.del('/patients/:id', function (req, res, next) {
+    console.log('DEL request: patients/' + req.params.id);
+    Patients.deleteOne({ _id: req.params.id }, function (error, result) {
         // If there are any errors, pass them to next in the correct format
         if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
@@ -230,8 +231,8 @@ server.del('/patient/:id', function (req, res, next) {
 
 
 // Create a single record by its patient id
-server.post('/patient/:id/records', function (req, res, next) {
-    console.log('POST request: patient/:id/records');
+server.post('/patients/:id/records', function (req, res, next) {
+    console.log('POST request: patients/:id/records');
 
    // Make sure field is defined
     if (req.params.date === undefined) {
@@ -271,8 +272,8 @@ server.post('/patient/:id/records', function (req, res, next) {
 })
 
 // Get all the records by its patient id
-server.get('/patient/:id/records', function (req, res, next) {
-    console.log('GET request: patient/:id/records -' + req.params.id);
+server.get('/patients/:id/records', function (req, res, next) {
+    console.log('GET request: patients/:id/records -' + req.params.id);
 
     // Find records by its id
     ClinicalData.find({ patient_id: req.params.id }).exec(function (error, record) {
@@ -310,7 +311,7 @@ server.get('/records/:id', function (req, res, next) {
 
 // Update a record by its record id
 server.put('/records/:id', function (req, res, next) {
-    console.log('PUT records: patient/:id');
+    console.log('PUT records: patients/:id');
 
      // Creating new patient.
     var newClinicalData = new ClinicalData({
