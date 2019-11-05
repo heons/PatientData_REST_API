@@ -64,12 +64,13 @@
                         strDisplay += "<div>" + "Date of birth : " + data[i].date_of_birth + "</div>";
                         strDisplay += "<div>" + "Department : " + data[i].department + "</div>";
                         strDisplay += "<div>" + "Doctor : " + data[i].doctor + "</div>";
+                        strDisplay += "<br>";
                     }
 
-                    $("#div_getAllPatients").html(strDisplay);
+                    $("#div_result").html(strDisplay);
                 }
             }).fail(function(){
-                $("#div_getAllPatients").html("error");
+                $("#div_result").html("error");
             });
             console.log("getAllPatients");
         }
@@ -91,15 +92,17 @@
                         strDisplay += "<div>" + "Value : " + data[i].value + "</div>";
                     }
 
-                    $("#div_getAllRecordsByPatientID").html(strDisplay);
+                    $("#div_result").html(strDisplay);
                 }
             }).fail(function(){
-                $("#div_getAllRecordsByPatientID").html("error");
+                $("#div_result").html("error");
             });
             console.log("getAllRecordsByPatientID");
         }
 
         var postPatient = function() {
+            // Create a data to post here.
+            // Or you could modify function with an argument like function(form)
             var form = new FormData();
             form.append("first_name", "irene");
             form.append("last_name", "oh");
@@ -121,6 +124,57 @@
             }
 
             $.ajax(settings).done(function (response) {
+                alert("A data is posted!!");
+                console.log(response);
+            });
+        }
+
+        var putPatient = function(patient_id) {
+            // Create a data to post here.
+            // Or you could modify function with an argument like function(form)
+            var form = new FormData();
+            //form.append("first_name", "irene");
+            //form.append("last_name", "oh");
+            form.append("address", "28");
+            form.append("date_of_birth", "19830921");
+            //form.append("department", "phsics");
+            //form.append("doctor", "John");
+            //form.append("sex", "F");
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                url: "http://127.0.0.1:5000/patients/" + patient_id,
+                method: "PUT",
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+
+            // Trying with JSON - not work for now.
+            /* 
+            let data_send = {
+                address: "29",
+                date_of_birth: "19830921"
+            }
+
+            var settings = {
+                async: true,
+                crossDomain: true,
+                url: "http://127.0.0.1:5000/patients/" + patient_id,
+                method: "PUT",
+                //data: JSON.stringify(data_send),
+                data: data_send,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+            }
+             */
+            
+
+            $.ajax(settings).done(function (response) {
+                alert("A data is changed!!");
                 console.log(response);
             });
         }
@@ -131,14 +185,15 @@
     
     <h1>Hello, world!</h1>
 
-    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-        <button type="button" class="btn btn-secondary" onclick="getAllPatients()">getAllPatients</button>
-        <button type="button" class="btn btn-secondary" onclick="getAllRecordsByPatientID(patientId);">getAllRecordsByPatientID</button>
-        <button type="button" class="btn btn-secondary" onclick="postPatient()">postPatient</button>
-    </div>
+    
+    <button type="button" class="btn btn-secondary" onclick="getAllPatients()">getAllPatients</button>
+    <button type="button" class="btn btn-secondary" onclick="getAllRecordsByPatientID(patientId);">getAllRecordsByPatientID</button>
+    <button type="button" class="btn btn-secondary" onclick="postPatient()">postPatient</button>
+    
+    <button type="button" class="btn btn-secondary" onclick="putPatient(patientId)">putPatient</button>
 
-    <div id="div_getAllPatients">   </div>
-    <div id="div_getAllRecordsByPatientID">   </div>
+    <div id="div_result">   </div>
+    
 
     
   </body>
