@@ -159,7 +159,7 @@ server.put('/patients/:id', function (req, res, next) {
     console.log('PUT request: patients/:id');
 
      // Creating new patient.
-    var newPatient = new Patients({
+    let newPatient = new Patients({
        _id: req.params.id
     });
 
@@ -222,7 +222,7 @@ server.post('/patients', function (req, res, next) {
     }
 
     // Creating new patient.
-    var newPatient = new Patients({
+    let newPatient = new Patients({
         first_name: req.params.first_name,
         last_name: req.params.last_name,
         address: req.params.address,
@@ -265,6 +265,10 @@ server.post('/patients/:id/records', function (req, res, next) {
     console.log('POST request: patients/:id/records');
 
    // Make sure field is defined
+   if (req.params.nurse_name === undefined) {
+        // If there are any errors, pass them to next in the correct format
+        return next(new errs.InvalidArgumentError('nurse_name must be supplied'))
+    }
     if (req.params.date === undefined) {
         // If there are any errors, pass them to next in the correct format
         return next(new errs.InvalidArgumentError('date must be supplied'))
@@ -281,10 +285,12 @@ server.post('/patients/:id/records', function (req, res, next) {
         // If there are any errors, pass them to next in the correct format
         return next(new errs.InvalidArgumentError('value must be supplied'))
     }
+    
 
     // Creating new clinical data.
-    var newClinicalData = new ClinicalData({
+    let newClinicalData = new ClinicalData({
         patient_id: req.params.id,
+        nurse_name: req.params.nurse_name,
         date: req.params.date,
         time: req.params.time,
         type: req.params.type,
@@ -344,11 +350,14 @@ server.put('/records/:id', function (req, res, next) {
     console.log('PUT records: patients/:id');
 
      // Creating new patient.
-    var newClinicalData = new ClinicalData({
+    let newClinicalData = new ClinicalData({
        _id: req.params.id
     });
 
     // Make add fields to patient data to update
+    if (req.params.nurse_name !== undefined) {
+        newClinicalData.nurse_name = req.params.nurse_name;
+    }
     if (req.params.date !== undefined) {
         newClinicalData.date = req.params.date;
     }
