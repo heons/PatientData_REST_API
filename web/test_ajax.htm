@@ -45,15 +45,20 @@
 
         var patientId = '5d9e47ea1d578d2721c8067c';
         
-        var getAllPatients = function(){
+        var getPatients = function(patient_id){
             
+            let url_send = "http://127.0.0.1:5000/patients";
+            if (undefined != patient_id){
+                url_send = "http://127.0.0.1:5000/patients/" + patient_id; 
+            }
+
             $.ajax({
-                url: "http://127.0.0.1:5000/patients",
+                url: url_send,
                 method:"GET",
                 crossDomain:true,
                 success:function(data){ 
                     
-                    var strDisplay = "";
+                    let strDisplay = "";
                     for (let i = 0; i< data.length; ++i) {
                         strDisplay += "<div>" + "Patient Item : " + i + "</div>";
                         strDisplay += "<div>" + "ID : " + data[i]._id + "</div>";
@@ -72,7 +77,7 @@
             }).fail(function(){
                 $("#div_result").html("error");
             });
-            console.log("getAllPatients");
+            console.log("getPatients");
         }
 
         var getAllRecordsByPatientID = function(patient_id){
@@ -83,13 +88,14 @@
                 crossDomain:true,
                 success:function(data){
                     
-                    var strDisplay = "";
+                    let strDisplay = "";
                     for (let i = 0; i< data.length; ++i) {
                         strDisplay += "<div>" + "Record Item : " + i + "</div>";
                         strDisplay += "<div>" + "Date : " + data[i].date + "</div>";
                         strDisplay += "<div>" + "Time : " + data[i].time + "</div>";
                         strDisplay += "<div>" + "Type : " + data[i].type + "</div>";
                         strDisplay += "<div>" + "Value : " + data[i].value + "</div>";
+                        strDisplay += "<br>";
                     }
 
                     $("#div_result").html(strDisplay);
@@ -103,7 +109,7 @@
         var postPatient = function() {
             // Create a data to post here.
             // Or you could modify function with an argument like function(form)
-            var form = new FormData();
+            let form = new FormData();
             form.append("first_name", "irene");
             form.append("last_name", "oh");
             form.append("address", "28");
@@ -112,7 +118,7 @@
             form.append("doctor", "John");
             form.append("sex", "F");
 
-            var settings = {
+            let settings = {
                 "async": true,
                 "crossDomain": true,
                 "url": "http://127.0.0.1:5000/patients",
@@ -132,7 +138,7 @@
         var putPatient = function(patient_id) {
             // Create a data to post here.
             // Or you could modify function with an argument like function(form)
-            var form = new FormData();
+            let form = new FormData();
             //form.append("first_name", "irene");
             //form.append("last_name", "oh");
             form.append("address", "28");
@@ -141,7 +147,7 @@
             //form.append("doctor", "John");
             //form.append("sex", "F");
 
-            var settings = {
+            let settings = {
                 "async": true,
                 "crossDomain": true,
                 url: "http://127.0.0.1:5000/patients/" + patient_id,
@@ -160,7 +166,7 @@
                 date_of_birth: "19830921"
             }
 
-            var settings = {
+            let settings = {
                 async: true,
                 crossDomain: true,
                 url: "http://127.0.0.1:5000/patients/" + patient_id,
@@ -186,7 +192,8 @@
     <h1>Hello, world!</h1>
 
     
-    <button type="button" class="btn btn-secondary" onclick="getAllPatients()">getAllPatients</button>
+    <button type="button" class="btn btn-secondary" onclick="getPatients()">getAllPatients</button>
+    <button type="button" class="btn btn-secondary" onclick="getPatients(patientId)">getPatientByID</button>
     <button type="button" class="btn btn-secondary" onclick="getAllRecordsByPatientID(patientId);">getAllRecordsByPatientID</button>
     <button type="button" class="btn btn-secondary" onclick="postPatient()">postPatient</button>
     
