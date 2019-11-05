@@ -402,6 +402,6 @@ server.del('/records/:id', function (req, res, next) {
 
         console.log(result);
         // Send a 200 OK response
-        res.send()
+        res.send(201, result)
     });
 })

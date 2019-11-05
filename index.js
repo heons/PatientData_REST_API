@@ -345,6 +345,6 @@ server.del('/records/:id', function (req, res, next) {
             return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
         console.log(result);
         // Send a 200 OK response
-        res.send();
+        res.send(201, result);
     });
 });
