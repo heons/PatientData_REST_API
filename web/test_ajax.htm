@@ -44,7 +44,8 @@
         } */
 
         var patientId = '5dc1c365619b9237da2e4869';
-        
+        var recordId = '5dc1c434619b9237da2e486c';
+
         var getPatients = function(patient_id){
             
             let url_send = "http://127.0.0.1:5000/patients";
@@ -185,6 +186,7 @@
                     let strDisplay = "";
                     for (let i = 0; i< data.length; ++i) {
                         strDisplay += "<div>" + "Record Item : " + i + "</div>";
+                        strDisplay += "<div>" + "ID : " + data[i]._id + "</div>";
                         strDisplay += "<div>" + "Nurse Name : " + data[i].nurse_name + "</div>";
                         strDisplay += "<div>" + "Date : " + data[i].date + "</div>";
                         strDisplay += "<div>" + "Time : " + data[i].time + "</div>";
@@ -228,6 +230,77 @@
             });
         }
 
+        var getRecord = function(record_id){
+            
+            let url_send = "http://127.0.0.1:5000/records/" + record_id; 
+
+            $.ajax({
+                url: url_send,
+                method:"GET",
+                crossDomain:true,
+                success:function(data){ 
+                    
+                    let strDisplay = "";
+                    for (let i = 0; i< data.length; ++i) {
+                        strDisplay += "<div>" + "Record Item : " + i + "</div>";
+                        strDisplay += "<div>" + "ID : " + data[i]._id + "</div>";
+                        strDisplay += "<div>" + "Nurse Name : " + data[i].nurse_name + "</div>";
+                        strDisplay += "<div>" + "Date : " + data[i].date + "</div>";
+                        strDisplay += "<div>" + "Time : " + data[i].time + "</div>";
+                        strDisplay += "<div>" + "Type : " + data[i].type + "</div>";
+                        strDisplay += "<div>" + "Value : " + data[i].value + "</div>";
+                        strDisplay += "<br>";
+                    }
+
+                    $("#div_result").html(strDisplay);
+                }
+            }).fail(function(){
+                $("#div_result").html("error");
+            });
+            console.log("getPatients");
+        }
+
+        var putRecord = function(record_id) {
+            // Create a data to post here.
+            // Or you could modify function with an argument like function(form)
+            let form = new FormData();
+            form.append("nurse_name", "nancy1");
+            form.append("date", "2019/11/03");
+            //form.append("time", "130800");
+            //form.append("type", "Blood Pressure");
+            //form.append("value", "100");
+
+            let settings = {
+                "async": true,
+                "crossDomain": true,
+                url: "http://127.0.0.1:5000/records/" + record_id,
+                method: "PUT",
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+            $.ajax(settings).done(function (response) {
+                alert("A record data is changed!!");
+                console.log(response);
+            });
+        }
+
+        var deleteRecord = function(record_id) {
+
+            let settings = {
+                "async": true,
+                "crossDomain": true,
+                url: "http://127.0.0.1:5000/records/" + record_id,
+                method: "DELETE",
+            }
+
+            $.ajax(settings).done(function (response) {
+                alert("A data is deleted!!");
+                console.log(response);
+            });
+        }
     </script>   
 
 
@@ -246,6 +319,10 @@
     
     <button type="button" class="btn btn-secondary" onclick="getAllRecordsByPatientID(patientId);">getAllRecordsByPatientID</button>
     <button type="button" class="btn btn-secondary" onclick="postRecord(patientId);">postRecord</button>
+
+    <button type="button" class="btn btn-secondary" onclick="getRecord(recordId);">getRecord</button>
+    <button type="button" class="btn btn-secondary" onclick="putRecord(recordId);">putRecord</button>
+    <button type="button" class="btn btn-secondary" onclick="deleteRecord('5dc1d3fc143ef538ab6c00a4');">deleteRecord</button>
 
     <div id="div_result">   </div>
     
