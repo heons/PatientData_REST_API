@@ -217,7 +217,7 @@ server.del('/patients/:id', function (req, res, next) {
         if (error)
             return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
         // Send a 200 OK response
-        res.send();
+        res.send(201, result);
     });
 });
 // Create a single record by its patient id

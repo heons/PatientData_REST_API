@@ -184,6 +184,23 @@
                 console.log(response);
             });
         }
+
+
+        var deletePatient = function(patient_id) {
+
+            let settings = {
+                "async": true,
+                "crossDomain": true,
+                url: "http://127.0.0.1:5000/patients/" + patient_id,
+                method: "DELETE",
+            }
+
+            $.ajax(settings).done(function (response) {
+                alert("A data is deleted!!");
+                console.log(response);
+            });
+        }
+
     </script>   
 
 
@@ -198,6 +215,8 @@
     <button type="button" class="btn btn-secondary" onclick="postPatient()">postPatient</button>
     
     <button type="button" class="btn btn-secondary" onclick="putPatient(patientId)">putPatient</button>
+    <button type="button" class="btn btn-secondary" onclick="deletePatient('5dc18dcb8bd1302a68d2cc20')">deletePatient</button>
+    
 
     <div id="div_result">   </div>
     
