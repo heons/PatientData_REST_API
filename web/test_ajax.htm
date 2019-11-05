@@ -43,7 +43,7 @@
             console.log("function run");
         } */
 
-        var patientId = '5d9e47ea1d578d2721c8067c';
+        var patientId = '5dc1c365619b9237da2e4869';
         
         var getPatients = function(patient_id){
             
@@ -78,32 +78,6 @@
                 $("#div_result").html("error");
             });
             console.log("getPatients");
-        }
-
-        var getAllRecordsByPatientID = function(patient_id){
-            
-            $.ajax({
-                url: "http://127.0.0.1:5000/patients/" + patient_id + "/records",
-                method:"GET",
-                crossDomain:true,
-                success:function(data){
-                    
-                    let strDisplay = "";
-                    for (let i = 0; i< data.length; ++i) {
-                        strDisplay += "<div>" + "Record Item : " + i + "</div>";
-                        strDisplay += "<div>" + "Date : " + data[i].date + "</div>";
-                        strDisplay += "<div>" + "Time : " + data[i].time + "</div>";
-                        strDisplay += "<div>" + "Type : " + data[i].type + "</div>";
-                        strDisplay += "<div>" + "Value : " + data[i].value + "</div>";
-                        strDisplay += "<br>";
-                    }
-
-                    $("#div_result").html(strDisplay);
-                }
-            }).fail(function(){
-                $("#div_result").html("error");
-            });
-            console.log("getAllRecordsByPatientID");
         }
 
         var postPatient = function() {
@@ -185,7 +159,6 @@
             });
         }
 
-
         var deletePatient = function(patient_id) {
 
             let settings = {
@@ -201,6 +174,60 @@
             });
         }
 
+        var getAllRecordsByPatientID = function(patient_id){
+            
+            $.ajax({
+                url: "http://127.0.0.1:5000/patients/" + patient_id + "/records",
+                method:"GET",
+                crossDomain:true,
+                success:function(data){
+                    
+                    let strDisplay = "";
+                    for (let i = 0; i< data.length; ++i) {
+                        strDisplay += "<div>" + "Record Item : " + i + "</div>";
+                        strDisplay += "<div>" + "Nurse Name : " + data[i].nurse_name + "</div>";
+                        strDisplay += "<div>" + "Date : " + data[i].date + "</div>";
+                        strDisplay += "<div>" + "Time : " + data[i].time + "</div>";
+                        strDisplay += "<div>" + "Type : " + data[i].type + "</div>";
+                        strDisplay += "<div>" + "Value : " + data[i].value + "</div>";
+                        strDisplay += "<br>";
+                    }
+
+                    $("#div_result").html(strDisplay);
+                }
+            }).fail(function(){
+                $("#div_result").html("error");
+            });
+            console.log("getAllRecordsByPatientID");
+        }
+
+        var postRecord = function(patient_id) {
+            // Create a data to post here.
+            // Or you could modify function with an argument like function(form)
+            let form = new FormData();
+            form.append("nurse_name", "nancy");
+            form.append("date", "2019/11/04");
+            form.append("time", "130800");
+            form.append("type", "Blood Pressure");
+            form.append("value", "100");
+
+            let settings = {
+                "async": true,
+                "crossDomain": true,
+                url: "http://127.0.0.1:5000/patients/" + patient_id + "/records",
+                "method": "POST",
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+            }
+
+            $.ajax(settings).done(function (response) {
+                alert("A record data is posted!!");
+                console.log(response);
+            });
+        }
+
     </script>   
 
 
@@ -211,12 +238,14 @@
     
     <button type="button" class="btn btn-secondary" onclick="getPatients()">getAllPatients</button>
     <button type="button" class="btn btn-secondary" onclick="getPatients(patientId)">getPatientByID</button>
-    <button type="button" class="btn btn-secondary" onclick="getAllRecordsByPatientID(patientId);">getAllRecordsByPatientID</button>
+    
     <button type="button" class="btn btn-secondary" onclick="postPatient()">postPatient</button>
     
     <button type="button" class="btn btn-secondary" onclick="putPatient(patientId)">putPatient</button>
     <button type="button" class="btn btn-secondary" onclick="deletePatient('5dc18dcb8bd1302a68d2cc20')">deletePatient</button>
     
+    <button type="button" class="btn btn-secondary" onclick="getAllRecordsByPatientID(patientId);">getAllRecordsByPatientID</button>
+    <button type="button" class="btn btn-secondary" onclick="postRecord(patientId);">postRecord</button>
 
     <div id="div_result">   </div>
     
