@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PatientDataApp</string>
+
+    <string name="web_view">Web View</string>
+    <string name="refresh">Refresh</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="id">Id</string>
 </resources>
