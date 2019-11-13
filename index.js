@@ -20,11 +20,8 @@ var corsMiddleware = require("restify-cors-middleware");
 /*------ Basic constant values for the server ------*/
 var SERVER_NAME = 'healthrecords'; // Server name
 var DEFAULT_PORT = 5000; // Default port number
-var DEFAULT_HOST = '127.0.0.1'; // Default IP address
 //let DEFAULT_MONGODB_URI = 'mongodb://localhost/healthrecords-db' // Default MongoDB URI
-var DEFAULT_MONGODB_URI = 'mongodb://dbAdmin:dbAdminPassword@cluster0-shard-00-00-axk6x.mongodb.net:27017,cluster0-shard-00-01-axk6x.mongodb.net:27017,cluster0-shard-00-02-axk6x.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority'; // atlas
-//var DEFAULT_MONGODB_URI = 'mongodb+srv://dbAdmin:dbAdminPassword@cluster0-axk6x.mongodb.net/test?retryWrites=true&w=majority';
-
+var DEFAULT_MONGODB_URI = 'mongodb://dbAdmin:dbAdminPassword@cluster0-shard-00-00-axk6x.mongodb.net:27017,cluster0-shard-00-01-axk6x.mongodb.net:27017,cluster0-shard-00-02-axk6x.mongodb.net:27017/health_records?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority'; // atlas
 /*------ Requirements ------*/
 var mongoose = require("mongoose"); // Mongo DB
 var restify = require('restify'); // REST
@@ -35,15 +32,6 @@ var port = process.env.PORT;
 if (typeof port === "undefined") {
     console.warn('No process.env.PORT var, using default port: ' + DEFAULT_PORT);
     port = DEFAULT_PORT.toString();
-}
-;
-// Assign ip address value
-var ipaddress = process.env.IP; // TODO: figure out which IP to use for the heroku
-if (typeof ipaddress === "undefined") {
-    //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
-    //  allows us to run/test the app locally.
-    console.warn('No process.env.IP var, using default: ' + DEFAULT_HOST);
-    ipaddress = DEFAULT_HOST;
 }
 ;
 // Assign URI string to connect the database. Default is DEFAULT_MONGODB_URI
@@ -100,7 +88,6 @@ server
     // Maps req.body to req.params so there is no switching between them
     .use(restify.plugins.bodyParser());
 // Start listening
-//server.listen(port, ipaddress, function () {
 server.listen(port, function () {
     console.log('Server %s listening at %s', server.name, server.url);
     console.log('Resources:');
