@@ -44,27 +44,6 @@ var uristring = process.env.MONGODB_URI || DEFAULT_MONGODB_URI;
 
 
 /*------ MongoDB ------*/
-// This is the schema of the Patients. 
-// TODO : Check types, validation.
-var patientSchema = new mongoose.Schema({
-    first_name: String, 
-    last_name: String, 
-    address: String,
-    sex: String,
-    date_of_birth: String,
-    department: String,
-    doctor: String
-});
-
-var clinicalDataSchema = new mongoose.Schema({
-    patient_id: String,
-    nurse_name: String,
-    date: String, 
-    time: String, 
-    type: String,
-    value: String
-});
-
 // Connect to the MongoDB
 mongoose.connect(uristring, function (err, res) {
     if (err) { 
@@ -76,9 +55,11 @@ mongoose.connect(uristring, function (err, res) {
 
 // Compiles the schema into a model, opening (or creating, ifnonexistent) 
 // the 'Patients' collection in the MongoDB database
-var Patients = mongoose.model('Patients', patientSchema);
+const Patients = require('./models/Patients');
+
 // the 'ClinicalData' collection in the MongoDB database
-var ClinicalData = mongoose.model('ClinicalData', clinicalDataSchema);
+const ClinicalData = require('./models/ClinicalData');
+
 
 
 /*------ Sever implementation ------*/
