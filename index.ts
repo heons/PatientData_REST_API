@@ -115,10 +115,10 @@ server.get('/patients/:id', function (req, res, next) {
 server.put('/patients/:id', function (req, res, next) {
     console.log('PUT request: patients/:id');
 
-    console.log('params');
-    console.log(req.params);
-    console.log('body');
-    console.log(req.body);
+    //console.log('params');
+    //console.log(req.params);
+    //console.log('body');
+    //console.log(req.body);
 
     // Get data from the request
     let data = req.params;
@@ -129,7 +129,7 @@ server.put('/patients/:id', function (req, res, next) {
 
      // Creating new patient.
     let newPatient = new Patients({
-       _id: data.id
+       _id: req.params.id // ID is always from param
     });
 
     // Make add fields to patient data to update
@@ -165,7 +165,7 @@ server.put('/patients/:id', function (req, res, next) {
         }
     */
     Patients.updateOne(
-        { _id: data.id }
+        { _id: req.params.id }
         , { $set: newPatient }
         , function (error, result) {
             // If there are any errors, pass them to next in the correct format

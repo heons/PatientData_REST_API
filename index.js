@@ -94,10 +94,10 @@ server.get('/patients/:id', function (req, res, next) {
 // Update a single patient by its patient id
 server.put('/patients/:id', function (req, res, next) {
     console.log('PUT request: patients/:id');
-    console.log('params');
-    console.log(req.params);
-    console.log('body');
-    console.log(req.body);
+    //console.log('params');
+    //console.log(req.params);
+    //console.log('body');
+    //console.log(req.body);
     // Get data from the request
     var data = req.params;
     if (Object.entries(req.params).length === 0) {
@@ -106,7 +106,7 @@ server.put('/patients/:id', function (req, res, next) {
     }
     // Creating new patient.
     var newPatient = new Patients({
-        _id: data.id
+        _id: req.params.id // ID is always from param
     });
     // Make add fields to patient data to update
     if (data.first_name !== undefined) {
@@ -139,7 +139,7 @@ server.put('/patients/:id', function (req, res, next) {
         "ok": 1
         }
     */
-    Patients.updateOne({ _id: data.id }, { $set: newPatient }, function (error, result) {
+    Patients.updateOne({ _id: req.params.id }, { $set: newPatient }, function (error, result) {
         // If there are any errors, pass them to next in the correct format
         if (error)
             return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
