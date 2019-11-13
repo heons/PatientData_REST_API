@@ -94,6 +94,10 @@ server.get('/patients/:id', function (req, res, next) {
 // Update a single patient by its patient id
 server.put('/patients/:id', function (req, res, next) {
     console.log('PUT request: patients/:id');
+    console.log('params');
+    console.log(req.params);
+    console.log('body');
+    console.log(req.body);
     // Get data from the request
     var data = req.params;
     if (Object.entries(req.params).length === 0) {
