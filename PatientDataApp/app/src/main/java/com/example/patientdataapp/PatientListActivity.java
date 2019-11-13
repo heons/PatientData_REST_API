@@ -9,15 +9,35 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class PatientListActivity extends AppCompatActivity {
 
@@ -31,6 +51,9 @@ public class PatientListActivity extends AppCompatActivity {
     // Text view for the test
     TextView textViewTest;
 
+    ListView listViewPatient;
+    InfoAdapterPatient infoAdapterPatient;
+    //List listPatient = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +62,13 @@ public class PatientListActivity extends AppCompatActivity {
 
         // Get Views
         textViewTest = (TextView) findViewById(R.id.textViewTitle);
+        listViewPatient = findViewById(R.id.listViewPatient);
 
+        infoAdapterPatient = new InfoAdapterPatient(this,R.layout.row_patient);
+        listViewPatient.setAdapter(infoAdapterPatient);
+
+
+        // Check Permissions
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
 
@@ -47,7 +76,16 @@ public class PatientListActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.INTERNET}, REQUEST_INTERNET);
 
         } else{
+
+            //HashMap<String, String> postDataParams = new HashMap<>();
+
+            //postDataParams.put("title", "post title");
+            //postDataParams.put("description", "post description");
+            //performPostCall(strURLTest, postDataParams);
+
+
             //call this asynchronously
+            //new PostPatientsTask().execute(strURLTest);
             new GetPatientsTask().execute(strURLTest);
         }
     }
@@ -85,7 +123,6 @@ public class PatientListActivity extends AppCompatActivity {
 
     private String getPatients(String strURL)
     {
-        int BUFFER_SIZE = 2000;
         InputStream in = null;
         try {
             in = openHttpConnection(strURL, "GET");
@@ -94,24 +131,30 @@ public class PatientListActivity extends AppCompatActivity {
             return "";
         }
 
-        InputStreamReader isr = new InputStreamReader(in);
-        int charRead;
-        String str = "";
-        char[] inputBuffer = new char[BUFFER_SIZE];
+
+        String strResult;
         try {
-            while ((charRead = isr.read(inputBuffer))>0) {
-                //---convert the chars to a String---
-                String readString =
-                        String.copyValueOf(inputBuffer, 0, charRead);
-                str += readString;
-                inputBuffer = new char[BUFFER_SIZE];
+            String strLine = "";
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((strLine = bufferedReader.readLine())!=null)
+            {
+                stringBuilder.append(strLine);
+                //listPatient.add(strLine);
             }
+
+            bufferedReader.close();
             in.close();
+            //httpURLConnection.disconnect();
+
+            strResult = stringBuilder.toString().trim();
+            return strResult;
+
         } catch (IOException e) {
             Log.d("Networking", e.getLocalizedMessage());
+            e.printStackTrace();
             return "";
         }
-        return str;
     }
 
     // Get Patients
@@ -122,12 +165,192 @@ public class PatientListActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            textViewTest.setText(result);
-            Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+            //textViewTest.setText(result);
+            //Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
+
+            try{
+                JSONObject jsonObject;
+                JSONArray jsonArray = new JSONArray(result);
+
+
+                int count = 0;
+                //String id, first ,last;
+                String title, description;
+
+                infoAdapterPatient = new InfoAdapterPatient(PatientListActivity.this, R.layout.row_patient);
+
+                while (count < jsonArray.length()){
+                    jsonObject = jsonArray.getJSONObject(count);
+                    //d = jsonObject.getString("name");
+                    //first = jsonObject.getString("first_name");
+                    //last = jsonObject.getString("last_name");
+                    title = jsonObject.getString("title");
+                    description = jsonObject.getString("description");
+
+
+                    InfoDataPatient infoData = new InfoDataPatient(title,description);
+                    infoAdapterPatient.add(infoData);
+
+                    count++;
+                }
+                listViewPatient.setAdapter(infoAdapterPatient);
+
+            } catch (JSONException e) {
+                Log.d(TAG, e.getLocalizedMessage());
+                e.printStackTrace();
+            }
+
         }
     }
 
 
 
+    // Post Patients
+    private class PostPatientsTask extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("title", "post_title");
+                jsonObject.put("description", "post_description");
+            } catch (JSONException e) {
+                Log.d(TAG, e.getLocalizedMessage());
+            }
+
+            URL url;
+            String response = "";
+            try {
+                url = new URL(urls[0]);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.connect();
+
+
+
+                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                //os.writeBytes(URLEncoder.encode(jsonObject.toString(), "UTF-8"));
+                //String strTmp = URLEncoder.encode(jsonObject.toString(), "UTF-8");
+                os.writeBytes(jsonObject.toString());
+                String strTmp = jsonObject.toString();
+
+                os.flush();
+                os.close();
+                int responseCode=conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    String line;
+                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    while ((line=br.readLine()) != null) {
+                        response+=line;
+                    }
+                }
+                else {
+                    response="";
+                }
+
+                conn.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return response;
+
+
+
+
+
+
+
+            //return getPatients(urls[0]);
+        }
+        @Override
+        protected void onPostExecute(String result) {
+
+
+
+        }
+    }
+
+
+
+
+
+
+    public String  performPostCall(String requestURL,
+                                   HashMap<String, String> postDataParams) {
+
+        URL url;
+        String response = "";
+        try {
+            url = new URL(requestURL);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(15000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+
+
+            OutputStream os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(
+                    new OutputStreamWriter(os, "UTF-8"));
+            writer.write(getPostDataString(postDataParams));
+
+            writer.flush();
+            writer.close();
+            os.close();
+            int responseCode=conn.getResponseCode();
+
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+                String line;
+                BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((line=br.readLine()) != null) {
+                    response+=line;
+                }
+            }
+            else {
+                response="";
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+
+
+    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for(Map.Entry<String, String> entry : params.entrySet()){
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+        }
+
+        return result.toString();
+    }
+
+
+    public void onClickGetPatients(View view){
+        new GetPatientsTask().execute(strURLTest);
+    }
+
+    public void onClickPostPatients(View view){
+        new PostPatientsTask().execute(strURLTest);
+    }
 
 }
