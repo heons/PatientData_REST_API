@@ -100,7 +100,8 @@ server
     // Maps req.body to req.params so there is no switching between them
     .use(restify.plugins.bodyParser());
 // Start listening
-server.listen(port, ipaddress, function () {
+//server.listen(port, ipaddress, function () {
+server.listen(port, function () {
     console.log('Server %s listening at %s', server.name, server.url);
     console.log('Resources:');
     console.log(' /patients                 GET, POST');
