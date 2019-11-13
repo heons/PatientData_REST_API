@@ -94,31 +94,37 @@ server.get('/patients/:id', function (req, res, next) {
 // Update a single patient by its patient id
 server.put('/patients/:id', function (req, res, next) {
     console.log('PUT request: patients/:id');
+    // Get data from the request
+    var data = req.params;
+    if (Object.entries(req.params).length === 0) {
+        console.log('param empty: trying to get from body');
+        data = req.body;
+    }
     // Creating new patient.
     var newPatient = new Patients({
-        _id: req.params.id
+        _id: data.id
     });
     // Make add fields to patient data to update
-    if (req.params.first_name !== undefined) {
-        newPatient.first_name = req.params.first_name;
+    if (data.first_name !== undefined) {
+        newPatient.first_name = data.first_name;
     }
-    if (req.params.last_name !== undefined) {
-        newPatient.last_name = req.params.last_name;
+    if (data.last_name !== undefined) {
+        newPatient.last_name = data.last_name;
     }
-    if (req.params.address !== undefined) {
-        newPatient.address = req.params.address;
+    if (data.address !== undefined) {
+        newPatient.address = data.address;
     }
-    if (req.params.sex !== undefined) {
-        newPatient.sex = req.params.sex;
+    if (data.sex !== undefined) {
+        newPatient.sex = data.sex;
     }
-    if (req.params.date_of_birth !== undefined) {
-        newPatient.date_of_birth = req.params.date_of_birth;
+    if (data.date_of_birth !== undefined) {
+        newPatient.date_of_birth = data.date_of_birth;
     }
-    if (req.params.department !== undefined) {
-        newPatient.department = req.params.department;
+    if (data.department !== undefined) {
+        newPatient.department = data.department;
     }
-    if (req.params.doctor !== undefined) {
-        newPatient.doctor = req.params.doctor;
+    if (data.doctor !== undefined) {
+        newPatient.doctor = data.doctor;
     }
     // Update
     /*
@@ -129,7 +135,7 @@ server.put('/patients/:id', function (req, res, next) {
         "ok": 1
         }
     */
-    Patients.updateOne({ _id: req.params.id }, { $set: newPatient }, function (error, result) {
+    Patients.updateOne({ _id: data.id }, { $set: newPatient }, function (error, result) {
         // If there are any errors, pass them to next in the correct format
         if (error)
             return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
@@ -139,12 +145,13 @@ server.put('/patients/:id', function (req, res, next) {
 });
 // Create a new patient
 server.post('/patients', function (req, res, next) {
+    console.log('POST request: patients');
+    // Get data from the request
     var data = req.params;
     if (Object.entries(req.params).length === 0) {
         console.log('param empty: trying to get from body');
         data = req.body;
     }
-    console.log('POST request: patients');
     // Make sure name is defined
     if (data.first_name === undefined) {
         // If there are any errors, pass them to next in the correct format
