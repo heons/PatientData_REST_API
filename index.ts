@@ -14,7 +14,6 @@
 
 
 import * as corsMiddleware from "restify-cors-middleware";  
-//import * as mongoose from 'mongoose';
 //import * as restify from 'restify';
 //import * as errs from 'restify-errors'
 
@@ -22,11 +21,8 @@ import * as corsMiddleware from "restify-cors-middleware";
 /*------ Basic constant values for the server ------*/
 let SERVER_NAME = 'healthrecords'   // Server name
 let DEFAULT_PORT = 5000             // Default port number
-//let DEFAULT_MONGODB_URI = 'mongodb://localhost/healthrecords-db' // Default MongoDB URI
-var DEFAULT_MONGODB_URI = 'mongodb://dbAdmin:dbAdminPassword@cluster0-shard-00-00-axk6x.mongodb.net:27017,cluster0-shard-00-01-axk6x.mongodb.net:27017,cluster0-shard-00-02-axk6x.mongodb.net:27017/health_records?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority'; // atlas
 
 /*------ Requirements ------*/
-var mongoose = require ("mongoose")   // Mongo DB
 var restify = require('restify')      // REST
 var errs = require('restify-errors'); // To handle restify errors
 
@@ -39,19 +35,9 @@ if (typeof port === "undefined") {
 	port = DEFAULT_PORT.toString();
 };
 
-// Assign URI string to connect the database. Default is DEFAULT_MONGODB_URI
-var uristring = process.env.MONGODB_URI || DEFAULT_MONGODB_URI;
-
-
 /*------ MongoDB ------*/
-// Connect to the MongoDB
-mongoose.connect(uristring, function (err, res) {
-    if (err) { 
-        console.log ('ERROR connecting to: ' + uristring + '. ' + err);
-    } else {
-        console.log ('Successfully connected to: ' + uristring);
-    }
-});
+const connectToDatabase = require('./db');
+connectToDatabase(); // Connect to the DB
 
 // Compiles the schema into a model, opening (or creating, ifnonexistent) 
 // the 'Patients' collection in the MongoDB database
