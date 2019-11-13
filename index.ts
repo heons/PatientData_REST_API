@@ -167,26 +167,33 @@ server.put('/patients/:id', function (req, res, next) {
 
 // Create a new patient
 server.post('/patients', function (req, res, next) {
+
+    let data = req.params;
+    if (Object.entries(req.params).length === 0) { 
+        console.log('param empty: trying to get from body');
+        data = req.body;
+    } 
+
     console.log('POST request: patients');
     // Make sure name is defined
-    if (req.params.first_name === undefined) {
+    if (data.first_name === undefined) {
         // If there are any errors, pass them to next in the correct format
         return next(new errs.InvalidArgumentError('first_name must be supplied'))
     }
-    if (req.params.last_name === undefined) {
+    if (data.last_name === undefined) {
         // If there are any errors, pass them to next in the correct format
         return next(new errs.InvalidArgumentError('last_name must be supplied'))
     }
 
     // Creating new patient.
     let newPatient = new Patients({
-        first_name: req.params.first_name,
-        last_name: req.params.last_name,
-        address: req.params.address,
-        sex: req.params.sex,
-        date_of_birth: req.params.date_of_birth,
-        department: req.params.department,
-        doctor: req.params.doctor
+        first_name: data.first_name,
+        last_name: data.last_name,
+        address: data.address,
+        sex: data.sex,
+        date_of_birth: data.date_of_birth,
+        department: data.department,
+        doctor: data.doctor
     });
 
 
