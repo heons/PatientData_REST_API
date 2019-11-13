@@ -46,7 +46,7 @@ public class PatientListActivity extends AppCompatActivity {
     final private String TAG = "PatientListActivity";
 
     // URL for the test
-    final private String strURLTest = "https://d3efi58qhk.execute-api.us-east-1.amazonaws.com/dev/notes";
+    final private String strURLTest = "https://patient-data-management.herokuapp.com/patients";
 
     // Text view for the test
     TextView textViewTest;
@@ -174,21 +174,21 @@ public class PatientListActivity extends AppCompatActivity {
 
 
                 int count = 0;
-                //String id, first ,last;
-                String title, description;
+                String id, firstName ,lastName;
+                //String title, description;
 
                 infoAdapterPatient = new InfoAdapterPatient(PatientListActivity.this, R.layout.row_patient);
 
                 while (count < jsonArray.length()){
                     jsonObject = jsonArray.getJSONObject(count);
                     //d = jsonObject.getString("name");
-                    //first = jsonObject.getString("first_name");
-                    //last = jsonObject.getString("last_name");
-                    title = jsonObject.getString("title");
-                    description = jsonObject.getString("description");
+                    firstName = jsonObject.getString("first_name");
+                    lastName = jsonObject.getString("last_name");
+                    //title = jsonObject.getString("first_name");
+                    //description = jsonObject.getString("description");
 
 
-                    InfoDataPatient infoData = new InfoDataPatient(title,description);
+                    InfoDataPatient infoData = new InfoDataPatient(firstName, lastName);
                     infoAdapterPatient.add(infoData);
 
                     count++;
@@ -209,10 +209,14 @@ public class PatientListActivity extends AppCompatActivity {
     private class PostPatientsTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
 
+
+
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("title", "post_title");
-                jsonObject.put("description", "post_description");
+                //jsonObject.put("title", "post_title");
+                //jsonObject.put("description", "post_description");
+                jsonObject.put("first_name", "Huen");
+                jsonObject.put("last_name", "Oh");
             } catch (JSONException e) {
                 Log.d(TAG, e.getLocalizedMessage());
             }
