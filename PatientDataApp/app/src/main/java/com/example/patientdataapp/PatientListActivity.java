@@ -228,6 +228,8 @@ public class PatientListActivity extends AppCompatActivity {
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(15000);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept","application/json");
                 conn.setConnectTimeout(15000);
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);
@@ -263,14 +265,7 @@ public class PatientListActivity extends AppCompatActivity {
             }
 
             return response;
-
-
-
-
-
-
-
-            //return getPatients(urls[0]);
+            
         }
         @Override
         protected void onPostExecute(String result) {
