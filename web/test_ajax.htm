@@ -42,15 +42,16 @@
             xhttp.send();
             console.log("function run");
         } */
+        var urlDB = 'https://patient-data-management.herokuapp.com/';
 
-        var patientId = '5dc1c365619b9237da2e4869';
-        var recordId = '5dc1c434619b9237da2e486c';
+        var patientId = '5dcb8914da377a0017c2eabe';
+        var recordId = '5dcc9e80e4b6c000175384cd';
 
         var getPatients = function(patient_id){
             
-            let url_send = "http://127.0.0.1:5000/patients";
+            let url_send = urlDB + "patients";
             if (undefined != patient_id){
-                url_send = "http://127.0.0.1:5000/patients/" + patient_id; 
+                url_send = url_send + "/" + patient_id; 
             }
 
             $.ajax({
@@ -93,15 +94,28 @@
             form.append("doctor", "John");
             form.append("sex", "F");
 
+            let jsonData = {
+                "first_name": "irene",
+                "last_name": "oh",
+                "address": "28",
+                "date_of_birth": "19831129",
+                "department": "phsics",
+                "doctor": "John",
+                "sex": "F"
+            }
             let settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "http://127.0.0.1:5000/patients",
+                "url": urlDB + "patients",
                 "method": "POST",
                 "processData": false,
+                //"contentType": "application/json; charset=utf-8",
+                //"dataType": "json",
+                //"mimeType": "application/json",
+                //"data": JSON.stringify(jsonData),
                 "contentType": false,
                 "mimeType": "multipart/form-data",
-                "data": form
+                "data":form
             }
 
             $.ajax(settings).done(function (response) {
@@ -125,7 +139,7 @@
             let settings = {
                 "async": true,
                 "crossDomain": true,
-                url: "http://127.0.0.1:5000/patients/" + patient_id,
+                url: urlDB + "patients/" + patient_id,
                 method: "PUT",
                 "processData": false,
                 "contentType": false,
@@ -165,7 +179,7 @@
             let settings = {
                 "async": true,
                 "crossDomain": true,
-                url: "http://127.0.0.1:5000/patients/" + patient_id,
+                url: urlDB + "patients/" + patient_id,
                 method: "DELETE",
             }
 
@@ -178,7 +192,7 @@
         var getAllRecordsByPatientID = function(patient_id){
             
             $.ajax({
-                url: "http://127.0.0.1:5000/patients/" + patient_id + "/records",
+                url: urlDB + "patients/" + patient_id + "/records",
                 method:"GET",
                 crossDomain:true,
                 success:function(data){
@@ -216,7 +230,7 @@
             let settings = {
                 "async": true,
                 "crossDomain": true,
-                url: "http://127.0.0.1:5000/patients/" + patient_id + "/records",
+                url: urlDB + "patients/" + patient_id + "/records",
                 "method": "POST",
                 "processData": false,
                 "contentType": false,
@@ -232,7 +246,7 @@
 
         var getRecord = function(record_id){
             
-            let url_send = "http://127.0.0.1:5000/records/" + record_id; 
+            let url_send = urlDB + "records/" + record_id; 
 
             $.ajax({
                 url: url_send,
@@ -273,7 +287,7 @@
             let settings = {
                 "async": true,
                 "crossDomain": true,
-                url: "http://127.0.0.1:5000/records/" + record_id,
+                url: urlDB + "records/" + record_id,
                 method: "PUT",
                 "processData": false,
                 "contentType": false,
@@ -292,7 +306,7 @@
             let settings = {
                 "async": true,
                 "crossDomain": true,
-                url: "http://127.0.0.1:5000/records/" + record_id,
+                url: urlDB + "records/" + record_id,
                 method: "DELETE",
             }
 
