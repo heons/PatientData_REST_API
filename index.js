@@ -104,9 +104,10 @@ server.put('/patients/:id', function (req, res, next) {
         console.log('param empty: trying to get from body');
         data = req.body;
     }
+    data.id = req.params.id; // ID is always from param
     // Creating new patient.
     var newPatient = new Patients({
-        _id: req.params.id // ID is always from param
+        _id: data.id
     });
     // Make add fields to patient data to update
     if (data.first_name !== undefined) {
@@ -139,7 +140,7 @@ server.put('/patients/:id', function (req, res, next) {
         "ok": 1
         }
     */
-    Patients.updateOne({ _id: req.params.id }, { $set: newPatient }, function (error, result) {
+    Patients.updateOne({ _id: data.id }, { $set: newPatient }, function (error, result) {
         // If there are any errors, pass them to next in the correct format
         if (error)
             return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
@@ -281,25 +282,32 @@ server.get('/records/:id', function (req, res, next) {
 // Update a record by its record id
 server.put('/records/:id', function (req, res, next) {
     console.log('PUT records: patients/:id');
+    // Get data from the request
+    var data = req.params;
+    if (Object.entries(req.params).length === 1) {
+        console.log('param empty: trying to get from body');
+        data = req.body;
+    }
+    data.id = req.params.id;
     // Creating new patient.
     var newClinicalData = new ClinicalData({
-        _id: req.params.id
+        _id: data.id
     });
     // Make add fields to patient data to update
-    if (req.params.nurse_name !== undefined) {
-        newClinicalData.nurse_name = req.params.nurse_name;
+    if (data.nurse_name !== undefined) {
+        newClinicalData.nurse_name = data.nurse_name;
     }
-    if (req.params.date !== undefined) {
-        newClinicalData.date = req.params.date;
+    if (data.date !== undefined) {
+        newClinicalData.date = data.date;
     }
-    if (req.params.time !== undefined) {
-        newClinicalData.time = req.params.time;
+    if (data.time !== undefined) {
+        newClinicalData.time = data.time;
     }
-    if (req.params.type !== undefined) {
-        newClinicalData.type = req.params.type;
+    if (data.type !== undefined) {
+        newClinicalData.type = data.type;
     }
-    if (req.params.value !== undefined) {
-        newClinicalData.value = req.params.value;
+    if (data.value !== undefined) {
+        newClinicalData.value = data.value;
     }
     // Update
     /*
@@ -310,7 +318,7 @@ server.put('/records/:id', function (req, res, next) {
         "ok": 1
         }
     */
-    ClinicalData.updateOne({ _id: req.params.id }, { $set: newClinicalData }, function (error, result) {
+    ClinicalData.updateOne({ _id: data.id }, { $set: newClinicalData }, function (error, result) {
         // If there are any errors, pass them to next in the correct format
         if (error)
             return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
