@@ -122,7 +122,7 @@ server.put('/patients/:id', function (req, res, next) {
 
     // Get data from the request
     let data = req.params;
-    if (Object.entries(req.params).length === 0) { 
+    if (Object.entries(req.params).length === 1) { 
         console.log('param empty: trying to get from body');
         data = req.body;
     }
