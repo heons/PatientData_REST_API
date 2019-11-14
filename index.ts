@@ -241,24 +241,32 @@ server.del('/patients/:id', function (req, res, next) {
 server.post('/patients/:id/records', function (req, res, next) {
     console.log('POST request: patients/:id/records');
 
+    // Get data from the request
+    let data = req.params;
+    if (Object.entries(req.params).length === 1) { 
+        console.log('param empty: trying to get from body');
+        data = req.body;
+    }
+    data.id = req.params.id;
+
    // Make sure field is defined
-   if (req.params.nurse_name === undefined) {
+   if (data.nurse_name === undefined) {
         // If there are any errors, pass them to next in the correct format
         return next(new errs.InvalidArgumentError('nurse_name must be supplied'))
     }
-    if (req.params.date === undefined) {
+    if (data.date === undefined) {
         // If there are any errors, pass them to next in the correct format
         return next(new errs.InvalidArgumentError('date must be supplied'))
     }
-    if (req.params.time === undefined) {
+    if (data.time === undefined) {
         // If there are any errors, pass them to next in the correct format
         return next(new errs.InvalidArgumentError('time must be supplied'))
     }
-    if (req.params.type === undefined) {
+    if (data.type === undefined) {
         // If there are any errors, pass them to next in the correct format
         return next(new errs.InvalidArgumentError('type must be supplied'))
     }
-    if (req.params.value === undefined) {
+    if (data.value === undefined) {
         // If there are any errors, pass them to next in the correct format
         return next(new errs.InvalidArgumentError('value must be supplied'))
     }
@@ -266,12 +274,12 @@ server.post('/patients/:id/records', function (req, res, next) {
 
     // Creating new clinical data.
     let newClinicalData = new ClinicalData({
-        patient_id: req.params.id,
-        nurse_name: req.params.nurse_name,
-        date: req.params.date,
-        time: req.params.time,
-        type: req.params.type,
-        value: req.params.value
+        patient_id: data.id,
+        nurse_name: data.nurse_name,
+        date: data.date,
+        time: data.time,
+        type: data.type,
+        value: data.value
     });
 
     // Create the patient and saving to db
