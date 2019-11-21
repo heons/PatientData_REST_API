@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Health & Care (Login)</title>
+  <meta name="author" content="Loveleen Kaur">
+  <meta name="description" content="Menu Page">
+  <meta name="version" content="1.1">
+  <meta name="student_number" content="301093331">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/code.css">
+  </link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+<body class="login">
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href=""><img class="logo" src="image/care_logo.png"></a>
+        <h3 class="navbar-text title">Health & Care</h3>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+      <div class="card card-container ">
+        <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+        <img id="profile-img" class="profile-img-card" src="image/user_icon_2.png" />
+        <p id="profile-name" class="profile-name-card"></p>
+        <form class="form-signin">
+          <span id="reauth-username" class="reauth-username"></span>
+          <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+          <div id="remember" class="checkbox">
+            <label>
+              <input type="checkbox" value="remember-me"> Remember me
+            </label>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+        </form><!-- /form -->
+        <a href="#" class="forgot-password">
+          Forgot the password?
+        </a>
+      </div><!-- /card-container -->
+    </div>
+  </div><!-- /container -->
+</body>
+
+</html>
