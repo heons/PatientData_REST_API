@@ -36,21 +36,21 @@
         android:id="@+id/btnDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickDeletePatients"
+        android:onClick="onClickDeletePatientById"
         android:text="DELETE Patient by ID" />
 
     <Button
         android:id="@+id/btnPut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickPutPatients"
+        android:onClick="onClickPutPatientById"
         android:text="PUT Patient By ID" />
 
     <Button
         android:id="@+id/btnPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickPostPatients"
+        android:onClick="onClickPostPatient"
         android:text="Post Patients" />
 
     <Button

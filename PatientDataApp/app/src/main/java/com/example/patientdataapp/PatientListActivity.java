@@ -13,30 +13,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -88,7 +77,7 @@ public class PatientListActivity extends AppCompatActivity {
 
 
             //call this asynchronously
-            //new PostPatientsTask().execute(strURLTest);
+            //new PostPatientTask().execute(strURLTest);
             new GetPatientsTask().execute(strURLTest);
         }
     }
@@ -209,7 +198,7 @@ public class PatientListActivity extends AppCompatActivity {
 
 
     // Post Patients
-    private class PostPatientsTask extends AsyncTask<String, Void, String> {
+    private class PostPatientTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
 
 
@@ -279,7 +268,7 @@ public class PatientListActivity extends AppCompatActivity {
     }
 
     // Put Patients
-    private class PutPatientsTask extends AsyncTask<String, Void, String> {
+    private class PutPatientByIdTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
 
 
@@ -346,7 +335,7 @@ public class PatientListActivity extends AppCompatActivity {
 
 
     // Post Patients
-    private class DeletePatientsTask extends AsyncTask<String, Void, String> {
+    private class DeletePatientByIdTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
 
 
@@ -399,13 +388,13 @@ public class PatientListActivity extends AppCompatActivity {
         new GetPatientsTask().execute(strURLTest);
     }
 
-    public void onClickPostPatients(View view){ new PostPatientsTask().execute(strURLTest); }
+    public void onClickPostPatient(View view){ new PostPatientTask().execute(strURLTest); }
 
-    public void onClickPutPatients(View view){
-        new PutPatientsTask().execute(strURLTest + "/" + textEditField.getText().toString());
+    public void onClickPutPatientById(View view){
+        new PutPatientByIdTask().execute(strURLTest + "/" + textEditField.getText().toString());
     }
 
-    public void onClickDeletePatients(View view){
-        new DeletePatientsTask().execute(strURLTest + "/" + textEditField.getText().toString());
+    public void onClickDeletePatientById(View view){
+        new DeletePatientByIdTask().execute(strURLTest + "/" + textEditField.getText().toString());
     }
 }
