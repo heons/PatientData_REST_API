@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class PatientListActivity extends AppCompatActivity {
 
     // Text view for the test
     TextView textViewTest;
+    EditText textEditField;
 
     ListView listViewPatient;
     InfoAdapterPatient infoAdapterPatient;
@@ -62,6 +64,7 @@ public class PatientListActivity extends AppCompatActivity {
 
         // Get Views
         textViewTest = (TextView) findViewById(R.id.textViewTitle);
+        textEditField = (EditText) findViewById(R.id.editTextField);
         listViewPatient = findViewById(R.id.listViewPatient);
 
         infoAdapterPatient = new InfoAdapterPatient(this,R.layout.row_patient);
@@ -275,13 +278,134 @@ public class PatientListActivity extends AppCompatActivity {
         }
     }
 
+    // Put Patients
+    private class PutPatientsTask extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                //jsonObject.put("title", "post_title");
+                //jsonObject.put("description", "post_description");
+                jsonObject.put("first_name", "Huen");
+                jsonObject.put("last_name", "Oh");
+            } catch (JSONException e) {
+                Log.d(TAG, e.getLocalizedMessage());
+            }
+
+            URL url;
+            String response = "";
+            try {
+                url = new URL(urls[0]);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept","application/json");
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("PUT");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.connect();
+
+
+
+                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                //os.writeBytes(URLEncoder.encode(jsonObject.toString(), "UTF-8"));
+                //String strTmp = URLEncoder.encode(jsonObject.toString(), "UTF-8");
+                os.writeBytes(jsonObject.toString());
+                String strTmp = jsonObject.toString();
+
+                os.flush();
+                os.close();
+                int responseCode=conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    String line;
+                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    while ((line=br.readLine()) != null) {
+                        response+=line;
+                    }
+                }
+                else {
+                    response="";
+                }
+
+                conn.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return response;
+
+        }
+        @Override
+        protected void onPostExecute(String result) {
+        }
+    }
+
+
+    // Post Patients
+    private class DeletePatientsTask extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... urls) {
+
+
+            URL url;
+            String response = "";
+            try {
+                url = new URL(urls[0]);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(15000);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept","application/json");
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("DELETE");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.connect();
+
+                int responseCode=conn.getResponseCode();
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    String line;
+                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    while ((line=br.readLine()) != null) {
+                        response+=line;
+                    }
+                }
+                else {
+                    response="";
+                }
+
+                conn.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return response;
+
+        }
+        @Override
+        protected void onPostExecute(String result) {
+        }
+    }
+
+
+
+
 
     public void onClickGetPatients(View view){
         new GetPatientsTask().execute(strURLTest);
     }
 
-    public void onClickPostPatients(View view){
-        new PostPatientsTask().execute(strURLTest);
+    public void onClickPostPatients(View view){ new PostPatientsTask().execute(strURLTest); }
+
+    public void onClickPutPatients(View view){
+        new PutPatientsTask().execute(strURLTest + "/" + textEditField.getText().toString());
     }
 
+    public void onClickDeletePatients(View view){
+        new DeletePatientsTask().execute(strURLTest + "/" + textEditField.getText().toString());
+    }
 }

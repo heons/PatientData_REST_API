@@ -24,6 +24,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <EditText
+        android:id="@+id/editTextField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="ID"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickDeletePatients"
+        android:text="DELETE Patient by ID" />
+
+    <Button
+        android:id="@+id/btnPut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickPutPatients"
+        android:text="PUT Patient By ID" />
+
     <Button
         android:id="@+id/btnPost"
         android:layout_width="match_parent"
