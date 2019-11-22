@@ -30,7 +30,7 @@ public class Patient {
     String doctor;
 
 
-    // Constructors
+    /* Constructors */
     public Patient() {
     }
     public Patient(String first_name, String last_name) {
@@ -47,7 +47,8 @@ public class Patient {
         this.doctor = doctor;
     }
 
-    // Getters
+
+    /* Getters */
     public String getFirst_name()       { return first_name; }
     public String getLast_name()        { return last_name; }
     public String getAddress()          { return address; }
@@ -57,7 +58,7 @@ public class Patient {
     public String getDoctor()           { return doctor; }
 
 
-    // Setters
+    /* Setters */
     public void setFirst_name(String first_name)        { this.first_name = first_name; }
     public void setLast_name(String last_name)          { this.last_name = last_name; }
     public void setAddress(String address)              { this.address = address; }
@@ -68,6 +69,7 @@ public class Patient {
 
 
     // Connect using HTTP
+    // TODO : find way to make it general use in classes
     static private HttpURLConnection httpConnect(URL url, String method) throws Exception {
         HttpURLConnection conn = null;
 
@@ -90,6 +92,7 @@ public class Patient {
     }
 
     // Get the response of HTTP connection
+    // TODO : find way to make it general use in classes
     static private String httpGetResponse(HttpURLConnection conn, int okResponse) throws Exception {
         // Get response
         String response = "";
@@ -255,6 +258,68 @@ public class Patient {
 
         return response;
     }
+
+
+
+
+
+    // Get records by patient id
+    static public String getRecordsByPatientId(String id) {
+        URL url;
+        String response = "";
+
+        try {
+            // Connect
+            url = new URL(Patient.urlService + "/" + id + "/records");
+            HttpURLConnection conn = Patient.httpConnect(url, "GET");
+
+            // Get response
+            response = Patient.httpGetResponse(conn, HttpsURLConnection.HTTP_OK);
+
+            // Disconnect
+            conn.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    // Post a record of a patient id
+    static public String postRecordByPatientId(String id, JSONObject jsonObject) {
+        URL url;
+        String response = "";
+
+        try {
+            // Connect
+            url = new URL(Patient.urlService + "/" + id + "/records");
+            HttpURLConnection conn = Patient.httpConnect(url, "POST");
+
+            // Write data
+            DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+            //os.writeBytes(URLEncoder.encode(jsonObject.toString(), "UTF-8"));
+            //String strTmp = URLEncoder.encode(jsonObject.toString(), "UTF-8");
+            os.writeBytes(jsonObject.toString());
+            os.flush();
+            os.close();
+
+            // Get response
+            response = Patient.httpGetResponse(conn, HttpsURLConnection.HTTP_CREATED);
+
+            // Disconnect
+            conn.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+
+
+
 
 
 }

@@ -66,21 +66,10 @@ public class PatientListActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.INTERNET}, REQUEST_INTERNET);
 
         } else{
-
-            //HashMap<String, String> postDataParams = new HashMap<>();
-
-            //postDataParams.put("title", "post title");
-            //postDataParams.put("description", "post description");
-            //performPostCall(strURLTest, postDataParams);
-
-
+            Patient.setUrlService(strURLTest);
             //call this asynchronously
-            //new PostPatientTask().execute(strURLTest);
             new GetPatientsTask().execute(strURLTest);
         }
-
-
-        Patient.setUrlService(strURLTest);
     }
 
 
@@ -159,9 +148,7 @@ public class PatientListActivity extends AppCompatActivity {
 
     // Get Patients
     private class GetPatientByIdTask extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... ids) {
-            return Patient.getPatientById(ids[0]);
-        }
+        protected String doInBackground(String... ids) { return Patient.getPatientById(ids[0]); }
         @Override
         protected void onPostExecute(String result) {
             Toast.makeText(PatientListActivity.this, result, Toast.LENGTH_LONG).show();
@@ -204,15 +191,61 @@ public class PatientListActivity extends AppCompatActivity {
 
 
 
+
+    // Get Records
+    private class GetRecordsByPatientIdTask extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... ids) { return Patient.getRecordsByPatientId(ids[0]); }
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(PatientListActivity.this, result, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // Post a record
+    private class PostRecordTask extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... ids) {
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("patient_id", ids[0]);
+                jsonObject.put("nurse_name", "Nurse_post");
+                jsonObject.put("date", "20190820");
+                jsonObject.put("time", "1800");
+                jsonObject.put("type", "Blood Pressure");
+                jsonObject.put("value", "100");
+            } catch (JSONException e) {
+                Log.d(TAG, e.getLocalizedMessage());
+            }
+
+            //String result = Patient.postPatient(jsonObject);
+            return Patient.postRecordByPatientId(ids[0], jsonObject);
+
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(PatientListActivity.this, result, Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
+
+
+
+
     public void onClickGetPatients(View view){
         new GetPatientsTask().execute(strURLTest);
     }
 
-    public void onClickPostPatient(View view){ new PostPatientTask().execute(strURLTest); }
+    public void onClickPostPatient(View view){
+        //new PostPatientTask().execute(strURLTest);
+        new PostRecordTask().execute(textEditField.getText().toString());
+    }
 
 
     public void onClickGetPatientById(View view){
-        new GetPatientByIdTask().execute(textEditField.getText().toString());
+        //new GetPatientByIdTask().execute(textEditField.getText().toString());
+        new GetRecordsByPatientIdTask().execute(textEditField.getText().toString());
     }
 
     public void onClickPutPatientById(View view){
