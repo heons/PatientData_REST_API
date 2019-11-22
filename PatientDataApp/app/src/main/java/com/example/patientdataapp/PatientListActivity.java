@@ -13,21 +13,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class PatientListActivity extends AppCompatActivity {
 
@@ -80,79 +78,17 @@ public class PatientListActivity extends AppCompatActivity {
             //new PostPatientTask().execute(strURLTest);
             new GetPatientsTask().execute(strURLTest);
         }
+
+
+        Patient.setUrlService(strURLTest);
     }
 
 
-    private InputStream openHttpConnection(String strURL, String strMethod) throws IOException
-    {
-        InputStream in = null;
-        int response = -1;
-
-        URL url = new URL(strURL);
-        URLConnection conn = url.openConnection();
-
-        if (!(conn instanceof HttpURLConnection))
-            throw new IOException("Not an HTTP connection");
-        try{
-            HttpURLConnection httpConn = (HttpURLConnection) conn;
-            httpConn.setAllowUserInteraction(false);
-            httpConn.setInstanceFollowRedirects(true);
-            httpConn.setRequestMethod(strMethod);
-            httpConn.connect();
-            response = httpConn.getResponseCode();
-            if (response == HttpURLConnection.HTTP_OK) {
-                in = httpConn.getInputStream();
-            }
-        }
-        catch (Exception ex)
-        {
-            Log.d("Networking", ex.getLocalizedMessage());
-            throw new IOException("Error connecting");
-        }
-        return in;
-    }
-
-
-    private String getPatients(String strURL)
-    {
-        InputStream in = null;
-        try {
-            in = openHttpConnection(strURL, "GET");
-        } catch (IOException e) {
-            Log.d("Networking", e.getLocalizedMessage());
-            return "";
-        }
-
-
-        String strResult;
-        try {
-            String strLine = "";
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-            StringBuilder stringBuilder = new StringBuilder();
-            while ((strLine = bufferedReader.readLine())!=null)
-            {
-                stringBuilder.append(strLine);
-                //listPatient.add(strLine);
-            }
-
-            bufferedReader.close();
-            in.close();
-            //httpURLConnection.disconnect();
-
-            strResult = stringBuilder.toString().trim();
-            return strResult;
-
-        } catch (IOException e) {
-            Log.d("Networking", e.getLocalizedMessage());
-            e.printStackTrace();
-            return "";
-        }
-    }
 
     // Get Patients
     private class GetPatientsTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
-            return getPatients(urls[0]);
+            return Patient.getPatients();
         }
         @Override
         protected void onPostExecute(String result) {
@@ -201,186 +137,59 @@ public class PatientListActivity extends AppCompatActivity {
     private class PostPatientTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... urls) {
 
-
-
             JSONObject jsonObject = new JSONObject();
             try {
-                //jsonObject.put("title", "post_title");
-                //jsonObject.put("description", "post_description");
-                jsonObject.put("first_name", "Huen");
-                jsonObject.put("last_name", "Oh");
+                jsonObject.put("first_name", "Huen_post");
+                jsonObject.put("last_name", "Oh_post");
             } catch (JSONException e) {
                 Log.d(TAG, e.getLocalizedMessage());
             }
 
-            URL url;
-            String response = "";
-            try {
-                url = new URL(urls[0]);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Accept","application/json");
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.connect();
-
-
-
-                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                //os.writeBytes(URLEncoder.encode(jsonObject.toString(), "UTF-8"));
-                //String strTmp = URLEncoder.encode(jsonObject.toString(), "UTF-8");
-                os.writeBytes(jsonObject.toString());
-                String strTmp = jsonObject.toString();
-
-                os.flush();
-                os.close();
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line=br.readLine()) != null) {
-                        response+=line;
-                    }
-                }
-                else {
-                    response="";
-                }
-
-                conn.disconnect();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return response;
+            //String result = Patient.postPatient(jsonObject);
+            return Patient.postPatient(jsonObject);
 
         }
         @Override
         protected void onPostExecute(String result) {
-
-
-
+            Toast.makeText(PatientListActivity.this, result, Toast.LENGTH_LONG).show();
         }
     }
+
 
     // Put Patients
     private class PutPatientByIdTask extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... urls) {
-
+        protected String doInBackground(String... ids) {
 
             JSONObject jsonObject = new JSONObject();
             try {
-                //jsonObject.put("title", "post_title");
-                //jsonObject.put("description", "post_description");
                 jsonObject.put("first_name", "Huen");
                 jsonObject.put("last_name", "Oh");
             } catch (JSONException e) {
                 Log.d(TAG, e.getLocalizedMessage());
             }
 
-            URL url;
-            String response = "";
-            try {
-                url = new URL(urls[0]);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Accept","application/json");
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("PUT");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.connect();
-
-
-
-                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                //os.writeBytes(URLEncoder.encode(jsonObject.toString(), "UTF-8"));
-                //String strTmp = URLEncoder.encode(jsonObject.toString(), "UTF-8");
-                os.writeBytes(jsonObject.toString());
-                String strTmp = jsonObject.toString();
-
-                os.flush();
-                os.close();
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line=br.readLine()) != null) {
-                        response+=line;
-                    }
-                }
-                else {
-                    response="";
-                }
-
-                conn.disconnect();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return response;
+            return Patient.putPatientById(ids[0], jsonObject);
 
         }
         @Override
         protected void onPostExecute(String result) {
+            Toast.makeText(PatientListActivity.this, result, Toast.LENGTH_LONG).show();
         }
     }
 
 
-    // Post Patients
+    // Delete Patients
     private class DeletePatientByIdTask extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... urls) {
-
-
-            URL url;
-            String response = "";
-            try {
-                url = new URL(urls[0]);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Accept","application/json");
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("DELETE");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.connect();
-
-                int responseCode=conn.getResponseCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    String line;
-                    BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line=br.readLine()) != null) {
-                        response+=line;
-                    }
-                }
-                else {
-                    response="";
-                }
-
-                conn.disconnect();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return response;
-
+        protected String doInBackground(String... ids) {
+            String result = Patient.deletePatientById(ids[0]);
+            return result;
+            //return Patient.deletePatientById(ids[0]);
         }
         @Override
         protected void onPostExecute(String result) {
+            Toast.makeText(PatientListActivity.this, result, Toast.LENGTH_LONG).show();
         }
     }
-
-
 
 
 
@@ -391,10 +200,10 @@ public class PatientListActivity extends AppCompatActivity {
     public void onClickPostPatient(View view){ new PostPatientTask().execute(strURLTest); }
 
     public void onClickPutPatientById(View view){
-        new PutPatientByIdTask().execute(strURLTest + "/" + textEditField.getText().toString());
+        new PutPatientByIdTask().execute(textEditField.getText().toString());
     }
 
     public void onClickDeletePatientById(View view){
-        new DeletePatientByIdTask().execute(strURLTest + "/" + textEditField.getText().toString());
+        new DeletePatientByIdTask().execute(textEditField.getText().toString());
     }
 }
