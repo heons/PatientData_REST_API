@@ -177,6 +177,30 @@ public class Patient {
     }
 
 
+    // Get a patient by id
+    static public String getPatientById(String id) {
+        URL url;
+        String response = "";
+
+        try {
+            // Connect
+            url = new URL(Patient.urlService + "/" + id);
+            HttpURLConnection conn = Patient.httpConnect(url, "GET");
+
+            // Get response
+            response = Patient.httpGetResponse(conn, HttpsURLConnection.HTTP_OK);
+
+            // Disconnect
+            conn.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+
     // PUT a patient by id
     static public String putPatientById(String id, JSONObject jsonObject) {
         URL url;

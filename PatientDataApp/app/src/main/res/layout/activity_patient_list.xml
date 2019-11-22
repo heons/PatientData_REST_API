@@ -51,10 +51,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickPostPatient"
-        android:text="Post Patients" />
+        android:text="Post Patient" />
 
     <Button
         android:id="@+id/btnGet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickGetPatientById"
+        android:text="Get Patient By ID" />
+
+    <Button
+        android:id="@+id/btnGetAll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickGetPatients"

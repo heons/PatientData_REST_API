@@ -156,6 +156,19 @@ public class PatientListActivity extends AppCompatActivity {
     }
 
 
+
+    // Get Patients
+    private class GetPatientByIdTask extends AsyncTask<String, Void, String> {
+        protected String doInBackground(String... ids) {
+            return Patient.getPatientById(ids[0]);
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(PatientListActivity.this, result, Toast.LENGTH_LONG).show();
+        }
+    }
+
+
     // Put Patients
     private class PutPatientByIdTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... ids) {
@@ -181,9 +194,7 @@ public class PatientListActivity extends AppCompatActivity {
     // Delete Patients
     private class DeletePatientByIdTask extends AsyncTask<String, Void, String> {
         protected String doInBackground(String... ids) {
-            String result = Patient.deletePatientById(ids[0]);
-            return result;
-            //return Patient.deletePatientById(ids[0]);
+            return Patient.deletePatientById(ids[0]);
         }
         @Override
         protected void onPostExecute(String result) {
@@ -198,6 +209,11 @@ public class PatientListActivity extends AppCompatActivity {
     }
 
     public void onClickPostPatient(View view){ new PostPatientTask().execute(strURLTest); }
+
+
+    public void onClickGetPatientById(View view){
+        new GetPatientByIdTask().execute(textEditField.getText().toString());
+    }
 
     public void onClickPutPatientById(View view){
         new PutPatientByIdTask().execute(textEditField.getText().toString());
