@@ -4,7 +4,7 @@ const DEFAULT_MONGODB_URI = 'mongodb://dbAdmin:dbAdminPassword@cluster0-shard-00
 //mongoose.Promise = global.Promise;
 
 // Assign URI string to connect the database. Default is DEFAULT_MONGODB_URI
-const dbURI = process.env.MONGODB_URI || DEFAULT_MONGODB_URI;
+const dbURI = process.env.PROD_MONGODB || DEFAULT_MONGODB_URI;
 
 // to check connectivity
 let isConnected;
