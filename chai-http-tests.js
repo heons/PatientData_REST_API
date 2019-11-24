@@ -1,5 +1,6 @@
 
 const URL_SERVER = 'patient-data-management.herokuapp.com';
+//const URL_SERVER = '127.0.0.1:5000';
 
 var chai = require('chai');
 var chaiHttp = require('chai-http');
@@ -7,7 +8,7 @@ var expect = chai.expect;
 chai.use(chaiHttp);
 
 
-var postData;
+var postPatientData;
 
 // Test GET /patients
 describe("when we issue a 'GET' to /patients'", function(){
@@ -29,9 +30,9 @@ describe("when we issue a 'POST' to /patients'", function(){
             .post('/patients')
             .send({first_name:'huen', last_name:'oh'})
             .end(function(req, res){
-                postData = JSON.parse(res.text)
-                expect(postData.first_name).to.equal('huen')
-                expect(postData.last_name).to.equal('oh')
+                postPatientData = JSON.parse(res.text)
+                expect(postPatientData.first_name).to.equal('huen')
+                expect(postPatientData.last_name).to.equal('oh')
                 expect(res.status).to.equal(201);
                 done();
             });
@@ -42,7 +43,7 @@ describe("when we issue a 'POST' to /patients'", function(){
 describe("when we issue a 'GET' to /patients/:id'", function(){
     it("should return HTTP 200", function(done) {
         chai.request(URL_SERVER)
-            .get('/patients/' + postData._id)
+            .get('/patients/' + postPatientData._id)
             .end(function(req, res){
                 //console.log(JSON.parse(res.text))
                 expect(res.status).to.equal(200)
@@ -55,7 +56,7 @@ describe("when we issue a 'GET' to /patients/:id'", function(){
 describe("when we issue a 'PUT' to /patients/:id'", function(){
     it("should return HTTP 201", function(done) {
         chai.request(URL_SERVER)
-            .put('/patients/' + postData._id)
+            .put('/patients/' + postPatientData._id)
             .send({first_name:'huen_put', last_name:'oh_put'})
             .end(function(req, res){
                 console.log(JSON.parse(res.text))  
@@ -70,7 +71,7 @@ describe("when we issue a 'PUT' to /patients/:id'", function(){
 describe("when we issue a 'PUT' to /patients/:id'", function(){
     it("should return HTTP 201", function(done) {
         chai.request(URL_SERVER)
-            .delete('/patients/' + postData._id)
+            .delete('/patients/' + postPatientData._id)
             .end(function(req, res){
                 console.log(JSON.parse(res.text))   
                 expect(JSON.parse(res.text).deletedCount).to.equal(1)       
