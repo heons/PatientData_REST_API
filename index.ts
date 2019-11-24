@@ -35,10 +35,17 @@ if (typeof port === "undefined") {
 	port = DEFAULT_PORT.toString();
 };
 
-
 /*------ MongoDB ------*/
 const connectToDatabase = require('./db');
 connectToDatabase(); // Connect to the DB
+
+// Compiles the schema into a model, opening (or creating, ifnonexistent) 
+// the 'Patients' collection in the MongoDB database
+const Patients = require('./models/Patients');
+
+// the 'ClinicalData' collection in the MongoDB database
+const ClinicalData = require('./models/ClinicalData');
+
 
 
 /*------ Sever implementation ------*/
@@ -107,4 +114,4 @@ server.put('/records/:id', clinicalDataHandler.update_a_record_by_id)
 // Delete a record with the given id
 server.del('/records/:id', clinicalDataHandler.delete_a_record_by_id)
 
-
+server.get('/', function (req, res, next){res.send(200)});

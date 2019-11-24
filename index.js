@@ -33,6 +33,11 @@ if (typeof port === "undefined") {
 /*------ MongoDB ------*/
 var connectToDatabase = require('./db');
 connectToDatabase(); // Connect to the DB
+// Compiles the schema into a model, opening (or creating, ifnonexistent) 
+// the 'Patients' collection in the MongoDB database
+var Patients = require('./models/Patients');
+// the 'ClinicalData' collection in the MongoDB database
+var ClinicalData = require('./models/ClinicalData');
 /*------ Sever implementation ------*/
 // Create the restify server
 var server = restify.createServer({ name: SERVER_NAME });
@@ -81,3 +86,4 @@ server.get('/records/:id', clinicalDataHandler.get_a_record_by_id);
 server.put('/records/:id', clinicalDataHandler.update_a_record_by_id);
 // Delete a record with the given id
 server.del('/records/:id', clinicalDataHandler.delete_a_record_by_id);
+server.get('/', function (req, res, next) { res.send(200); });
