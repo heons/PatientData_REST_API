@@ -33,11 +33,6 @@ if (typeof port === "undefined") {
 /*------ MongoDB ------*/
 var connectToDatabase = require('./db');
 connectToDatabase(); // Connect to the DB
-// Compiles the schema into a model, opening (or creating, ifnonexistent) 
-// the 'Patients' collection in the MongoDB database
-var Patients = require('./models/Patients');
-// the 'ClinicalData' collection in the MongoDB database
-var ClinicalData = require('./models/ClinicalData');
 /*------ Sever implementation ------*/
 // Create the restify server
 var server = restify.createServer({ name: SERVER_NAME });
@@ -64,277 +59,25 @@ server.listen(port, function () {
     console.log(' /patients/:id/records     GET, POST');
     console.log(' /records/:id              GET, PUT, DELETE');
 });
+var patientsHandler = require("./controllers/patientsController");
 // Get all patients in the system
-server.get('/patients', function (req, res, next) {
-    console.log('GET request: patients');
-    // Find every entity within the given collection
-    Patients.find({}).exec(function (error, result) {
-        if (error)
-            return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
-        res.send(result);
-    });
-});
+server.get('/patients', patientsHandler.get_all_patients);
 // Get a single patient by their patient id
-server.get('/patients/:id', function (req, res, next) {
-    console.log('GET request: patients/:id - ' + req.params.id);
-    // Find a single patient by their id
-    Patients.find({ _id: req.params.id }).exec(function (error, patient) {
-        // If there are any errors, pass them to next in the correct format
-        //if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
-        if (patient) {
-            // Send the patient if no issues
-            res.send(patient);
-        }
-        else {
-            // Send 404 header if the patient doesn't exist
-            res.send(404);
-        }
-    });
-});
+server.get('/patients/:id', patientsHandler.get_a_patient_by_id);
 // Update a single patient by its patient id
-server.put('/patients/:id', function (req, res, next) {
-    console.log('PUT request: patients/:id');
-    //console.log('params');
-    //console.log(req.params);
-    //console.log('body');
-    //console.log(req.body);
-    // Get data from the request
-    var data = req.params;
-    if (Object.entries(req.params).length === 1) {
-        console.log('param empty: trying to get from body');
-        data = req.body;
-    }
-    data.id = req.params.id; // ID is always from param
-    // Creating new patient.
-    var newPatient = new Patients({
-        _id: data.id
-    });
-    // Make add fields to patient data to update
-    if (data.first_name !== undefined) {
-        newPatient.first_name = data.first_name;
-    }
-    if (data.last_name !== undefined) {
-        newPatient.last_name = data.last_name;
-    }
-    if (data.address !== undefined) {
-        newPatient.address = data.address;
-    }
-    if (data.sex !== undefined) {
-        newPatient.sex = data.sex;
-    }
-    if (data.date_of_birth !== undefined) {
-        newPatient.date_of_birth = data.date_of_birth;
-    }
-    if (data.department !== undefined) {
-        newPatient.department = data.department;
-    }
-    if (data.doctor !== undefined) {
-        newPatient.doctor = data.doctor;
-    }
-    // Update
-    /*
-    it will return as
-        {
-        "n": 1,
-        "nModified": 1,
-        "ok": 1
-        }
-    */
-    Patients.updateOne({ _id: data.id }, { $set: newPatient }, function (error, result) {
-        // If there are any errors, pass them to next in the correct format
-        if (error)
-            return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
-        // Send the patient if no issues
-        res.send(201, result);
-    });
-});
+server.put('/patients/:id', patientsHandler.update_a_patient_by_id);
 // Create a new patient
-server.post('/patients', function (req, res, next) {
-    console.log('POST request: patients');
-    // Get data from the request
-    var data = req.params;
-    if (Object.entries(req.params).length === 0) {
-        console.log('param empty: trying to get from body');
-        data = req.body;
-    }
-    // Make sure name is defined
-    if (data.first_name === undefined) {
-        // If there are any errors, pass them to next in the correct format
-        return next(new errs.InvalidArgumentError('first_name must be supplied'));
-    }
-    if (data.last_name === undefined) {
-        // If there are any errors, pass them to next in the correct format
-        return next(new errs.InvalidArgumentError('last_name must be supplied'));
-    }
-    // Creating new patient.
-    var newPatient = new Patients({
-        first_name: data.first_name,
-        last_name: data.last_name,
-        address: data.address,
-        sex: data.sex,
-        date_of_birth: data.date_of_birth,
-        department: data.department,
-        doctor: data.doctor
-    });
-    // Create the patient and saving to db
-    newPatient.save(function (error, result) {
-        // If there are any errors, pass them to next in the correct format
-        if (error)
-            return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
-        // Send the patient if no issues
-        res.send(201, result);
-    });
-});
+server.post('/patients', patientsHandler.create_a_patient);
 // Delete patient with the given id
-server.del('/patients/:id', function (req, res, next) {
-    console.log('DEL request: patients/' + req.params.id);
-    Patients.deleteOne({ _id: req.params.id }, function (error, result) {
-        // If there are any errors, pass them to next in the correct format
-        if (error)
-            return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
-        // Send a 200 OK response
-        res.send(201, result);
-    });
-});
-// Create a single record by its patient id
-server.post('/patients/:id/records', function (req, res, next) {
-    console.log('POST request: patients/:id/records');
-    // Get data from the request
-    var data = req.params;
-    if (Object.entries(req.params).length === 1) {
-        console.log('param empty: trying to get from body');
-        data = req.body;
-    }
-    data.id = req.params.id;
-    // Make sure field is defined
-    if (data.nurse_name === undefined) {
-        // If there are any errors, pass them to next in the correct format
-        return next(new errs.InvalidArgumentError('nurse_name must be supplied'));
-    }
-    if (data.date === undefined) {
-        // If there are any errors, pass them to next in the correct format
-        return next(new errs.InvalidArgumentError('date must be supplied'));
-    }
-    if (data.time === undefined) {
-        // If there are any errors, pass them to next in the correct format
-        return next(new errs.InvalidArgumentError('time must be supplied'));
-    }
-    if (data.type === undefined) {
-        // If there are any errors, pass them to next in the correct format
-        return next(new errs.InvalidArgumentError('type must be supplied'));
-    }
-    if (data.value === undefined) {
-        // If there are any errors, pass them to next in the correct format
-        return next(new errs.InvalidArgumentError('value must be supplied'));
-    }
-    // Creating new clinical data.
-    var newClinicalData = new ClinicalData({
-        patient_id: data.id,
-        nurse_name: data.nurse_name,
-        date: data.date,
-        time: data.time,
-        type: data.type,
-        value: data.value
-    });
-    // Create the patient and saving to db
-    newClinicalData.save(function (error, result) {
-        // If there are any errors, pass them to next in the correct format
-        if (error)
-            return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
-        // Send the patient if no issues
-        res.send(201, result);
-    });
-});
+server.del('/patients/:id', patientsHandler.delete_a_patient_by_id);
+var clinicalDataHandler = require("./controllers/clinicalDataController");
 // Get all the records by its patient id
-server.get('/patients/:id/records', function (req, res, next) {
-    console.log('GET request: patients/:id/records -' + req.params.id);
-    // Find records by its id
-    ClinicalData.find({ patient_id: req.params.id }).exec(function (error, record) {
-        // If there are any errors, pass them to next in the correct format
-        //if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
-        if (record) {
-            // Send the patient if no issues
-            res.send(record);
-        }
-        else {
-            // Send 404 header if the patient doesn't exist
-            res.send(404);
-        }
-    });
-});
+server.get('/patients/:id/records', clinicalDataHandler.get_all_records_by_patient_id);
+// Create a single record by its patient id
+server.post('/patients/:id/records', clinicalDataHandler.create_a_record_by_patient_id);
 // Get a record by its record id
-server.get('/records/:id', function (req, res, next) {
-    console.log('GET request: records/:id - ' + req.params.id);
-    // Find records by its id
-    ClinicalData.find({ _id: req.params.id }).exec(function (error, record) {
-        // If there are any errors, pass them to next in the correct format
-        //if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
-        if (record) {
-            // Send the patient if no issues
-            res.send(record);
-        }
-        else {
-            // Send 404 header if the patient doesn't exist
-            res.send(404);
-        }
-    });
-});
+server.get('/records/:id', clinicalDataHandler.get_a_record_by_id);
 // Update a record by its record id
-server.put('/records/:id', function (req, res, next) {
-    console.log('PUT records: patients/:id');
-    // Get data from the request
-    var data = req.params;
-    if (Object.entries(req.params).length === 1) {
-        console.log('param empty: trying to get from body');
-        data = req.body;
-    }
-    data.id = req.params.id;
-    // Creating new patient.
-    var newClinicalData = new ClinicalData({
-        _id: data.id
-    });
-    // Make add fields to patient data to update
-    if (data.nurse_name !== undefined) {
-        newClinicalData.nurse_name = data.nurse_name;
-    }
-    if (data.date !== undefined) {
-        newClinicalData.date = data.date;
-    }
-    if (data.time !== undefined) {
-        newClinicalData.time = data.time;
-    }
-    if (data.type !== undefined) {
-        newClinicalData.type = data.type;
-    }
-    if (data.value !== undefined) {
-        newClinicalData.value = data.value;
-    }
-    // Update
-    /*
-    it will return as
-        {
-        "n": 1,
-        "nModified": 1,
-        "ok": 1
-        }
-    */
-    ClinicalData.updateOne({ _id: data.id }, { $set: newClinicalData }, function (error, result) {
-        // If there are any errors, pass them to next in the correct format
-        if (error)
-            return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
-        // Send the patient if no issues
-        res.send(201, result);
-    });
-});
+server.put('/records/:id', clinicalDataHandler.update_a_record_by_id);
 // Delete a record with the given id
-server.del('/records/:id', function (req, res, next) {
-    console.log('DEL request: records/:id - ' + req.params.id);
-    ClinicalData.deleteOne({ _id: req.params.id }, function (error, result) {
-        // If there are any errors, pass them to next in the correct format
-        if (error)
-            return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)));
-        console.log(result);
-        // Send a 200 OK response
-        res.send(201, result);
-    });
-});
+server.del('/records/:id', clinicalDataHandler.delete_a_record_by_id);
