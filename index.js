@@ -87,3 +87,7 @@ server.put('/records/:id', clinicalDataHandler.update_a_record_by_id);
 // Delete a record with the given id
 server.del('/records/:id', clinicalDataHandler.delete_a_record_by_id);
 server.get('/', function (req, res, next) { res.send(200); });
+var http = require("http");
+setInterval(function () {
+    http.get("https://patient-data-management.herokuapp.com");
+}, 300000);
