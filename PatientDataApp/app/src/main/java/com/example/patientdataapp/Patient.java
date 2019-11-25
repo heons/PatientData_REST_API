@@ -21,13 +21,14 @@ public class Patient {
     private static String urlService;
 
     /* Member variables */
-    String first_name;
-    String last_name;
-    String address;
-    String sex;
-    String date_of_birth;
-    String department;
-    String doctor;
+    private String id;
+    private String first_name;
+    private String last_name;
+    private String address;
+    private String sex;
+    private String date_of_birth;
+    private String department;
+    private String doctor;
 
 
     /* Constructors */
@@ -49,6 +50,7 @@ public class Patient {
 
 
     /* Getters */
+    public String getId()               { return id; }
     public String getFirst_name()       { return first_name; }
     public String getLast_name()        { return last_name; }
     public String getAddress()          { return address; }
@@ -59,6 +61,7 @@ public class Patient {
 
 
     /* Setters */
+    public void setId(String id)                        { this.id = id; }
     public void setFirst_name(String first_name)        { this.first_name = first_name; }
     public void setLast_name(String last_name)          { this.last_name = last_name; }
     public void setAddress(String address)              { this.address = address; }
