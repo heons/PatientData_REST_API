@@ -1,6 +1,7 @@
 'use strict';
 
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+  jwt = require('jsonwebtoken');
 /*
 var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
