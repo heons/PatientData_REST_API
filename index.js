@@ -91,7 +91,3 @@ server.get('/', function (req, res, next) { res.send(200); });
 var userHandlers = require("./controllers/usersController");
 server.post('/auth/register', userHandlers.register);
 server.post('/auth/sign_in', userHandlers.sign_in);
-var http = require("http");
-setInterval(function () {
-    http.get("https://patient-data-management.herokuapp.com");
-}, 300000);

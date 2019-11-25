@@ -123,7 +123,3 @@ server.post('/auth/register', userHandlers.register);
 server.post('/auth/sign_in', userHandlers.sign_in);
 
 
-var http = require("http");
-setInterval(function() {
-    http.get("https://patient-data-management.herokuapp.com");
-}, 300000); 
