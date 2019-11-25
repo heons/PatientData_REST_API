@@ -1,5 +1,7 @@
 'use strict';
 
+var mongoose = require('mongoose');
+/*
 var mongoose = require('mongoose'),
   jwt = require('jsonwebtoken'),
   bcrypt = require('bcrypt'),
@@ -39,3 +41,4 @@ exports.loginRequired = function(req, res, next) {
     res.send(401, { message: 'Unauthorized user!' });
   }
 };
+*/
