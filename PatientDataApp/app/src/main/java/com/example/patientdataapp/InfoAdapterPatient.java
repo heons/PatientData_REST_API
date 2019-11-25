@@ -21,7 +21,7 @@ public class InfoAdapterPatient extends ArrayAdapter {
     }
 
 
-    public void add(InfoDataPatient object) {
+    public void add(Patient object) {
         super.add(object);
         list.add(object);
     }
@@ -58,10 +58,10 @@ public class InfoAdapterPatient extends ArrayAdapter {
         else {
             infoHolder = (InfoHolder) row.getTag();
         }
-        InfoDataPatient infoData = (InfoDataPatient) this.getItem(position);
+        Patient infoData = (Patient) this.getItem(position);
         //infoHolder.tx_id.setText(infoData.getId());
-        infoHolder.tx_first.setText(infoData.getFirstName());
-        infoHolder.tx_last.setText(infoData.getLastName());
+        infoHolder.tx_first.setText(infoData.getFirst_name());
+        infoHolder.tx_last.setText(infoData.getLast_name());
 
         return row;
 

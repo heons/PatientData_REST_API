@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,7 +52,7 @@ public class PatientListActivity extends AppCompatActivity {
 
         // Get Views
         textViewTest = (TextView) findViewById(R.id.textViewTitle);
-        textEditField = (EditText) findViewById(R.id.editTextField);
+        //textEditField = (EditText) findViewById(R.id.editTextField);
         listViewPatient = findViewById(R.id.listViewPatient);
 
         infoAdapterPatient = new InfoAdapterPatient(this,R.layout.row_patient);
@@ -66,6 +67,7 @@ public class PatientListActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.INTERNET}, REQUEST_INTERNET);
 
         } else{
+            // Set service URL for patients
             Patient.setUrlService(strURLTest);
             //call this asynchronously
             new GetPatientsTask().execute(strURLTest);
@@ -89,34 +91,49 @@ public class PatientListActivity extends AppCompatActivity {
                 JSONObject jsonObject;
                 JSONArray jsonArray = new JSONArray(result);
 
-
                 int count = 0;
-                String id, firstName ,lastName;
-                //String title, description;
+                String firstName ,lastName;
 
+                // Create new adapter
                 infoAdapterPatient = new InfoAdapterPatient(PatientListActivity.this, R.layout.row_patient);
 
                 while (count < jsonArray.length()){
                     jsonObject = jsonArray.getJSONObject(count);
+                    count++;
                     //d = jsonObject.getString("name");
                     firstName = jsonObject.getString("first_name");
                     lastName = jsonObject.getString("last_name");
-                    //title = jsonObject.getString("first_name");
-                    //description = jsonObject.getString("description");
+                    Patient infoData = new Patient(firstName, lastName);
 
+                    infoData.setId(jsonObject.getString("_id"));
+                    try {
+                        infoData.setAddress(jsonObject.getString("address"));
+                    } catch (JSONException e) {}
+                    try {
+                        infoData.setSex(jsonObject.getString("sex"));
+                    } catch (JSONException e) {}
+                    try {
+                        infoData.setDate_of_birth(jsonObject.getString("date_of_birth"));
+                    } catch (JSONException e) {}
+                    try {
+                        infoData.setDepartment(jsonObject.getString("department"));
+                    } catch (JSONException e) {}
+                    try {
+                        infoData.setDoctor(jsonObject.getString("doctor"));
+                    } catch (JSONException e) {}
 
-                    InfoDataPatient infoData = new InfoDataPatient(firstName, lastName);
+                    // Add data to the adapter
                     infoAdapterPatient.add(infoData);
-
-                    count++;
                 }
-                listViewPatient.setAdapter(infoAdapterPatient);
+
 
             } catch (JSONException e) {
                 Log.d(TAG, e.getLocalizedMessage());
                 e.printStackTrace();
             }
 
+            // Set adapter
+            listViewPatient.setAdapter(infoAdapterPatient);
         }
     }
 
@@ -226,11 +243,6 @@ public class PatientListActivity extends AppCompatActivity {
             Toast.makeText(PatientListActivity.this, result, Toast.LENGTH_LONG).show();
         }
     }
-
-
-
-
-
 
 
     public void onClickGetPatients(View view){
