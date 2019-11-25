@@ -89,5 +89,5 @@ server.del('/records/:id', clinicalDataHandler.delete_a_record_by_id);
 server.get('/', function (req, res, next) { res.send(200); });
 // Users controls
 var userHandlers = require("./controllers/usersController");
-server.post('/auth/register', userHandlers.register);
-server.post('/auth/sign_in', userHandlers.sign_in);
+//server.post('/auth/register', userHandlers.register);
+//server.post('/auth/sign_in', userHandlers.sign_in);
