@@ -25,7 +25,7 @@ exports.sign_in = function(req, res) {
     if (err) throw err;
 
     console.log(user);
-      console.log(bcrypt.compareSync(req.body.password, user.hash_password));
+    //console.log(bcrypt.compareSync(req.body.password, user.hash_password));
 
     if (!user || !user.comparePassword(req.body.password)) {
       console.log(req.body);
