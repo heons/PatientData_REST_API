@@ -1,5 +1,5 @@
-//var urlDB = 'https://patient-data-management.herokuapp.com/';
-var urlDB = 'http://127.0.0.1:5000/';
+var urlDB = 'https://patient-data-management.herokuapp.com/';
+//var urlDB = 'http://127.0.0.1:5000/';
 
 // token after login
 var token;
