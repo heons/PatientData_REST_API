@@ -23,13 +23,6 @@ exports.sign_in = function(req, res) {
     email: req.body.email
   }, function(err, user) {
     if (err) throw err;
-
-    //console.log(user);
-    if (!user) {console.log("user not found");}
-    //if (!user) {console.log("user not found")}
-
-    //console.log(bcrypt.compareSync(req.body.password, user.hash_password));
-
     if (!user || !user.comparePassword(req.body.password)) {
       console.log(req.body);
       res.send(401, { message: 'Authentication failed. Invalid user or password.' });
