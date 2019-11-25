@@ -31,7 +31,7 @@ var postLogin = function () {
     console.log(window.location.pathname);
     console.log(window.location.hostname);
     //TODO : 11 is fixed value for 'Lonin.html', find better way
-    window.location.href = window.location.href.substring(0, window.location.href.length-11) + 'ViewPatient.html';
+    window.location.href = window.location.href.substring(0, window.location.href.length - ('Login.html'.length)) + 'ViewPatient.html';
     //console.log(token);
   }).fail(function (response) {
     //login fails
@@ -39,4 +39,14 @@ var postLogin = function () {
     document.getElementById("check_login_info").textContent = 'Check Userame and Password';
     
   });
+}
+
+
+var postLogout = function () {
+  // Create a data to post here.
+  // Or you could modify function with an argument like function(form)
+  token = "";
+  
+  window.location.href = window.location.href.substring(0, window.location.href.length - ('ViewPatient.html'.length)) + 'Login.html';
+  console.log(window.location.href);
 }
