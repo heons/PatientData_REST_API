@@ -1,7 +1,5 @@
 package com.example.patientdataapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,7 +73,8 @@ public class RecordListActivity extends AppCompatActivity {
 
                 while (count < jsonArray.length()){
                     jsonObject = jsonArray.getJSONObject(count);
-                    //d = jsonObject.getString("name");
+                    count++;
+
                     nurseName = jsonObject.getString("nurse_name");
                     date = jsonObject.getString("date");
                     time = jsonObject.getString("time");
@@ -81,20 +82,18 @@ public class RecordListActivity extends AppCompatActivity {
                     value = jsonObject.getString("value");
 
                     // TODO : create this
-                    //InfoDataPatient infoData = new InfoDataRecord(firstName, lastName);
+                    //Record infoData = new InfoDataRecord(firstName, lastName);
                     //infoAdapterRecord.add(infoData);
 
-                    count++;
                 }
-
-                // TODO : create this
-                //listViewRecord.setAdapter(infoAdapterRecord);
 
             } catch (JSONException e) {
                 Log.d(TAG, e.getLocalizedMessage());
                 e.printStackTrace();
             }
 
+            // TODO : create this
+            //listViewRecord.setAdapter(infoAdapterRecord);
         }
     }
 
