@@ -25,7 +25,7 @@ exports.sign_in = function(req, res) {
     if (err) throw err;
 
     //console.log(user);
-    if (!user) {console.log("user not found");}
+    //if (!user) {console.log("user not found");}
     //if (!user) {console.log("user not found")}
 
     //console.log(bcrypt.compareSync(req.body.password, user.hash_password));
