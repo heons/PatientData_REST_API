@@ -19,14 +19,13 @@ exports.register = function(req, res) {
 };
 
 exports.sign_in = function(req, res) {
-  /*
   Users.findOne({
     email: req.body.email
   }, function(err, user) {
     if (err) throw err;
 
     //console.log(user);
-    //if (!user) {console.log("user not found");}
+    if (!user) {console.log("user not found");}
     //if (!user) {console.log("user not found")}
 
     //console.log(bcrypt.compareSync(req.body.password, user.hash_password));
@@ -38,9 +37,7 @@ exports.sign_in = function(req, res) {
       res.send(200, { token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
     }
   });
-*/
-  console.log(req.body);
-  res.send(200);
+  
 };
 
 exports.loginRequired = function(req, res, next) {
