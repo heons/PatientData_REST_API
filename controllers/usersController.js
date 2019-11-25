@@ -19,6 +19,7 @@ exports.register = function(req, res) {
 };
 
 exports.sign_in = function(req, res) {
+  /*
   Users.findOne({
     email: req.body.email
   }, function(err, user) {
@@ -37,6 +38,9 @@ exports.sign_in = function(req, res) {
       res.send(200, { token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
     }
   });
+*/
+  console.log(req.body);
+  res.send(200);
 };
 
 exports.loginRequired = function(req, res, next) {
