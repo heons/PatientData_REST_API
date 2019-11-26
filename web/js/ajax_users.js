@@ -42,11 +42,11 @@ var postLogin = function () {
 }
 
 
-var postLogout = function () {
+var postLogout = function (cur_page) {
   // Create a data to post here.
   // Or you could modify function with an argument like function(form)
   token = "";
   
-  window.location.href = window.location.href.substring(0, window.location.href.length - ('ViewPatient.html'.length)) + 'Login.html';
+  window.location.href = window.location.href.substring(0, window.location.href.length - (cur_page.length)) + 'Login.html';
   console.log(window.location.href);
 }
