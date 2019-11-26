@@ -59,34 +59,33 @@ var getPatients = function(patient_id){
 var postPatient = function () {
   // Create a data to post here.
   // Or you could modify function with an argument like function(form)
-  let form = new FormData();
-  form.append("first_name", "irene");
-  form.append("last_name", "oh");
-  form.append("address", "28");
-  form.append("date_of_birth", "19831129");
-  form.append("department", "phsics");
-  form.append("doctor", "John");
-  form.append("sex", "F");
 
-  let jsonData = {
-    "first_name": "irene",
-    "last_name": "oh",
-    "address": "28",
-    "date_of_birth": "19831129",
-    "department": "phsics",
-    "doctor": "John",
-    "sex": "F"
-  }
+//TODO : validate inputs
+  let first_name = document.getElementById("input_first_name").value;
+  let last_name = document.getElementById("input_last_name").value;
+  let sex = document.getElementById("input_sex").value;
+  let date_of_birth = document.getElementById("input_date_of_birth").value;
+  //let address = document.getElementById("input_address").value;
+  let department = document.getElementById("input_department").value;
+  let doctor = document.getElementById("input_doctor").value;
+
+
+  let form = new FormData();
+  form.append("first_name", first_name);
+  form.append("last_name", last_name);
+  form.append("sex", sex);
+  form.append("date_of_birth", date_of_birth);
+  form.append("address", "28");
+  form.append("department", department);
+  form.append("doctor", doctor);
+
+
   let settings = {
     "async": true,
     "crossDomain": true,
     "url": urlDB + "patients",
     "method": "POST",
     "processData": false,
-    //"contentType": "application/json; charset=utf-8",
-    //"dataType": "json",
-    //"mimeType": "application/json",
-    //"data": JSON.stringify(jsonData),
     "contentType": false,
     "mimeType": "multipart/form-data",
     "data": form

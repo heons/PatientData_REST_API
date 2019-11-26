@@ -15,6 +15,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script src="js/confirmation.js"></script>
+  <script src="./js/ajax_patients.js"></script>
 </head>
 
 <body class="login">
@@ -68,7 +69,7 @@
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input name="first_name" placeholder="First Name" class="form-control" type="text">
+              <input id="input_first_name" name="first_name" placeholder="First Name" class="form-control" type="text">
             </div>
           </div>
         </div>
@@ -78,7 +79,7 @@
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input name="last_name" placeholder="Last Name" class="form-control" type="text">
+              <input id="input_last_name" name="last_name" placeholder="Last Name" class="form-control" type="text">
             </div>
           </div>
         </div>
@@ -88,7 +89,7 @@
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-              <input name="dateOfBirth" placeholder="YYYY/MM/DD" class="form-control" type="text">
+              <input id="input_date_of_birth" name="dateOfBirth" placeholder="YYYY/MM/DD" class="form-control" type="text">
             </div>
           </div>
         </div>
@@ -99,7 +100,7 @@
           <div class="col-md-4 selectContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-              <select name="department" class="form-control selectpicker">
+              <select id="input_department" name="department" class="form-control selectpicker">
                 <option value="">Select your Department/Office</option>
                 <option>Department of Engineering</option>
                 <option>Department of Agriculture</option>
@@ -120,7 +121,7 @@
           <div class="col-md-4 selectContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-              <select name="department" class="form-control selectpicker">
+              <select id="input_sex" name="sex" class="form-control selectpicker">
                 <option value="">Select your Gender</option>
                 <option>Male</option>
                 <option>Female</option>
@@ -137,7 +138,7 @@
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i></span>
-              <input name="doctor" placeholder="Doctor" class="form-control" type="text">
+              <input id="input_doctor" name="doctor" placeholder="Doctor" class="form-control" type="text">
             </div>
           </div>
         </div>
@@ -153,9 +154,9 @@
         <div class="form-group text-center">
           <label class="col-md-4 control-label"></label>
           <div class="col-md-4">
-            <button type="submit" class="btn btn-warning">SUBMIT
+            <input type="button" class="btn btn-warning" value="SUBMIT" onclick="postPatient()">
               <span class="glyphicon glyphicon-send"></span>
-            </button>
+            </input>
           </div>
         </div>
       </fieldset>
