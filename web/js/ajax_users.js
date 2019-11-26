@@ -33,6 +33,9 @@ var postLogin = function () {
     //TODO : 11 is fixed value for 'Lonin.html', find better way
     window.location.href = window.location.href.substring(0, window.location.href.length - ('Login.html'.length)) + 'ViewPatient.html';
     //console.log(token);
+
+    // set to empty
+    localStorage.setItem("sel_patient_id", "");
   }).fail(function (response) {
     //login fails
     //alert("login is failed!!");

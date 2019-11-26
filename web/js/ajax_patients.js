@@ -3,12 +3,12 @@ var urlDB = 'https://patient-data-management.herokuapp.com/';
 
 var patientList = [];
 
-var getPatients = function(patient_id){
-            
+
+// GET patients
+var getPatients = function(){
+  
+  // Create URL
   let url_send = urlDB + "patients";
-  if (undefined != patient_id) {
-    url_send = url_send + "/" + patient_id;
-  }
 
   $.ajax({
     url: url_send,
@@ -28,7 +28,8 @@ var getPatients = function(patient_id){
         strDisplay += '</strong></span>';
         strDisplay += '<div class="pull-right">';
         strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
-        strDisplay += '<button type="button" class="btn btn-warning">Information</button>';
+        //strDisplay += '<button type="button" class="btn btn-warning">Information</button>';
+        strDisplay += '<button type="button" class="btn btn-warning"' + '" onclick="onClickInfo(\'' + patientList[i]._id+ '\')">' + 'Information</button>';
         strDisplay += '<button type="button" class="btn btn-success">Records</button>';
         strDisplay += '</div>';
         strDisplay += '<div class="btn-group btn-smaller-screen" style="display: none;">';
@@ -53,6 +54,39 @@ var getPatients = function(patient_id){
   console.log("getPatients");
 }
 
+
+// GET patient ID
+var getPatientbyId = function (patient_id) {
+
+  // Create URL
+  let url_send = urlDB + "patients/" + patient_id;
+
+  $.ajax({
+    url: url_send,
+    method: "GET",
+    crossDomain: true,
+    success: function (data) {
+
+      patientList = data;
+      let strDisplay = "";
+      for (let i = 0; i < patientList.length; ++i) {
+        console.log(patientList[i]._id);
+        document.getElementById("input_first_name").value = patientList[i].first_name;
+        document.getElementById("input_last_name").value = patientList[i].last_name;
+        document.getElementById("input_sex").value = patientList[i].sex;
+        document.getElementById("input_date_of_birth").value = patientList[i].date_of_birth;
+        //let address = document.getElementById("input_address").value;
+        document.getElementById("input_department").value = patientList[i].department;
+        document.getElementById("input_doctor").value = patientList[i].doctor;
+      }
+
+      $("#div_patient_list").html(strDisplay);
+    }
+  }).fail(function () {
+    $("#div_patient_list").html("error");
+  });
+  console.log("getPatients");
+}
 
 
 
@@ -95,4 +129,12 @@ var postPatient = function () {
     alert("A data is posted!!");
     console.log(response);
   });
+}
+
+
+var onClickInfo = function(patient_id) {
+  console.log(patient_id);
+  localStorage.setItem("sel_patient_id", patient_id);
+  console.log(localStorage.sel_patient_id);
+  window.location.href = window.location.href.substring(0, window.location.href.length - ('ViewPatient.html'.length)) + 'EditPatient.html';
 }
