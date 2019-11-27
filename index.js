@@ -58,7 +58,7 @@ server
 // For authrization
 var jsonwebtoken = require("jsonwebtoken");
 var userHandlers = require("./controllers/usersController");
-server.use(function (req, res, next) {
+/* server.use(function (req, res, next) {
     if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
         jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function (err, decode) {
             if (err)
@@ -71,7 +71,7 @@ server.use(function (req, res, next) {
         req.user = undefined;
         next();
     }
-});
+}); */
 // Start listening
 server.listen(port, function () {
     console.log('Server %s listening at %s', server.name, server.url);
