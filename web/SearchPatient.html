@@ -70,9 +70,8 @@
   </nav>
 
 
-  <div class="container patient-information">
+  <div class="container">
     <fieldset>
-
       <!-- Form Name -->
       <legend>
         <center>
@@ -100,20 +99,11 @@
         </div>
       </form>
     </fieldset>
-
-    <div class="row">
-      <div id="div_patient_list">
-      </div>
-    </div>
   </div>
-
-
-
 
 
   <div class="container">
     <fieldset>
-
       <form class="form-search-patient-department" action=" " method="post">
         <!-- Text input-->
         <div class="col-md-4 col-md-offset-4">
@@ -138,12 +128,20 @@
             </div>
           </div>
           <div class="form-group text-center">
-            <input type="button" class="btn btn-warning" value="SEARCH BY DEPARTMENT">
+            <input type="button" class="btn btn-warning" onclick="onClickSearchByDepartment()" value="SEARCH BY DEPARTMENT">
             </input>
           </div>
         </div>
       </form>
     </fieldset>
+  </div>
+
+
+  <div class="container patient-information">
+    <div class="row">
+      <div id="div_patient_list">
+      </div>
+    </div>
   </div>
 
   <script>

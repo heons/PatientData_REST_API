@@ -6,7 +6,7 @@ var patientList = [];
 
 
 // GET patients
-var getPatients = function(){
+var getPatients = function(query){
   // Create URL
   let url_send = urlDB + "patients";
 
@@ -20,7 +20,7 @@ var getPatients = function(){
       patientList = data;
 
       // Display Patients data to list
-      displayPatienstToList(data);
+      displayPatienstToList(data, query);
     }
   }).fail(function () {
     $("#div_patient_list").html("error");
@@ -63,34 +63,46 @@ var displayPaientToForm = function(patient) {
 }
 
 // Display patient to the list
-var displayPatienstToList = function(patients) {
+var displayPatienstToList = function(patients, query) {
   // Create a string(html code) to display
   let strDisplay = "";
+  let bDisplay = true;
+
   for (let i = 0; i < patients.length; ++i) {
-    //console.log(data[i]._id);
-    strDisplay += '<div class="well  well-lg well-info">';
-    strDisplay += '<div class="well-inner">';
-    strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
-    strDisplay += '<span class="patient-info"><strong>';
-    strDisplay += 'ID(#' + patients[i]._id.substring(20, patients[i]._id.length) + '): ' + patients[i].first_name + ' ' + patients[i].last_name;
-    strDisplay += '</strong></span>';
-    strDisplay += '<div class="pull-right">';
-    strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
-    strDisplay += '<button type="button" class="btn btn-warning"' + '" onclick="onClickInfo(\'' + patients[i]._id + '\')">' + 'Information</button>';
-    strDisplay += '<button type="button" class="btn btn-success">Records</button>';
-    strDisplay += '</div>';
-    strDisplay += '<div class="btn-group btn-smaller-screen" style="display: none;">';
-    strDisplay += '<button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">';
-    strDisplay += '<span class="glyphicon glyphicon-list-alt"></span>';
-    strDisplay += '</button>';
-    strDisplay += '<button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">';
-    strDisplay += '<span class="caret"></span>';
-    strDisplay += '</button>';
-    strDisplay += '<ul class="dropdown-menu" role="menu">';
-    strDisplay += '<li><a herf="./EditPatient.html" onclick="onClickInfo(\'' + patients[i]._id + '\')">Information</a></li>';
-    strDisplay += '<li><a href="#">Records</a></li>';
-    strDisplay += '</ul>';
-    strDisplay += '</div></div></div></div>';
+    // Check query
+    bDisplay = true;
+    if (undefined != query) {
+      if ((undefined != query.department) && (query.department != patients[i].department)) { bDisplay = false; }
+      if ((undefined != query.doctor) && (query.doctor != patients[i].doctor)) { bDisplay = false; }
+    }
+
+    if (true == bDisplay)  {
+      //console.log(data[i]._id);
+      console.log(patients[i].department);
+      strDisplay += '<div class="well  well-lg well-info">';
+      strDisplay += '<div class="well-inner">';
+      strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
+      strDisplay += '<span class="patient-info"><strong>';
+      strDisplay += 'ID(#' + patients[i]._id.substring(20, patients[i]._id.length) + '): ' + patients[i].first_name + ' ' + patients[i].last_name;
+      strDisplay += '</strong></span>';
+      strDisplay += '<div class="pull-right">';
+      strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
+      strDisplay += '<button type="button" class="btn btn-warning"' + '" onclick="onClickInfo(\'' + patients[i]._id + '\')">' + 'Information</button>';
+      strDisplay += '<button type="button" class="btn btn-success">Records</button>';
+      strDisplay += '</div>';
+      strDisplay += '<div class="btn-group btn-smaller-screen" style="display: none;">';
+      strDisplay += '<button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">';
+      strDisplay += '<span class="glyphicon glyphicon-list-alt"></span>';
+      strDisplay += '</button>';
+      strDisplay += '<button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">';
+      strDisplay += '<span class="caret"></span>';
+      strDisplay += '</button>';
+      strDisplay += '<ul class="dropdown-menu" role="menu">';
+      strDisplay += '<li><a herf="./EditPatient.html" onclick="onClickInfo(\'' + patients[i]._id + '\')">Information</a></li>';
+      strDisplay += '<li><a href="#">Records</a></li>';
+      strDisplay += '</ul>';
+      strDisplay += '</div></div></div></div>';
+    }
   }
 
   // Display the contant
@@ -195,4 +207,14 @@ var onClickInfo = function(paitent_id) {
 var onClickSearchById = function() {
   let patient_id = document.getElementById("input_search_by_id").value;
   getPatientbyId(patient_id, 'result');
+}
+
+
+// On click search by department button
+var onClickSearchByDepartment = function () {
+  let department = document.getElementById("input_search_by_department").value;
+  let query = {
+    "department": department
+  };
+  getPatients(query);
 }
