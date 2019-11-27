@@ -110,30 +110,10 @@ var displayPatienstToList = function(patients) {
 
 // POST patients
 var postPatient = function () {
-  // Create a data to post here.
-  // Or you could modify function with an argument like function(form)
+  // Create a form data to PUT
+  let form = createFormDataPatient();
 
-  //TODO : create a function
-  //TODO : validate inputs
-  let first_name = document.getElementById("input_first_name").value;
-  let last_name = document.getElementById("input_last_name").value;
-  let sex = document.getElementById("input_sex").value;
-  let date_of_birth = document.getElementById("input_date_of_birth").value;
-  let address = document.getElementById("input_address").value;
-  let department = document.getElementById("input_department").value;
-  let doctor = document.getElementById("input_doctor").value;
-
-
-  let form = new FormData();
-  form.append("first_name", first_name);
-  form.append("last_name", last_name);
-  form.append("sex", sex);
-  form.append("date_of_birth", date_of_birth);
-  form.append("address", address);
-  form.append("department", department);
-  form.append("doctor", doctor);
-
-
+  // Ajax settings
   let settings = {
     "async": true,
     "crossDomain": true,
@@ -154,10 +134,29 @@ var postPatient = function () {
 
 // PUT patient by ID
 var putPatient = function (patient_id) {
-  // Create a data to post here.
-  // Or you could modify function with an argument like function(form)
+  // Create a form data to PUT
+  let form = createFormDataPatient();
 
-  //TODO : create a function
+  // Ajax settings
+  let settings = {
+    "async": true,
+    "crossDomain": true,
+    url: urlDB + "patients/" + patient_id,
+    method: "PUT",
+    "processData": false,
+    "contentType": false,
+    "mimeType": "multipart/form-data",
+    "data": form
+  }
+
+  $.ajax(settings).done(function (response) {
+    alert("A data is changed!!");
+    console.log(response);
+  });
+}
+
+// Create form data of a patient from form inputs
+var createFormDataPatient = function() {
   //TODO : validate inputs
   let first_name = document.getElementById("input_first_name").value;
   let last_name = document.getElementById("input_last_name").value;
@@ -176,23 +175,11 @@ var putPatient = function (patient_id) {
   form.append("department", department);
   form.append("doctor", doctor);
 
-  let settings = {
-    "async": true,
-    "crossDomain": true,
-    url: urlDB + "patients/" + patient_id,
-    method: "PUT",
-    "processData": false,
-    "contentType": false,
-    "mimeType": "multipart/form-data",
-    "data": form
-  }
-
-  $.ajax(settings).done(function (response) {
-    alert("A data is changed!!");
-
-    console.log(response);
-  });
+  return form;
 }
+
+
+
 
 // On click Information of a patient - go to edit patient
 var onClickInfo = function(paitent_id) {
