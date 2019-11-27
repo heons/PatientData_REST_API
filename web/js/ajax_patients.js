@@ -46,6 +46,17 @@ var getPatients = function(){
       }
 
       $("#div_patient_list").html(strDisplay);
+
+
+      if ($(window).width() < 585) {
+        $(".btn-smaller-screen").show();
+        $(".btn-bigger-screen").hide();
+      }
+      else {
+  
+        $(".btn-smaller-screen").hide();
+        $(".btn-bigger-screen").show();
+      }
     }
   }).fail(function () {
     $("#div_patient_list").html("error");
