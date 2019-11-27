@@ -7,7 +7,7 @@ var chaiHttp = require('chai-http');
 var expect = chai.expect;
 chai.use(chaiHttp);
 
-
+var token = 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphY2swMEBnbWFpbC5jb20iLCJmdWxsX25hbWUiOiJKYWNrIFJ5YW4iLCJfaWQiOiI1ZGRlYzM5ZDYwMDNjNzAwMTc4Njk2NzIiLCJpYXQiOjE1NzQ4ODg1NDJ9.5SFV0ydXP5QrceEftv7hvm1O0PghF6p1DoXXM-HegdA';
 var postPatientData;    // posted patient data
 var postRecordData;     // posted record data
 
@@ -17,6 +17,7 @@ describe("when we issue a 'POST' to /patients'", function(){
     it("should return HTTP 201", function(done) {
         chai.request(URL_SERVER)
             .post('/patients')
+            .set('Authorization', token)
             .send({first_name:'huen', last_name:'oh'})
             .end(function(req, res){
                 postPatientData = JSON.parse(res.text)
@@ -33,6 +34,7 @@ describe("when we issue a 'GET' to /patients'", function(){
     it("should return HTTP 200", function(done) {
         chai.request(URL_SERVER)
             .get('/patients')
+            .set('Authorization', token)
             .query({}).end(function(req, res){
                 //console.log(JSON.stringify(res));
                 expect(res.status).to.equal(200);
@@ -46,6 +48,7 @@ describe("when we issue a 'GET' to /patients/:id'", function(){
     it("should return HTTP 200", function(done) {
         chai.request(URL_SERVER)
             .get('/patients/' + postPatientData._id)
+            .set('Authorization', token)
             .end(function(req, res){
                 //console.log(JSON.parse(res.text))
                 expect(res.status).to.equal(200)
@@ -59,6 +62,7 @@ describe("when we issue a 'PUT' to /patients/:id'", function(){
     it("should return HTTP 201", function(done) {
         chai.request(URL_SERVER)
             .put('/patients/' + postPatientData._id)
+            .set('Authorization', token)
             .send({first_name:'huen_put', last_name:'oh_put'})
             .end(function(req, res){
                 //console.log(JSON.parse(res.text))  
@@ -80,6 +84,7 @@ describe("when we issue a 'GET' to /patients/:id/records'", function(){
     it("should return HTTP 200", function(done) {
         chai.request(URL_SERVER)
             .get('/patients/' + postPatientData._id + '/records')
+            .set('Authorization', token)
             .query({}).end(function(req, res){
                 //console.log(JSON.stringify(res));
                 expect(res.status).to.equal(200);
@@ -93,6 +98,7 @@ describe("when we issue a 'POST' to /patients/:id/records'", function(){
     it("should return HTTP 201", function(done) {
         chai.request(URL_SERVER)
             .post('/patients/' + postPatientData._id + '/records')
+            .set('Authorization', token)
             .send({patient_id: postPatientData._id
                 , nurse_name: 'nancy'
                 , date: '20190820'
@@ -113,6 +119,7 @@ describe("when we issue a 'GET' to /records/:id'", function(){
     it("should return HTTP 200", function(done) {
         chai.request(URL_SERVER)
             .get('/records/' + postRecordData._id)
+            .set('Authorization', token)
             .end(function(req, res){
                 //console.log(JSON.parse(res.text))
                 expect(res.status).to.equal(200)
@@ -126,6 +133,7 @@ describe("when we issue a 'PUT' to /records/:id'", function(){
     it("should return HTTP 201", function(done) {
         chai.request(URL_SERVER)
             .put('/records/' + postRecordData._id)
+            .set('Authorization', token)
             .send({value:'80'})
             .end(function(req, res){
                 //console.log(JSON.parse(res.text))  
@@ -141,6 +149,7 @@ describe("when we issue a 'DELETE' to /records/:id'", function(){
     it("should return HTTP 201", function(done) {
         chai.request(URL_SERVER)
             .delete('/records/' + postRecordData._id)
+            .set('Authorization', token)
             .end(function(req, res){
                 //console.log(JSON.parse(res.text))   
                 expect(JSON.parse(res.text).deletedCount).to.equal(1)       
@@ -159,6 +168,7 @@ describe("when we issue a 'DELETE' to /patients/:id'", function(){
     it("should return HTTP 201", function(done) {
         chai.request(URL_SERVER)
             .delete('/patients/' + postPatientData._id)
+            .set('Authorization', token)
             .end(function(req, res){
                 //console.log(JSON.parse(res.text))   
                 expect(JSON.parse(res.text).deletedCount).to.equal(1)       
