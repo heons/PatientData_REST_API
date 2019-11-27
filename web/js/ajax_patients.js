@@ -41,6 +41,9 @@ var getPatientbyId = function (patient_id, display="form") {
     url: url_send,
     method: "GET",
     crossDomain: true,
+    headers: {
+      "Authorization": "JWT " + localStorage.token
+    },
     success: function (data) {
       if ("form" == display) {
         displayPaientToForm(data[0]);
@@ -132,6 +135,9 @@ var postPatient = function () {
   let settings = {
     "async": true,
     "crossDomain": true,
+    "headers": {
+      "Authorization": "JWT " + localStorage.token
+    },
     "url": urlDB + "patients",
     "method": "POST",
     "processData": false,
@@ -156,6 +162,9 @@ var putPatient = function (patient_id) {
   let settings = {
     "async": true,
     "crossDomain": true,
+    "headers": {
+      "Authorization": "JWT " + localStorage.token
+    },
     url: urlDB + "patients/" + patient_id,
     method: "PUT",
     "processData": false,
