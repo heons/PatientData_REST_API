@@ -25,6 +25,12 @@ let DEFAULT_PORT = 5000             // Default port number
 /*------ Requirements ------*/
 var restify = require('restify')      // REST
 var errs = require('restify-errors'); // To handle restify errors
+// For authrization
+var jsonwebtoken = require("jsonwebtoken");
+// Controllers
+var patientsHandler = require("./controllers/patientsController");
+var clinicalDataHandler = require("./controllers/clinicalDataController");
+var userHandlers = require("./controllers/usersController");
 
 
 /*------ Assign values for the DB connection ------*/
@@ -69,9 +75,7 @@ server
     // Maps req.body to req.params so there is no switching between them
     .use(restify.plugins.bodyParser())
 
-// For authrization
-var jsonwebtoken = require("jsonwebtoken");
-var userHandlers = require("./controllers/usersController");
+// Check header for authorization
 server.use(function (req, res, next) {
     if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
         jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function (err, decode) {
@@ -96,46 +100,41 @@ server.listen(port, function () {
 })
 
 
-
-// Controllers
-var patientsHandler = require("./controllers/patientsController");
-var clinicalDataHandler = require("./controllers/clinicalDataController");
-var userHandlers = require("./controllers/usersController");
-
-
 // Patients
 // Get all patients in the system
 server.get('/patients', userHandlers.loginRequired, patientsHandler.get_all_patients)
 
 // Get a single patient by their patient id
-server.get('/patients/:id', patientsHandler.get_a_patient_by_id)
+server.get('/patients/:id', userHandlers.loginRequired, patientsHandler.get_a_patient_by_id)
 
 // Update a single patient by its patient id
-server.put('/patients/:id', patientsHandler.update_a_patient_by_id)
+server.put('/patients/:id', userHandlers.loginRequired, patientsHandler.update_a_patient_by_id)
 
 // Create a new patient
-server.post('/patients', patientsHandler.create_a_patient)
+server.post('/patients', userHandlers.loginRequired, patientsHandler.create_a_patient)
 
 // Delete patient with the given id
-server.del('/patients/:id', patientsHandler.delete_a_patient_by_id)
+server.del('/patients/:id', userHandlers.loginRequired, patientsHandler.delete_a_patient_by_id)
 
 
 // Records
 // Get all the records by its patient id
-server.get('/patients/:id/records', clinicalDataHandler.get_all_records_by_patient_id)
+server.get('/patients/:id/records', userHandlers.loginRequired, clinicalDataHandler.get_all_records_by_patient_id)
 
 // Create a single record by its patient id
-server.post('/patients/:id/records', clinicalDataHandler.create_a_record_by_patient_id)
+server.post('/patients/:id/records', userHandlers.loginRequired, clinicalDataHandler.create_a_record_by_patient_id)
 
 // Get a record by its record id
-server.get('/records/:id', clinicalDataHandler.get_a_record_by_id)
+server.get('/records/:id', userHandlers.loginRequired, clinicalDataHandler.get_a_record_by_id)
 
 // Update a record by its record id
-server.put('/records/:id', clinicalDataHandler.update_a_record_by_id)
+server.put('/records/:id', userHandlers.loginRequired, clinicalDataHandler.update_a_record_by_id)
 
 // Delete a record with the given id
-server.del('/records/:id', clinicalDataHandler.delete_a_record_by_id)
+server.del('/records/:id', userHandlers.loginRequired, clinicalDataHandler.delete_a_record_by_id)
 
+
+// For periodic ping. No functionality
 server.get('/', function (req, res, next){res.send(200)});
 
 
