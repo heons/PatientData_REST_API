@@ -9,7 +9,8 @@ exports.get_all_patients = function (req, res, next) {
     console.log('GET request: patients');
     // Find every entity within the given collection
     Patients.find({}).exec(function (error, result) {
-        if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
+        //if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
+        console.log(error);
         res.send(result);
     });
 };
