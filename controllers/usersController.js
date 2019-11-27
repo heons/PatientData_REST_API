@@ -37,8 +37,7 @@ exports.loginRequired = function(req, res, next) {
   if (req.user) {
     next();
   } else {
-    //res.send(401, { message: 'Unauthorized user!' });
-    res.send(401);
+    res.send(401, { message: 'Unauthorized user!' });
   }
 };
 
