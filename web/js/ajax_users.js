@@ -27,8 +27,9 @@ var postLogin = function () {
     //alert("login is done!!");
     //console.log(response);
 
-    // Set token
+    // Set user data : token, user_name
     localStorage.setItem("token", response.token);
+    localStorage.setItem("user_name", response.full_name);
 
     console.log(window.location.pathname);
     console.log(window.location.hostname);
@@ -48,8 +49,9 @@ var postLogin = function () {
 
 
 var postLogout = function (cur_page) {
-  // Reset token
+  // Reset user data : token, user_name
   localStorage.setItem("token", "");
+  localStorage.setItem("user_name", "");
   
   window.location.href = window.location.href.substring(0, window.location.href.length - (cur_page.length)) + 'Login.html';
   console.log(window.location.href);
