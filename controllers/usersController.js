@@ -24,10 +24,10 @@ exports.sign_in = function(req, res) {
   }, function(err, user) {
     if (err) throw err;
     if (!user || !user.comparePassword(req.body.password)) {
-      console.log(req.body);
+      //console.log(req.body);
       res.send(401, { message: 'Authentication failed. Invalid user or password.' });
     } else {
-      res.send(200, { token: jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, 'RESTFULAPIs') });
+      res.send(200, { token: jwt.sign({ email: user.email, full_name: user.full_name, _id: user._id }, 'RESTFULAPIs'), full_name: user.full_name });
     }
   });
   
