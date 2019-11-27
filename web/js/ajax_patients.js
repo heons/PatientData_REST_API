@@ -3,7 +3,6 @@ var urlDB = 'https://patient-data-management.herokuapp.com/';
 
 var patientList = [];
 
-
 // GET patients
 var getPatients = function(){
   
@@ -17,46 +16,9 @@ var getPatients = function(){
     success: function (data) {
 
       patientList = data;
-      let strDisplay = "";
-      for (let i = 0; i < patientList.length; ++i) {
-        console.log(patientList[i]._id);
-        strDisplay += '<div class="well  well-lg well-info">';
-        strDisplay += '<div class="well-inner">';
-        strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
-        strDisplay += '<span class="patient-info"><strong>';
-        strDisplay += 'ID(#' + patientList[i]._id.substring(20, patientList[i]._id.length) + '): ' + patientList[i].first_name + ' ' + patientList[i].last_name;
-        strDisplay += '</strong></span>';
-        strDisplay += '<div class="pull-right">';
-        strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
-        strDisplay += '<button type="button" class="btn btn-warning"' + '" onclick="onClickInfo(\'' + patientList[i]._id+ '\')">' + 'Information</button>';
-        strDisplay += '<button type="button" class="btn btn-success">Records</button>';
-        strDisplay += '</div>';
-        strDisplay += '<div class="btn-group btn-smaller-screen" style="display: none;">';
-        strDisplay += '<button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">';
-        strDisplay += '<span class="glyphicon glyphicon-list-alt"></span>';
-        strDisplay += '</button>';
-        strDisplay += '<button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">';
-        strDisplay += '<span class="caret"></span>';
-        strDisplay += '</button>';
-        strDisplay += '<ul class="dropdown-menu" role="menu">';
-        strDisplay += '<li><a href="#">Information</a></li>';
-        strDisplay += '<li><a href="#">Records</a></li>';
-        strDisplay += '</ul>';
-        strDisplay += '</div></div></div></div>';
-      }
+      displayPatienstToList(data);
 
-      $("#div_patient_list").html(strDisplay);
-
-
-      if ($(window).width() < 585) {
-        $(".btn-smaller-screen").show();
-        $(".btn-bigger-screen").hide();
-      }
-      else {
-  
-        $(".btn-smaller-screen").hide();
-        $(".btn-bigger-screen").show();
-      }
+      
     }
   }).fail(function () {
     $("#div_patient_list").html("error");
@@ -66,8 +28,7 @@ var getPatients = function(){
 
 
 // GET patient ID
-var getPatientbyId = function (patient_id) {
-
+var getPatientbyId = function (patient_id, display="form") {
   // Create URL
   let url_send = urlDB + "patients/" + patient_id;
 
@@ -76,26 +37,72 @@ var getPatientbyId = function (patient_id) {
     method: "GET",
     crossDomain: true,
     success: function (data) {
-
-      patientList = data;
-      let strDisplay = "";
-      for (let i = 0; i < patientList.length; ++i) {
-        console.log(patientList[i]._id);
-        document.getElementById("input_first_name").value = patientList[i].first_name;
-        document.getElementById("input_last_name").value = patientList[i].last_name;
-        document.getElementById("input_sex").value = patientList[i].sex;
-        document.getElementById("input_date_of_birth").value = patientList[i].date_of_birth;
-        //let address = document.getElementById("input_address").value;
-        document.getElementById("input_department").value = patientList[i].department;
-        document.getElementById("input_doctor").value = patientList[i].doctor;
-      }
-
-      $("#div_patient_list").html(strDisplay);
+      if ("form" == display) {
+        displayPaientToForm(data[0]);
+      } else if ("result" == display) {
+        displayPatienstToList(data);
+      } else {}
     }
   }).fail(function () {
-    $("#div_patient_list").html("error");
+    //display error
   });
-  console.log("getPatients");
+  console.log("getPatientbyId");
+}
+
+// Display patient to from views
+var displayPaientToForm = function(patient) {
+  document.getElementById("input_first_name").value = patient.first_name;
+  document.getElementById("input_last_name").value = patient.last_name;
+  document.getElementById("input_sex").value = patient.sex;
+  document.getElementById("input_date_of_birth").value = patient.date_of_birth;
+  //let address = document.getElementById("input_address").value;
+  document.getElementById("input_department").value = patient.department;
+  document.getElementById("input_doctor").value = patient.doctor;
+}
+
+// Display patient to the list
+var displayPatienstToList = function(patients) {
+  // Create a string(html code) to display
+  let strDisplay = "";
+  for (let i = 0; i < patients.length; ++i) {
+    //console.log(data[i]._id);
+    strDisplay += '<div class="well  well-lg well-info">';
+    strDisplay += '<div class="well-inner">';
+    strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
+    strDisplay += '<span class="patient-info"><strong>';
+    strDisplay += 'ID(#' + patients[i]._id.substring(20, patients[i]._id.length) + '): ' + patients[i].first_name + ' ' + patients[i].last_name;
+    strDisplay += '</strong></span>';
+    strDisplay += '<div class="pull-right">';
+    strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
+    strDisplay += '<button type="button" class="btn btn-warning"' + '" onclick="onClickInfo(\'' + patients[i]._id + '\')">' + 'Information</button>';
+    strDisplay += '<button type="button" class="btn btn-success">Records</button>';
+    strDisplay += '</div>';
+    strDisplay += '<div class="btn-group btn-smaller-screen" style="display: none;">';
+    strDisplay += '<button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">';
+    strDisplay += '<span class="glyphicon glyphicon-list-alt"></span>';
+    strDisplay += '</button>';
+    strDisplay += '<button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">';
+    strDisplay += '<span class="caret"></span>';
+    strDisplay += '</button>';
+    strDisplay += '<ul class="dropdown-menu" role="menu">';
+    strDisplay += '<li><a herf="./EditPatient.html" onclick="onClickInfo(\'' + patients[i]._id + '\')">Information</a></li>';
+    strDisplay += '<li><a href="#">Records</a></li>';
+    strDisplay += '</ul>';
+    strDisplay += '</div></div></div></div>';
+  }
+
+  // Display the contant
+  $("#div_patient_list").html(strDisplay);
+
+  // Responsiveness on buttons
+  if ($(window).width() < 585) {
+    $(".btn-smaller-screen").show();
+    $(".btn-bigger-screen").hide();
+  }
+  else {
+    $(".btn-smaller-screen").hide();
+    $(".btn-bigger-screen").show();
+  }
 }
 
 
@@ -178,17 +185,25 @@ var putPatient = function (patient_id) {
     "data": form
   }
 
-
   $.ajax(settings).done(function (response) {
     alert("A data is changed!!");
+
     console.log(response);
   });
 }
 
 // On click Information of a patient - go to edit patient
-var onClickInfo = function(patient_id) {
-  console.log(patient_id);
-  localStorage.setItem("sel_patient_id", patient_id);
+var onClickInfo = function(paitent_id) {
+  //console.log(curPatient);
+  //localStorage.setItem("cur_patient", JSON.stringify(curPatient));
+  //console.log(JSON.parse(localStorage.cur_patient));
+  localStorage.setItem("sel_patient_id", paitent_id);
   console.log(localStorage.sel_patient_id);
   window.location.href = window.location.href.substring(0, window.location.href.length - ('ViewPatient.html'.length)) + 'EditPatient.html';
+}
+
+
+var onClickSearchById = function() {
+  let patient_id = document.getElementById("input_search_by_id").value;
+  getPatientbyId(patient_id, 'result');
 }

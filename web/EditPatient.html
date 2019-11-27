@@ -8,7 +8,7 @@
   <meta name="version" content="1.1">
   <meta name="student_number" content="301093331">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/code.css">
   </link>
@@ -40,9 +40,9 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li><a href="./ViewPatient.html">View Patient</a></li>
-          <li><a href="">Search Patient</a></li>
-          <li class="active"><a href="">Add Patient</a></li>
+          <li class="active"><a href="./ViewPatient.html">View Patient</a></li>
+          <li><a href="./SearchPatient.html">Search Patient</a></li>
+          <li><a href="./AddPatient.html">Add Patient</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a onclick="postLogout('EditPatient.html')"><span class="glyphicon glyphicon-user"></span> Log Out</a></li>
@@ -51,6 +51,7 @@
     </div>
   </nav>
 
+  <div class="container">
     <form class="form-horizontal" action=" " method="post" id="contact_form">
       <fieldset>
 
@@ -88,7 +89,17 @@
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-              <input id="input_date_of_birth" name="dateOfBirth" placeholder="YYYY/MM/DD" class="form-control" type="text">
+              <input id="input_date_of_birth" name="dateOfBirth" placeholder="YYYY/MM/DD" class="form-control"
+                type="text">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-4 control-label">Address</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+              <input name="address" placeholder="Address" class="form-control" type="text">
             </div>
           </div>
         </div>
@@ -132,7 +143,7 @@
 
         <!-- Text input-->
 
-        <div class="form-group">
+        <div class="form-group doctor-div">
           <label class="col-md-4 control-label">Doctor</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
@@ -143,19 +154,13 @@
         </div>
         <br>
 
-        <!-- Select Basic -->
-
-        <!-- Success message -->
-        <!-- <div class="alert alert-success" role="alert" id="success_message">Success <i
-            class="glyphicon glyphicon-thumbs-up"></i> Success!.</div> -->
-
         <!-- Button -->
         <div class="form-group text-center">
           <label class="col-md-4 control-label"></label>
           <div class="col-md-4">
-            <input type="button" class="btn btn-warning" value="SUBMIT" onclick="">
-              <span class="glyphicon glyphicon-send"></span>
+            <input type="button" class="btn btn-warning btn-submit" value="SUBMIT" onclick="putPatient(localStorage.sel_patient_id)">
             </input>
+            <a href="./ViewPatient.html" class="btn btn-danger btn-cancel" role="button">CANCEL</a>
           </div>
         </div>
       </fieldset>
@@ -163,8 +168,7 @@
   </div>
 </body>
 <script>
-
-  // get patient and display
+   // get patient and display
   getPatientbyId(localStorage.sel_patient_id);
 
   $(document).ready(function () {

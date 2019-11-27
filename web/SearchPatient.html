@@ -62,7 +62,7 @@
           <li><a href="./AddPatient.html">Add Patient</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a onclick="postLogout('ViewPatient.html')"> <span class="glyphicon glyphicon-user"></span> Log Out</a>
+          <li><a onclick="postLogout('SearchPatient.html')"> <span class="glyphicon glyphicon-user"></span> Log Out</a>
           </li>
         </ul>
       </div>
@@ -70,7 +70,7 @@
   </nav>
 
 
-  <div class="container">
+  <div class="container patient-information">
     <fieldset>
 
       <!-- Form Name -->
@@ -93,13 +93,22 @@
             </div>
           </div>
           <div class="form-group text-center">
-            <input type="button" class="btn btn-warning" value="SEARCH BY ID">
+            <input type="button" class="btn btn-warning" onclick="onClickSearchById()" value="SEARCH BY ID">
             </input>
           </div>
+          
         </div>
       </form>
     </fieldset>
+    
+    <div class="row">
+      <div id="div_patient_list">
+      </div>
+    </div>
   </div>
+
+
+
 
 
   <div class="container">
@@ -137,6 +146,21 @@
     </fieldset>
   </div>
 
+  <script>
+    $(window).resize(function () {
+        $(".patient-information").each(function (i, item) {
+          item = $(item);
+          if (item.width() < 570) {
+            $(".btn-smaller-screen").show();
+            $(".btn-bigger-screen").hide();
+          } else {
+
+            $(".btn-smaller-screen").hide();
+            $(".btn-bigger-screen").show();
+          }
+        });
+      });
+  </script>
 
 </body>
 
