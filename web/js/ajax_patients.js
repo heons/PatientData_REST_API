@@ -188,10 +188,10 @@ var onClickInfo = function(paitent_id) {
   //console.log(JSON.parse(localStorage.cur_patient));
   localStorage.setItem("sel_patient_id", paitent_id);
   console.log(localStorage.sel_patient_id);
-  window.location.href = window.location.href.substring(0, window.location.href.length - ('ViewPatient.html'.length)) + 'EditPatient.html';
+  window.location.href = localStorage.baseURL + 'EditPatient.html';
 }
 
-
+// On click search by id button
 var onClickSearchById = function() {
   let patient_id = document.getElementById("input_search_by_id").value;
   getPatientbyId(patient_id, 'result');

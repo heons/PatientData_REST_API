@@ -85,6 +85,9 @@
 </body>
 
 <script>
+
+  localStorage.setItem("baseURL", window.location.href.substring(0, window.location.href.length - ('ViewPatient.html'.length)));
+
   $(document).ready(function () {
 
     console.log($(window).height());

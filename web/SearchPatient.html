@@ -100,7 +100,7 @@
         </div>
       </form>
     </fieldset>
-    
+
     <div class="row">
       <div id="div_patient_list">
       </div>
@@ -147,6 +147,8 @@
   </div>
 
   <script>
+    localStorage.setItem("baseURL", window.location.href.substring(0, window.location.href.length - ('SearchPatient.html'.length)));
+
     $(window).resize(function () {
         $(".patient-information").each(function (i, item) {
           item = $(item);
