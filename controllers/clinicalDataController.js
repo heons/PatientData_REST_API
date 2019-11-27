@@ -163,7 +163,7 @@ exports.delete_a_record_by_id = function (req, res, next) {
         // If there are any errors, pass them to next in the correct format
         if (error) return next(new errs.InvalidArgumentError(JSON.stringify(error.errors)))
 
-        console.log(result);
+        //console.log(result);
         // Send a 200 OK response
         res.send(201, result)
     });
