@@ -69,6 +69,21 @@ server
     // Maps req.body to req.params so there is no switching between them
     .use(restify.plugins.bodyParser())
 
+// For authrization
+var jsonwebtoken = require("jsonwebtoken");
+var userHandlers = require("./controllers/usersController");
+server.use(function (req, res, next) {
+    if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
+        jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function (err, decode) {
+            if (err) req.user = undefined;
+            req.user = decode;
+            next();
+        });
+    } else {
+        req.user = undefined;
+        next();
+    }
+});
 
 // Start listening
 server.listen(port, function () {
@@ -81,7 +96,14 @@ server.listen(port, function () {
 })
 
 
+
+// Controllers
 var patientsHandler = require("./controllers/patientsController");
+var clinicalDataHandler = require("./controllers/clinicalDataController");
+var userHandlers = require("./controllers/usersController");
+
+
+// Patients
 // Get all patients in the system
 server.get('/patients', patientsHandler.get_all_patients)
 
@@ -98,7 +120,7 @@ server.post('/patients', patientsHandler.create_a_patient)
 server.del('/patients/:id', patientsHandler.delete_a_patient_by_id)
 
 
-var clinicalDataHandler = require("./controllers/clinicalDataController");
+// Records
 // Get all the records by its patient id
 server.get('/patients/:id/records', clinicalDataHandler.get_all_records_by_patient_id)
 
@@ -117,8 +139,7 @@ server.del('/records/:id', clinicalDataHandler.delete_a_record_by_id)
 server.get('/', function (req, res, next){res.send(200)});
 
 
-// Users controls
-var userHandlers = require("./controllers/usersController");
+// Authrization
 server.post('/auth/register', userHandlers.register);
 server.post('/auth/sign_in', userHandlers.sign_in);
 
