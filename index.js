@@ -87,7 +87,7 @@ var clinicalDataHandler = require("./controllers/clinicalDataController");
 var userHandlers = require("./controllers/usersController");
 // Patients
 // Get all patients in the system
-server.get('/patients', patientsHandler.get_all_patients);
+server.get('/patients', userHandlers.loginRequired, patientsHandler.get_all_patients);
 // Get a single patient by their patient id
 server.get('/patients/:id', patientsHandler.get_a_patient_by_id);
 // Update a single patient by its patient id
