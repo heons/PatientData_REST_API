@@ -215,6 +215,13 @@
   background-color: #3084CC;
 }
 
+.btn-submit {
+  margin-right: 20px;
+}
+.btn-cancel {
+  margin-left: 20px;
+}
+
 .doctor-div{
   margin-bottom: 0px;
 }
