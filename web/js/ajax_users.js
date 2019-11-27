@@ -1,8 +1,7 @@
 var urlDB = 'https://patient-data-management.herokuapp.com/';
 //var urlDB = 'http://127.0.0.1:5000/';
 
-// token after login
-var token;
+
 
 var postLogin = function () {
   // Create a data to post here.
@@ -27,7 +26,10 @@ var postLogin = function () {
   $.ajax(settings).done(function (response) {
     //alert("login is done!!");
     //console.log(response);
-    token = response.token;
+
+    // Set token
+    localStorage.setItem("token", response.token);
+
     console.log(window.location.pathname);
     console.log(window.location.hostname);
     //TODO : 11 is fixed value for 'Lonin.html', find better way
@@ -46,9 +48,8 @@ var postLogin = function () {
 
 
 var postLogout = function (cur_page) {
-  // Create a data to post here.
-  // Or you could modify function with an argument like function(form)
-  token = "";
+  // Reset token
+  localStorage.setItem("token", "");
   
   window.location.href = window.location.href.substring(0, window.location.href.length - (cur_page.length)) + 'Login.html';
   console.log(window.location.href);
