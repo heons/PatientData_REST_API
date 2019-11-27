@@ -84,7 +84,7 @@ var displayPatienstToList = function(patients, query) {
 
     if (true == bDisplay)  {
       //console.log(data[i]._id);
-      console.log(patients[i].department);
+      //console.log(patients[i].department);
       strDisplay += '<div class="well  well-lg well-info">';
       strDisplay += '<div class="well-inner">';
       strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
@@ -215,12 +215,19 @@ var onClickInfo = function(paitent_id) {
   window.location.href = localStorage.baseURL + 'EditPatient.html';
 }
 
+// On click my patient radio button
+var onClickGetMyPatients = function () {
+  let query = {
+    "doctor": localStorage.user_name
+  };
+  getPatients(query);
+}
+
 // On click search by id button
 var onClickSearchById = function() {
   let patient_id = document.getElementById("input_search_by_id").value;
   getPatientbyId(patient_id, 'result');
 }
-
 
 // On click search by department button
 var onClickSearchByDepartment = function () {

@@ -72,8 +72,8 @@
     <div class="row">
       <div class="page-title text-center">
         <span><strong class="patient-title">Select Patients: </strong>
-          <label class="radio-inline"><input type="radio" name="optradio" checked>My Patient</label>
-          <label class="radio-inline"><input type="radio" name="optradio" >All Patient</label>
+          <label class="radio-inline"><input type="radio" name="optradio" onclick="onClickGetMyPatients()" checked>My Patient</label>
+          <label class="radio-inline"><input type="radio" name="optradio" onclick="getPatients()">All Patient</label>
         </span>
       </div>
       <div class="col-lg-12 col-xs-12 col-centered ">
@@ -105,7 +105,7 @@
     $(".list-block").css("height", $(window).height() - 200);
 
     // Get patients and display
-    getPatients();
+    onClickGetMyPatients();
   });
 
   $(window).resize(function () {
