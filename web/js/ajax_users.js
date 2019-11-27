@@ -25,14 +25,13 @@ var postLogin = function () {
 
   $.ajax(settings).done(function (response) {
     //alert("login is done!!");
+    response = JSON.parse(response);
     //console.log(response);
 
     // Set user data : token, user_name
     localStorage.setItem("token", response.token);
     localStorage.setItem("user_name", response.full_name);
-
-    console.log(window.location.pathname);
-    console.log(window.location.hostname);
+   
     //TODO : 11 is fixed value for 'Lonin.html', find better way
     window.location.href = window.location.href.substring(0, window.location.href.length - ('Login.html'.length)) + 'ViewPatient.html';
     //console.log(token);
