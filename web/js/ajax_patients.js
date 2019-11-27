@@ -9,11 +9,14 @@ var patientList = [];
 var getPatients = function(query){
   // Create URL
   let url_send = urlDB + "patients";
-
+  
   $.ajax({
     url: url_send,
     method: "GET",
     crossDomain: true,
+    headers: {
+      "Authorization": "JWT " + localStorage.token
+    },
     success: function (data) {
       // TODO : may not need
       // Save data for later use
