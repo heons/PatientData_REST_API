@@ -1,11 +1,12 @@
 var urlDB = 'https://patient-data-management.herokuapp.com/';
 //var urlDB = 'http://127.0.0.1:5000/';
 
+// Patient List
 var patientList = [];
+
 
 // GET patients
 var getPatients = function(){
-  
   // Create URL
   let url_send = urlDB + "patients";
 
@@ -14,11 +15,12 @@ var getPatients = function(){
     method: "GET",
     crossDomain: true,
     success: function (data) {
-
+      // TODO : may not need
+      // Save data for later use
       patientList = data;
-      displayPatienstToList(data);
 
-      
+      // Display Patients data to list
+      displayPatienstToList(data);
     }
   }).fail(function () {
     $("#div_patient_list").html("error");
@@ -55,7 +57,7 @@ var displayPaientToForm = function(patient) {
   document.getElementById("input_last_name").value = patient.last_name;
   document.getElementById("input_sex").value = patient.sex;
   document.getElementById("input_date_of_birth").value = patient.date_of_birth;
-  //let address = document.getElementById("input_address").value;
+  document.getElementById("input_address").value = patient.address;
   document.getElementById("input_department").value = patient.department;
   document.getElementById("input_doctor").value = patient.doctor;
 }
@@ -117,7 +119,7 @@ var postPatient = function () {
   let last_name = document.getElementById("input_last_name").value;
   let sex = document.getElementById("input_sex").value;
   let date_of_birth = document.getElementById("input_date_of_birth").value;
-  //let address = document.getElementById("input_address").value;
+  let address = document.getElementById("input_address").value;
   let department = document.getElementById("input_department").value;
   let doctor = document.getElementById("input_doctor").value;
 
@@ -127,7 +129,7 @@ var postPatient = function () {
   form.append("last_name", last_name);
   form.append("sex", sex);
   form.append("date_of_birth", date_of_birth);
-  //form.append("address", address);
+  form.append("address", address);
   form.append("department", department);
   form.append("doctor", doctor);
 
@@ -161,7 +163,7 @@ var putPatient = function (patient_id) {
   let last_name = document.getElementById("input_last_name").value;
   let sex = document.getElementById("input_sex").value;
   let date_of_birth = document.getElementById("input_date_of_birth").value;
-  //let address = document.getElementById("input_address").value;
+  let address = document.getElementById("input_address").value;
   let department = document.getElementById("input_department").value;
   let doctor = document.getElementById("input_doctor").value;
 
@@ -170,7 +172,7 @@ var putPatient = function (patient_id) {
   form.append("last_name", last_name);
   form.append("sex", sex);
   form.append("date_of_birth", date_of_birth);
-  //form.append("address", address);
+  form.append("address", address);
   form.append("department", department);
   form.append("doctor", doctor);
 
