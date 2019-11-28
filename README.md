@@ -36,6 +36,11 @@ End with an example of getting some data out of the system or using it for a lit
 
 Explain how to run the automated tests for this system
 
+### Swagger Endpoint API
+
+Endpoint API test using Swagger
+[Swagger Endpoint API](https://app.swaggerhub.com/apis-docs/heons/patient-data-management/1.0.0)
+
 ### Break down into end to end tests
 
 Explain what these tests test and why
@@ -72,7 +77,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Huen Oh** - *Initial work* - [heons](https://github.com/heons)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
