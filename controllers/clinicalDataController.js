@@ -102,7 +102,7 @@ exports.get_a_record_by_id = function (req, res, next) {
 
 // Update a record by its record id
 exports.update_a_record_by_id = function (req, res, next) {
-    console.log('PUT records: patients/:id');
+    console.log('PUT records: records/:id');
 
     // Get data from the request
     let data = req.params;
