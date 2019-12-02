@@ -23,7 +23,7 @@ var getPatients = function(query){
       patientList = data;
 
       // Display Patients data to list
-      displayPatienstToList(data, query);
+      displayPatientsToList(data, query);
     }
   }).fail(function () {
     $("#div_patient_list").html("error");
@@ -48,7 +48,7 @@ var getPatientbyId = function (patient_id, display="form") {
       if ("form" == display) {
         displayPaientToForm(data[0]);
       } else if ("result" == display) {
-        displayPatienstToList(data);
+        displayPatientsToList(data);
       } else {}
     }
   }).fail(function () {
@@ -69,7 +69,7 @@ var displayPaientToForm = function(patient) {
 }
 
 // Display patient to the list
-var displayPatienstToList = function(patients, query) {
+var displayPatientsToList = function(patients, query) {
   // Create a string(html code) to display
   let strDisplay = "";
   let bDisplay = true;
