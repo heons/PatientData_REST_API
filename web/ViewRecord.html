@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Health & Care (View Patient)</title>
+  <title>Health & Care (View Record)</title>
   <meta name="author" content="Loveleen Kaur">
   <meta name="description" content="Menu Page">
   <meta name="version" content="1.1">
@@ -14,7 +14,7 @@
   </link>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <script src="./js/ajax_patients.js"></script>
+  <script src="./js/ajax_records.js"></script>
   <script src="./js/ajax_users.js"></script>
 </head>
 <style>
@@ -71,13 +71,11 @@
   <div class="container patient-information">
     <div class="row">
       <div class="page-title text-center">
-        <span><strong class="patient-title">Select Patients: </strong>
-          <label class="radio-inline"><input type="radio" name="optradio" onclick="onClickGetMyPatients()" checked>My Patient</label>
-          <label class="radio-inline"><input type="radio" name="optradio" onclick="getPatients()">All Patient</label>
+        <span><strong class="patient-title">View Records: </strong>
         </span>
       </div>
       <div class="col-lg-12 col-xs-12 col-centered ">
-        <div class="well well-outer well-lg list-block" id="div_patient_list">
+        <div class="well well-outer well-lg list-block" id="div_record_list">
         </div>
       </div>
     </div>
@@ -104,8 +102,8 @@
 
     $(".list-block").css("height", $(window).height() - 200);
 
-    // Get patients and display
-    onClickGetMyPatients();
+    // Get records and display
+    onClickGetRecords();
   });
 
   $(window).resize(function () {
