@@ -63,7 +63,7 @@ var postRecord = function () {
         "async": true,
         "crossDomain": true,
         headers: {
-            "Authorization": token
+            "Authorization": "JWT " + localStorage.token
         },
         url: urlDB + "patients/" + patient_id + "/records",
         "method": "POST",
@@ -197,6 +197,11 @@ var createFormDataRecord = function () {
     return form;
 }
 
+
+// On click Information of a record - go to edit record
+var onClickAddRecord = function () {
+    window.location.href = localStorage.baseURL + '/AddRecord.html';
+}
 
 // On click Information of a record - go to edit record
 var onClickRecordInfo = function (record_id) {

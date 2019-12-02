@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Health & Care (Add Patient)</title>
+  <title>Health & Care (Edit Patient)</title>
   <meta name="author" content="Loveleen Kaur">
   <meta name="description" content="Menu Page">
   <meta name="version" content="1.1">
@@ -15,6 +15,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <script src="./js/ajax_patients.js"></script>
+  <script src="./js/ajax_records.js"></script>
   <script src="./js/ajax_users.js"></script>
 </head>
 
@@ -40,12 +41,13 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li><a href="./ViewPatient.html">View Patient</a></li>
+          <li class="active"><a href="./ViewPatient.html">View Patient</a></li>
           <li><a href="./SearchPatient.html">Search Patient</a></li>
-          <li class="active"><a href="">Add Patient</a></li>
+          <li><a href="./AddPatient.html">Add Patient</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a onclick="postLogout('AddPatient.html')"><span class="glyphicon glyphicon-user"></span> Log Out</a></li>
+          <li><a onclick="postLogout('EditPatient.html')"><span class="glyphicon glyphicon-user"></span> Log Out</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -58,108 +60,71 @@
         <!-- Form Name -->
         <legend>
           <center>
-            <h3><b>Add Patient</b></h3>
+            <h3><b>Add Record</b></h3>
           </center>
         </legend><br>
 
         <!-- Text input-->
 
         <div class="form-group">
-          <label class="col-md-4 control-label">First Name</label>
+          <label class="col-md-4 control-label">Nurse Name</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="input_first_name" name="first_name" placeholder="First Name" class="form-control" type="text">
+              <input id="input_nurse_name" name="nurse_name" placeholder="Nurse Name" class="form-control" type="text">
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-md-4 control-label">Last Name</label>
-          <div class="col-md-4 inputGroupContainer">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="input_last_name" name="last_name" placeholder="Last Name" class="form-control" type="text">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="col-md-4 control-label">Date of Birth</label>
+          <label class="col-md-4 control-label">Date</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
               <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-              <input id="input_date_of_birth" name="dateOfBirth" placeholder="YYYY/MM/DD" class="form-control" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-4 control-label">Address</label>
-            <div class="col-md-4 inputGroupContainer">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                <input id="input_address" name="address" placeholder="Address" class="form-control" type="text">
-              </div>
-            </div>
-          </div>
-        <!-- Text input-->
-
-        <div class="form-group">
-          <label class="col-md-4 control-label">Department</label>
-          <div class="col-md-4 selectContainer">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-              <select id="input_department" name="department" class="form-control selectpicker">
-                <option value="">Select your Department/Office</option>
-                <option>Department of Engineering</option>
-                <option>Department of Agriculture</option>
-                <option>Accounting Office</option>
-                <option>Tresurer's Office</option>
-                <option>MPDC</option>
-                <option>MCTC</option>
-                <option>MCR</option>
-                <option>Mayor's Office</option>
-                <option>Tourism Office</option>
-              </select>
+              <input id="input_date" name="date" placeholder="YYYY/MM/DD" class="form-control" type="text">
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-md-4 control-label">Gender</label>
-          <div class="col-md-4 selectContainer">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-              <select id="input_sex" name="sex" class="form-control selectpicker">
-                <option value="">Select your Gender</option>
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Text input-->
-
-        <div class="form-group doctor-div">
-          <label class="col-md-4 control-label">Doctor</label>
+          <label class="col-md-4 control-label">Time</label>
           <div class="col-md-4 inputGroupContainer">
             <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-plus"></i></span>
-              <input id="input_doctor" name="doctor" placeholder="Doctor" class="form-control" type="text">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+              <input id="input_time" name="time" placeholder="HH:MM" class="form-control" type="text">
             </div>
           </div>
         </div>
-        <br>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label">Type</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+              <input id="input_type" name="type" placeholder="type" class="form-control" type="text">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-md-4 control-label">Value</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+              <input id="input_value" name="value" placeholder="value" class="form-control" type="text">
+            </div>
+          </div>
+        </div>
+        <!-- Text input-->
 
         <!-- Button -->
         <div class="form-group text-center">
           <label class="col-md-4 control-label"></label>
           <div class="col-md-4">
-            <input type="button" class="btn btn-warning" value="SUBMIT" onclick="postPatient()">
-              <span class="glyphicon glyphicon-send"></span>
+            <input type="button" class="btn btn-warning btn-submit" value="SUBMIT"
+              onclick="postRecord()">
             </input>
+            <a href="./ViewRecord.html" class="btn btn-danger btn-cancel" role="button">CANCEL</a>
           </div>
         </div>
       </fieldset>
@@ -167,6 +132,7 @@
   </div>
 </body>
 <script>
+
   $(document).ready(function () {
     $('#contact_form').bootstrapValidator({
       // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
@@ -176,83 +142,56 @@
         validating: 'glyphicon glyphicon-refresh'
       },
       fields: {
-        first_name: {
+        nurse_name: {
           validators: {
             stringLength: {
               min: 2,
             },
             notEmpty: {
-              message: 'Please enter your First Name'
+              message: 'Please enter your Nurse Name'
             }
           }
         },
-        last_name: {
+        date: {
           validators: {
             stringLength: {
               min: 2,
             },
             notEmpty: {
-              message: 'Please enter your Last Name'
+              message: 'Please enter Date'
             }
           }
         },
-        user_name: {
+        time: {
+          validators: {
+            stringLength: {
+              min: 2,
+            },
+            notEmpty: {
+              message: 'Please enter Time'
+            }
+          }
+        },
+        type: {
+          validators: {
+            stringLength: {
+              min: 2,
+            },
+            notEmpty: {
+              message: 'Please enter Type'
+            }
+          }
+        },
+        value: {
           validators: {
             stringLength: {
               min: 8,
             },
             notEmpty: {
-              message: 'Please enter your Username'
+              message: 'Please enter Value'
             }
           }
-        },
-        user_password: {
-          validators: {
-            stringLength: {
-              min: 8,
-            },
-            notEmpty: {
-              message: 'Please enter your Password'
-            }
-          }
-        },
-        confirm_password: {
-          validators: {
-            stringLength: {
-              min: 8,
-            },
-            notEmpty: {
-              message: 'Please confirm your Password'
-            }
-          }
-        },
-        email: {
-          validators: {
-            notEmpty: {
-              message: 'Please enter your Email Address'
-            },
-            emailAddress: {
-              message: 'Please enter a valid Email Address'
-            }
-          }
-        },
-        contact_no: {
-          validators: {
-            stringLength: {
-              min: 12,
-              max: 12,
-              notEmpty: {
-                message: 'Please enter your Contact No.'
-              }
-            }
-          },
-          department: {
-            validators: {
-              notEmpty: {
-                message: 'Please select your Department/Office'
-              }
-            }
-          },
+
         }
       }
     })
