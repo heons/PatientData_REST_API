@@ -200,7 +200,7 @@ var createFormDataRecord = function () {
 
 // On click Information of a record - go to edit record
 var onClickAddRecord = function () {
-    window.location.href = localStorage.baseURL + '/AddRecord.html';
+    window.location.href = localStorage.baseURL + 'AddRecord.html';
 }
 
 // On click Information of a record - go to edit record
@@ -210,7 +210,7 @@ var onClickRecordInfo = function (record_id) {
     //console.log(JSON.parse(localStorage.cur_patient));
     localStorage.setItem("sel_record_id", record_id);
     console.log(localStorage.sel_record_id);
-    window.location.href = localStorage.baseURL + '/EditRecord.html';
+    window.location.href = localStorage.baseURL + 'EditRecord.html';
 }
 
 // On click my patient radio button
