@@ -82,7 +82,7 @@ var postRecord = function () {
 // PUT record by ID
 var putRecord = function (record_id) {
     // Create a form data to PUT
-    let form = createFormDataPatient();
+    let form = createFormDataRecord();
 
     // Ajax settings
     let settings = {
@@ -110,7 +110,7 @@ var putRecord = function (record_id) {
 
 // Display record to from views
 var displayRecordToForm = function (record) {
-    document.getElementById("input_patient_id").value = record.patient_id;
+    //document.getElementById("input_patient_id").value = record.patient_id;
     document.getElementById("input_nurse_name").value = record.nurse_name;
     document.getElementById("input_date").value = record.date;
     document.getElementById("input_time").value = record.time;
@@ -144,7 +144,6 @@ var displayRecordsToList = function (records, query) {
             strDisplay += '<div class="pull-right">';
             strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
             strDisplay += '<button type="button" class="btn btn-warning"' + '" onclick="onClickRecordInfo(\'' + records[i]._id + '\')">' + 'Information</button>';
-            strDisplay += '<button type="button" class="btn btn-success">Records</button>';
             strDisplay += '</div>';
             strDisplay += '<div class="btn-group btn-smaller-screen" style="display: none;">';
             strDisplay += '<button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">';
@@ -155,7 +154,6 @@ var displayRecordsToList = function (records, query) {
             strDisplay += '</button>';
             strDisplay += '<ul class="dropdown-menu" role="menu">';
             strDisplay += '<li><a herf="./EditRecord.html" onclick="onClickRecordInfo(\'' + records[i]._id + '\')">Information</a></li>';
-            strDisplay += '<li><a href="#">Records</a></li>';
             strDisplay += '</ul>';
             strDisplay += '</div></div></div></div>';
         }
@@ -200,6 +198,15 @@ var createFormDataRecord = function () {
 }
 
 
+// On click Information of a record - go to edit record
+var onClickRecordInfo = function (record_id) {
+    //console.log(curPatient);
+    //localStorage.setItem("cur_patient", JSON.stringify(curPatient));
+    //console.log(JSON.parse(localStorage.cur_patient));
+    localStorage.setItem("sel_record_id", record_id);
+    console.log(localStorage.sel_record_id);
+    window.location.href = localStorage.baseURL + '/EditRecord.html';
+}
 
 // On click my patient radio button
 var onClickGetRecords = function () {
