@@ -94,7 +94,7 @@ var displayPatientsToList = function(patients, query) {
       strDisplay += '<div class="pull-right">';
       strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
       strDisplay += '<button type="button" class="btn btn-warning"' + '" onclick="onClickPatientInfo(\'' + patients[i]._id + '\')">' + 'Information</button>';
-      strDisplay += '<button type="button" class="btn btn-success">Records</button>';
+      strDisplay += '<button type="button" class="btn btn-success"' + '" onclick="onClickRecordsInfo(\'' + patients[i]._id + '\')">' + 'Records</button>';
       strDisplay += '</div>';
       strDisplay += '<div class="btn-group btn-smaller-screen" style="display: none;">';
       strDisplay += '<button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">';
@@ -105,7 +105,7 @@ var displayPatientsToList = function(patients, query) {
       strDisplay += '</button>';
       strDisplay += '<ul class="dropdown-menu" role="menu">';
       strDisplay += '<li><a herf="./EditPatient.html" onclick="onClickPatientInfo(\'' + patients[i]._id + '\')">Information</a></li>';
-      strDisplay += '<li><a href="#">Records</a></li>';
+      strDisplay += '<li><a herf="./ViewRecords.html" onclick="onClickRecordsInfo(\'' + patients[i]._id + '\')">Records</a></li>';
       strDisplay += '</ul>';
       strDisplay += '</div></div></div></div>';
     }
@@ -214,6 +214,17 @@ var onClickPatientInfo = function(paitent_id) {
   console.log(localStorage.sel_patient_id);
   window.location.href = localStorage.baseURL + 'EditPatient.html';
 }
+
+// On click Information of a patient - go to edit patient
+var onClickRecordsInfo = function (paitent_id) {
+  //console.log(curPatient);
+  //localStorage.setItem("cur_patient", JSON.stringify(curPatient));
+  //console.log(JSON.parse(localStorage.cur_patient));
+  localStorage.setItem("sel_patient_id", paitent_id);
+  console.log(localStorage.sel_patient_id);
+  window.location.href = localStorage.baseURL + 'ViewRecord.html';
+}
+
 
 // On click my patient radio button
 var onClickGetMyPatients = function () {
