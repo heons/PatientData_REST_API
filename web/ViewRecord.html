@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Health & Care (View Patient)</title>
+  <meta name="author" content="Loveleen Kaur">
+  <meta name="description" content="Menu Page">
+  <meta name="version" content="1.1">
+  <meta name="student_number" content="301093331">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/code.css">
+  </link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="./js/ajax_patients.js"></script>
+  <script src="./js/ajax_users.js"></script>
+</head>
+<style>
+  .list-group {
+    margin-bottom: 0px;
+  }
+
+  .list-group-item {
+    background-color: #e7e7e7;
+  }
+
+  .well-outer {
+    background-color: #E0EDF8;
+  }
+
+  .well-last {
+    margin-bottom: 0px;
+  }
+</style>
+
+<body class="login">
+  <nav class="navbar navLogo">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand navImage" href=""><img class="logo" src="image/care_logo.png"></a>
+        <h3 class="navbar-text title navText">Health & Care</h3>
+      </div>
+    </div>
+  </nav>
+  <nav class="navbar navbar-default navOptions">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="">Health & Care</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="./ViewPatient.html">View Patient</a></li>
+          <li><a href="./SearchPatient.html">Search Patient</a></li>
+          <li><a href="./AddPatient.html">Add Patient</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a onclick="postLogout('ViewPatient.html')"> <span class="glyphicon glyphicon-user"></span> Log Out</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container patient-information">
+    <div class="row">
+      <div class="page-title text-center">
+        <span><strong class="patient-title">Select Patients: </strong>
+          <label class="radio-inline"><input type="radio" name="optradio" onclick="onClickGetMyPatients()" checked>My Patient</label>
+          <label class="radio-inline"><input type="radio" name="optradio" onclick="getPatients()">All Patient</label>
+        </span>
+      </div>
+      <div class="col-lg-12 col-xs-12 col-centered ">
+        <div class="well well-outer well-lg list-block" id="div_patient_list">
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+
+  localStorage.setItem("baseURL", window.location.href.substring(0, window.location.href.length - ('ViewPatient.html'.length)));
+
+  $(document).ready(function () {
+
+    console.log($(window).height());
+    if ($(window).width() < 585) {
+      $(".btn-smaller-screen").show();
+      $(".btn-bigger-screen").hide();
+    }
+    else {
+
+      $(".btn-smaller-screen").hide();
+      $(".btn-bigger-screen").show();
+      //alert("not mobile");
+    }
+
+    $(".list-block").css("height", $(window).height() - 200);
+
+    // Get patients and display
+    onClickGetMyPatients();
+  });
+
+  $(window).resize(function () {
+    $(".patient-information").each(function (i, item) {
+      item = $(item);
+      if (item.width() < 570) {
+        $(".btn-smaller-screen").show();
+        $(".btn-bigger-screen").hide();
+      } else {
+
+        $(".btn-smaller-screen").hide();
+        $(".btn-bigger-screen").show();
+      }
+    });
+  });
+</script>
+  
+</html>
