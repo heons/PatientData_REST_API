@@ -137,9 +137,8 @@ var displayRecordsToList = function (records, query) {
             //console.log(records[i].department);
             strDisplay += '<div class="well  well-lg well-info">';
             strDisplay += '<div class="well-inner">';
-            strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
             strDisplay += '<span class="patient-info"><strong>';
-            strDisplay += 'ID(#' + records[i]._id.substring(20, records[i]._id.length) + '): ' + records[i].type + ' ' + records[i].value;
+            strDisplay += i + ': ' + records[i].date + ' | ' + records[i].type + ' | ' + records[i].value;
             strDisplay += '</strong></span>';
             strDisplay += '<div class="pull-right">';
             strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
