@@ -6,10 +6,10 @@ var patientList = [];
 
 
 // GET patients
-var getPatients = function(query){
+var getPatients = function (query) {
   // Create URL
   let url_send = urlDB + "patients";
-  
+
   $.ajax({
     url: url_send,
     method: "GET",
@@ -33,7 +33,7 @@ var getPatients = function(query){
 
 
 // GET patient ID
-var getPatientbyId = function (patient_id, display="form") {
+var getPatientbyId = function (patient_id, display = "form") {
   // Create URL
   let url_send = urlDB + "patients/" + patient_id;
 
@@ -49,7 +49,9 @@ var getPatientbyId = function (patient_id, display="form") {
         displayPaientToForm(data[0]);
       } else if ("result" == display) {
         displayPatientsToList(data);
-      } else {}
+      } else if ("profile" == display) {
+        displayPatientProfile(data[0]);
+      } else { }
     }
   }).fail(function () {
     //display error
@@ -58,7 +60,7 @@ var getPatientbyId = function (patient_id, display="form") {
 }
 
 // Display patient to from views
-var displayPaientToForm = function(patient) {
+var displayPaientToForm = function (patient) {
   document.getElementById("input_first_name").value = patient.first_name;
   document.getElementById("input_last_name").value = patient.last_name;
   document.getElementById("input_sex").value = patient.sex;
@@ -69,7 +71,7 @@ var displayPaientToForm = function(patient) {
 }
 
 // Display patient to the list
-var displayPatientsToList = function(patients, query) {
+var displayPatientsToList = function (patients, query) {
   // Create a string(html code) to display
   let strDisplay = "";
   let bDisplay = true;
@@ -82,7 +84,7 @@ var displayPatientsToList = function(patients, query) {
       if ((undefined != query.doctor) && (query.doctor != patients[i].doctor)) { bDisplay = false; }
     }
 
-    if (true == bDisplay)  {
+    if (true == bDisplay) {
       //console.log(data[i]._id);
       //console.log(patients[i].department);
       strDisplay += '<div class="well  well-lg well-info">';
@@ -125,6 +127,23 @@ var displayPatientsToList = function(patients, query) {
   }
 }
 
+// Display patient to the list
+var displayPatientProfile = function (patient) {
+  // Create a string(html code) to display
+  let strDisplay = "";
+  //console.log(data[i]._id);
+  //console.log(patients[i].department);
+  strDisplay += '<div class="well  well-lg well-info">';
+  strDisplay += '<div class="well-inner">';
+  strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
+  strDisplay += '<span class="patient-info"><strong>';
+  strDisplay += 'ID(#' + patient._id.substring(20, patient._id.length) + '): ' + patient.first_name + ' ' + patient.last_name;
+  strDisplay += '</strong></span>';
+  strDisplay += '</div></div>';
+
+  // Display the contant
+  $("#div_patient_profile").html(strDisplay);
+}
 
 // POST patients
 var postPatient = function () {
@@ -180,7 +199,7 @@ var putPatient = function (patient_id) {
 }
 
 // Create form data of a patient from form inputs
-var createFormDataPatient = function() {
+var createFormDataPatient = function () {
   //TODO : validate inputs
   let first_name = document.getElementById("input_first_name").value;
   let last_name = document.getElementById("input_last_name").value;
@@ -206,7 +225,7 @@ var createFormDataPatient = function() {
 
 
 // On click Information of a patient - go to edit patient
-var onClickPatientInfo = function(paitent_id) {
+var onClickPatientInfo = function (paitent_id) {
   //console.log(curPatient);
   //localStorage.setItem("cur_patient", JSON.stringify(curPatient));
   //console.log(JSON.parse(localStorage.cur_patient));
@@ -235,7 +254,7 @@ var onClickGetMyPatients = function () {
 }
 
 // On click search by id button
-var onClickSearchById = function() {
+var onClickSearchById = function () {
   let patient_id = document.getElementById("input_search_by_id").value;
   getPatientbyId(patient_id, 'result');
 }
