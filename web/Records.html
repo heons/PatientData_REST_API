@@ -98,7 +98,22 @@
               <span class="patient-record-info"><strong>1: Blood Pressure | 80-120</strong></span>
 
               <div class="pull-right">
-                <button type="button" class="btn btn-success btn-xs">Records</button>
+                <div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">
+                  <button type="button" class="btn btn-warning">Records</button>
+                  <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+                <div class="btn-group btn-smaller-screen" style="display: none;">
+                  <button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                  </button>
+                  <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Records</a></li>
+                    <li><a href="#">Delete</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -107,7 +122,22 @@
               <span class="patient-record-info"><strong>2: Blood Pressure | 80-120</strong></span>
 
               <div class="pull-right">
-                <button type="button" class="btn btn-success btn-xs">Records</button>
+                <div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">
+                  <button type="button" class="btn btn-warning">Records</button>
+                  <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+                <div class="btn-group btn-smaller-screen" style="display: none;">
+                  <button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                  </button>
+                  <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Records</a></li>
+                    <li><a href="#">Delete</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -116,7 +146,22 @@
               <span class="patient-record-info"><strong>3: Blood Pressure | 80-120</strong></span>
 
               <div class="pull-right">
-                <button type="button" class="btn btn-success btn-xs">Records</button>
+                <div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">
+                  <button type="button" class="btn btn-warning">Records</button>
+                  <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+                <div class="btn-group btn-smaller-screen" style="display: none;">
+                  <button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                  </button>
+                  <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Records</a></li>
+                    <li><a href="#">Delete</a></li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -125,7 +170,22 @@
               <span class="patient-record-info"><strong>4: Blood Pressure | 80-120</strong></span>
 
               <div class="pull-right">
-                <button type="button" class="btn btn-success btn-xs">Records</button>
+                  <div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">
+                      <button type="button" class="btn btn-warning">Records</button>
+                      <button type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                    <div class="btn-group btn-smaller-screen" style="display: none;">
+                      <button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                      </button>
+                      <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Records</a></li>
+                        <li><a href="#">Delete</a></li>
+                      </ul>
+                    </div>
               </div>
             </div>
           </div>
@@ -143,7 +203,30 @@
 
 <script>
   $(document).ready(function () {
+    if ($(window).width() < 585) {
+      $(".btn-smaller-screen").show();
+      $(".btn-bigger-screen").hide();
+    }
+    else {
+
+      $(".btn-smaller-screen").hide();
+      $(".btn-bigger-screen").show();
+      //alert("not mobile");
+    }
     $(".list-block").css("height", $(window).height() - 295);
+  });
+  $(window).resize(function () {
+    $(".patient-information").each(function (i, item) {
+      item = $(item);
+      if (item.width() < 570) {
+        $(".btn-smaller-screen").show();
+        $(".btn-bigger-screen").hide();
+      } else {
+
+        $(".btn-smaller-screen").hide();
+        $(".btn-bigger-screen").show();
+      }
+    });
   });
 </script>
 
