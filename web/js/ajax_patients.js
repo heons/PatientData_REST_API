@@ -139,6 +139,7 @@ var displayPatientProfile = function (patient) {
   strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
   strDisplay += '<span class="patient-info"><strong>';
   strDisplay += 'ID(#' + patient._id.substring(20, patient._id.length) + '): ' + patient.first_name + ' ' + patient.last_name;
+  strDisplay += ' (' + patient.sex + ', ' + patient.date_of_birth + ')';
   strDisplay += '</strong></span>';
   strDisplay += '</div></div>';
 
