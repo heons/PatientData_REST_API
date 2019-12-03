@@ -91,7 +91,7 @@ var displayPatientsToList = function (patients, query) {
       strDisplay += '<div class="well-inner">';
       strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
       strDisplay += '<span class="patient-info"><strong>';
-      strDisplay += 'ID(#' + patients[i]._id.substring(20, patients[i]._id.length) + '): ' + patients[i].first_name + ' ' + patients[i].last_name;
+      strDisplay += i+1 + ": " + patients[i].first_name + ' ' + patients[i].last_name;
       strDisplay += ' (' + patients[i].sex + ', ' + patients[i].date_of_birth + ')';
       strDisplay += '</strong></span>';
       strDisplay += '<div class="pull-right">';
