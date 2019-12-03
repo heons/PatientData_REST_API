@@ -55,3 +55,30 @@ var postLogout = function (cur_page) {
   window.location.href = window.location.href.substring(0, window.location.href.length - (cur_page.length)) + 'Login.html';
   console.log(window.location.href);
 }
+
+
+var rememberMe = function () {
+  if (localStorage.chkbx && localStorage.chkbx != '') {
+    $('#remember_me').attr('checked', 'checked');
+    $('#inputUsername').val(localStorage.usrname);
+    $('#inputPassword').val(localStorage.pass);
+  } else {
+    $('#remember_me').removeAttr('checked');
+    $('#inputUsername').val('');
+    $('#inputPassword').val('');
+  }
+
+  $('#remember_me').click(function () {
+
+    if ($('#remember_me').is(':checked')) {
+      // save username and password
+      localStorage.usrname = $('#inputUsername').val();
+      localStorage.pass = $('#inputPassword').val();
+      localStorage.chkbx = $('#remember_me').val();
+    } else {
+      localStorage.usrname = '';
+      localStorage.pass = '';
+      localStorage.chkbx = '';
+    }
+  });
+};
