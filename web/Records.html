@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Health & Care (Records)</title>
+  <meta name="author" content="Loveleen Kaur">
+  <meta name="description" content="Menu Page">
+  <meta name="version" content="1.1">
+  <meta name="student_number" content="301093331">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/code.css">
+  </link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="./js/ajax_patients.js"></script>
+  <script src="./js/ajax_users.js"></script>
+</head>
+<style>
+  .list-group {
+    margin-bottom: 0px;
+  }
+
+  .list-group-item {
+    background-color: #e7e7e7;
+  }
+
+  .well-outer {
+    background-color: #E0EDF8;
+  }
+
+  .well-last {
+    margin-bottom: 0px;
+  }
+</style>
+
+<body class="login">
+  <nav class="navbar navLogo">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand navImage" href=""><img class="logo" src="image/care_logo.png"></a>
+        <h3 class="navbar-text title navText">Health & Care</h3>
+      </div>
+    </div>
+  </nav>
+  <nav class="navbar navbar-default navOptions">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="">Health & Care</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="./ViewPatient.html">View Patient</a></li>
+          <li><a href="./SearchPatient.html">Search Patient</a></li>
+          <li><a href="./AddPatient.html">Add Patient</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a onclick="postLogout('ViewPatient.html')"> <span class="glyphicon glyphicon-user"></span> Log Out</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container patient-information">
+    <div class="row">
+
+      <div class="page-title">
+        <span style="margin-left: 20px;"><strong class="patient-title">Patients Records: </strong>
+        </span>
+      </div>
+
+      <div class="col-lg-12 col-xs-12 col-centered ">
+        <div class="well well-outer">
+          <span class="pattient-icon"><img class="list-img-title" src="image/user_icon_2.png"></span>
+          <span class="patient-info"><strong>ID(#3344): Chester M. Munoz</strong></span>
+          <div class="pull-right">
+
+            <button type="button" class="btn btn-primary">
+              <span class="glyphicon glyphicon-plus"></span> Add
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-lg-12 col-xs-12 col-centered ">
+        <div class="well well-outer well-lg list-block">
+          <div class="well well-lg well-records-info">
+            <div class="well-inner">
+              <span class="patient-record-info"><strong>1: Blood Pressure | 80-120</strong></span>
+
+              <div class="pull-right">
+                <button type="button" class="btn btn-success btn-xs">Records</button>
+              </div>
+            </div>
+          </div>
+          <div class="well well-lg well-records-info">
+            <div class="well-inner">
+              <span class="patient-record-info"><strong>2: Blood Pressure | 80-120</strong></span>
+
+              <div class="pull-right">
+                <button type="button" class="btn btn-success btn-xs">Records</button>
+              </div>
+            </div>
+          </div>
+          <div class="well well-lg well-records-info">
+            <div class="well-inner">
+              <span class="patient-record-info"><strong>3: Blood Pressure | 80-120</strong></span>
+
+              <div class="pull-right">
+                <button type="button" class="btn btn-success btn-xs">Records</button>
+              </div>
+            </div>
+          </div>
+          <div class="well well-last well-lg well-records-info">
+            <div class="well-inner">
+              <span class="patient-record-info"><strong>4: Blood Pressure | 80-120</strong></span>
+
+              <div class="pull-right">
+                <button type="button" class="btn btn-success btn-xs">Records</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <div class="container patient-information">
+    <div class="row">
+    </div>
+  </div> -->
+</body>
+
+<script>
+  $(document).ready(function () {
+    $(".list-block").css("height", $(window).height() - 295);
+  });
+</script>
+
+</html>

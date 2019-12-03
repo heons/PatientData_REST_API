@@ -76,7 +76,18 @@
     padding-bottom: 35px;
   }
 
+  .patient-record-info{
+    font-size: 10px;
+  }
   
+}
+.well-records-info{
+  height: 85px;
+}
+
+.patient-record-info{
+  display:inline-block;
+  margin-top: 8px;
 }
 
 .patient-title{
@@ -126,6 +137,19 @@
 }
 
 .list-img-card{
+  width: 40px;
+  height: 40px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  display:inline-block;
+  clear:left;
+  margin-right: 10px;
+}
+
+
+.list-img-title{
   width: 40px;
   height: 40px;
   display: block;
