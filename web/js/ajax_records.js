@@ -105,6 +105,29 @@ var putRecord = function (record_id) {
     });
 }
 
+var deleteRecord = function (record_id, mode="reload") {
+
+    let settings = {
+        "async": true,
+        "crossDomain": true,
+        headers: {
+            "Authorization": "JWT " + localStorage.token
+        },
+        url: urlDB + "records/" + record_id,
+        method: "DELETE",
+    }
+
+    $.ajax(settings).done(function (response) {
+        alert("A data is deleted!!");
+        console.log(response);
+
+        // Re-load
+        if("reload" == mode) {
+            getRecordsByPatientID(localStorage.sel_patient_id);
+        }
+    });
+}
+
 
 
 
@@ -143,7 +166,7 @@ var displayRecordsToList = function (records, query) {
             strDisplay += '<div class="pull-right">';
             strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
             strDisplay += '<button type="button" class="btn btn-warning"' + '" onclick="onClickRecordInfo(\'' + records[i]._id + '\')">' + 'Information</button>';
-            strDisplay += '<button type="button" class="btn btn-danger">Delete</button>';
+            strDisplay += '<button type="button" class="btn btn-danger"' + '" onclick="onClickDeleteRecord(\'' + records[i]._id + '\')">' + 'Delete</button>';
             strDisplay += '</div>';
             strDisplay += '<div class="btn-group btn-smaller-screen" style="display: none;">';
             strDisplay += '<button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">';
@@ -154,7 +177,7 @@ var displayRecordsToList = function (records, query) {
             strDisplay += '</button>';
             strDisplay += '<ul class="dropdown-menu" role="menu">';
             strDisplay += '<li><a herf="./EditRecord.html" onclick="onClickRecordInfo(\'' + records[i]._id + '\')">Information</a></li>';
-            strDisplay += '<li><a href="">Delete</a></li>';
+            strDisplay += '<li><a onclick="onClickDeleteRecord(\'' + records[i]._id + '\')">Delete</a></li>';
             strDisplay += '</ul>';
             strDisplay += '</div></div></div></div>';
         }
@@ -212,6 +235,18 @@ var onClickRecordInfo = function (record_id) {
     localStorage.setItem("sel_record_id", record_id);
     console.log(localStorage.sel_record_id);
     window.location.href = localStorage.baseURL + 'EditRecord.html';
+}
+
+// On click delete a record - delete a record and refresh screen
+var onClickDeleteRecord = function (record_id) {
+    //console.log(curPatient);
+    //localStorage.setItem("cur_patient", JSON.stringify(curPatient));
+    //console.log(JSON.parse(localStorage.cur_patient));
+    localStorage.setItem("sel_record_id", record_id);
+    console.log(localStorage.sel_record_id);
+
+    // delete record
+    deleteRecord(record_id, "reload");
 }
 
 // On click my patient radio button
