@@ -134,14 +134,15 @@ var displayPatientProfile = function (patient) {
   let strDisplay = "";
   //console.log(data[i]._id);
   //console.log(patients[i].department);
-  strDisplay += '<div class="well  well-lg well-info">';
-  strDisplay += '<div class="well-inner">';
-  strDisplay += '<span class="pattient-icon"><img class="list-img-card" src="image/user_icon_2.png"></span>';
+  strDisplay += '<span class="pattient-icon"><img class="list-img-title" src="image/user_icon_2.png"></span>';
   strDisplay += '<span class="patient-info"><strong>';
   strDisplay += 'ID(#' + patient._id.substring(20, patient._id.length) + '): ' + patient.first_name + ' ' + patient.last_name;
   strDisplay += ' (' + patient.sex + ', ' + patient.date_of_birth + ')';
   strDisplay += '</strong></span>';
-  strDisplay += '</div></div>';
+  strDisplay += '<div class="pull-right">';
+  strDisplay += '<button type="button" class="btn btn-primary" onclick="onClickAddRecord()">';
+  strDisplay += '<span class="glyphicon glyphicon-plus"></span> Add';
+  strDisplay += '</button></div>';    
 
   // Display the contant
   $("#div_patient_profile").html(strDisplay);

@@ -135,7 +135,7 @@ var displayRecordsToList = function (records, query) {
         if (true == bDisplay) {
             //console.log(data[i]._id);
             //console.log(records[i].department);
-            strDisplay += '<div class="well  well-lg well-info">';
+            strDisplay += '<div class="well well-last well-lg well-records-info">';
             strDisplay += '<div class="well-inner">';
             strDisplay += '<span class="patient-info"><strong>';
             strDisplay += i + ': ' + records[i].date + ' | ' + records[i].type + ' | ' + records[i].value;
@@ -143,6 +143,7 @@ var displayRecordsToList = function (records, query) {
             strDisplay += '<div class="pull-right">';
             strDisplay += '<div class="btn-group btn-bigger-screen" role="group" aria-label="Basic example">';
             strDisplay += '<button type="button" class="btn btn-warning"' + '" onclick="onClickRecordInfo(\'' + records[i]._id + '\')">' + 'Information</button>';
+            strDisplay += '<button type="button" class="btn btn-danger">Delete</button>';
             strDisplay += '</div>';
             strDisplay += '<div class="btn-group btn-smaller-screen" style="display: none;">';
             strDisplay += '<button type="button" class="btn btn-primary dropdown-toggle disabled" data-toggle="dropdown">';
@@ -153,6 +154,7 @@ var displayRecordsToList = function (records, query) {
             strDisplay += '</button>';
             strDisplay += '<ul class="dropdown-menu" role="menu">';
             strDisplay += '<li><a herf="./EditRecord.html" onclick="onClickRecordInfo(\'' + records[i]._id + '\')">Information</a></li>';
+            strDisplay += '<li><a href="">Delete</a></li>';
             strDisplay += '</ul>';
             strDisplay += '</div></div></div></div>';
         }
