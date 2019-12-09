@@ -35,19 +35,23 @@
         <p id="profile-name" class="profile-name-card"></p>
         <form class="form-signin">
           <span id="reauth-username" class="reauth-username"></span>
-          <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-          <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+          <input type="text" id="inputUsername" class="form-control username" placeholder="Username" required autofocus >
+          <input type="password" id="inputPassword" class="form-control password" placeholder="Password" required >
           <div class="checkbox">
             <label>
-              <input id="remember_me" type="checkbox" value="remember-me"> Remember me
+              <input id="remember_me" type="checkbox" value="remember-me" key="username"><p class="remember">Remember me</p>
             </label>
           </div>
-          <input type="button" class="btn btn-lg btn-primary btn-block btn-signin" value="Submit" onclick="postLogin()">
+          <input type="button" class="btn btn-lg btn-primary btn-block btn-signin submit" value="Submit" onclick="postLogin()">
         </form><!-- /form -->
         <span id="check_login_info" class="reauth-username"></span>
-        <a href="#" class="forgot-password">
+        <!-- <a href="#" class="forgot-password">
           Forgot the password?
-        </a>
+        </a> -->
+        <span class="lang">Select Language</span> : <select id="langselector" onchange="loadlang()">
+          <option value="en">English</option>
+          <option value="fr">French</option>
+        </select>
       </div><!-- /card-container -->
     </div>
   </div><!-- /container -->
@@ -56,7 +60,48 @@
 
     // remember me functionality
     rememberMe();
- 
+
+    function loadlang()
+  {
+    let arrLang = {
+            en: {
+                'username' : 'Username',
+                'password' : 'Password',
+                'remember' : 'Remember Me',
+                'submit': 'Submit',
+                'lang' : 'Select Language'
+            },
+
+            fr: {
+                'username' : "Nom d'utilisateur",
+                'password' : 'Mot de passe',
+                'remember' : 'Souviens-toi de moi',
+                'submit': 'Soumettre',
+                'lang' : 'Choisir la langue'
+            }
+        }
+  var lng = document.getElementById("langselector").value;
+  var cnt = document.getElementById("contents");
+  localStorage.setItem('language', lng);
+  switch (lng)
+    {
+    case "en":
+    //alert(arrLang[lng]["remember"]);
+    $(".remember").text(arrLang[lng]["remember"]);
+    $(".submit").val(arrLang[lng]["submit"]);
+    $(".username").attr("placeholder", arrLang[lng]["username"]);
+    $(".password").attr("placeholder", arrLang[lng]["password"]);
+    $('.lang').text(arrLang[lng]["lang"]);
+    break;
+    case "fr":
+    $(".remember").text(arrLang[lng]["remember"]);
+    $(".submit").val(arrLang[lng]["submit"]);
+    $(".username").attr("placeholder", arrLang[lng]["username"]);
+    $(".password").attr("placeholder", arrLang[lng]["password"]);
+    $('.lang').text(arrLang[lng]["lang"]);
+    break;
+    }
+  }
   </script>
 </body>
 
