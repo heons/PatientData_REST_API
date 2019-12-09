@@ -1,4 +1,7 @@
 
+// Date picker function when document is ready.
+// It's only for 'dateOfBirth' and 'date'
+
 $(document).ready(function () {
     var date_input1 = $('input[name="dateOfBirth"]'); //our date input has the name "dateOfBirth"
     var date_input2 = $('input[name="date"]'); //our date input has the name "date"
