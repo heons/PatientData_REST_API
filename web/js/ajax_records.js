@@ -160,7 +160,7 @@ var displayRecordsToList = function (records, query) {
             //console.log(records[i].department);
             strDisplay += '<div class="well well-lg well-records-info">';
             strDisplay += '<div class="well-inner">';
-            strDisplay += '<span class="patient-info"><strong>';
+            strDisplay += '<span class="patient-record-info"><strong>';
             strDisplay += i + ': ' + records[i].date + ' | ' + records[i].type + ' | ' + records[i].value;
             strDisplay += '</strong></span>';
             strDisplay += '<div class="pull-right">';
