@@ -158,7 +158,7 @@ var displayRecordsToList = function (records, query) {
         if (true == bDisplay) {
             //console.log(data[i]._id);
             //console.log(records[i].department);
-            strDisplay += '<div class="well well-last well-lg well-records-info">';
+            strDisplay += '<div class="well well-lg well-records-info">';
             strDisplay += '<div class="well-inner">';
             strDisplay += '<span class="patient-info"><strong>';
             strDisplay += i + ': ' + records[i].date + ' | ' + records[i].type + ' | ' + records[i].value;
