@@ -63,8 +63,8 @@ mocha chai-http-tests.js
 
 ## Authors
 
-* **Huen Oh** - *Initial work* - [heons](https://github.com/heons)
-* **Loveleen** - *Responsive web design* - [loveleenkaur598](https://github.com/loveleenkaur598)
+* [**Huen Oh**](https://github.com/heons) - Backend(REST, MongoDB, Swagger), Frontend(Ajax, javascript)
+* [**Loveleen**](https://github.com/loveleenkaur598) - Responsive web design(Bootstrap, html, css, javascript)
 
 
 ## License
