@@ -1,85 +1,71 @@
-# MAPD713_PatientData_REST_API
+# PatientData_REST_API
 
-Patients and their record(clinical data) management server & web application. It is a term project of MAPD713 class @ Centennial College.
+Patients and their record(clinical data) management server & web application. It is a term project of MAPD713 class @ Centennial College. 
+* Tech stacks : Javascript, Typescript, html, css, Ajax, Node.js, Restful, JWT, MongoDB.
+* MongoDB is deployed in [MongoDB Atlas](https://www.mongodb.com/cloud).
+* Server is deployed in [Heroku](https://www.heroku.com).
+* [Swagger Endpoint API](https://app.swaggerhub.com/apis-docs/heons/patient-data-management/1.0.0).
+* [Web Entry Point](https://heons.github.io/PatientData_REST_API/web//Login.html) : Username(jack00@gmail.com), Password(jack00).
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+To start with demo, go to [Swagger Endpoint API](https://app.swaggerhub.com/apis-docs/heons/patient-data-management/1.0.0) for the backend and go to [Web Entry Point](https://heons.github.io/PatientData_REST_API/web//Login.html) for the frontend.
 
 ### Prerequisites
-
-What things you need to install the software and how to install them
-
+* It requires proper environment settings for Javascript and Node.js first.
+* Install npm packages.
 ```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
+npm install mongoose
+npm install jsonwebtoken
+npm install restify
+npm install restify-errors
+npm install restify-cors-middleware --save
 ```
 
-And repeat
-
+* (Optional)To MongoDB locally, [Install MongoDB](https://docs.mongodb.com/manual/installation/) and change DEFAULT_MONGODB_URI in ./db.js.
 ```
-until finished
+const DEFAULT_MONGODB_URI = 'mongodb://localhost/healthrecords-db' // Default MongoDB URI
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+* (Optional)To use typescrpt, [Install Typescript](https://www.typescriptlang.org/#download-links). It is not required since you could make changes in ./index.js directly.
+
 
 ## Running the tests
 
+
 Explain how to run the automated tests for this system
 
-### Swagger Endpoint API
 
-Endpoint API test using Swagger
-[Swagger Endpoint API](https://app.swaggerhub.com/apis-docs/heons/patient-data-management/1.0.0)
+### Running
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
+* Run the sever locally
 ```
-Give an example
+node index.js
 ```
 
-### And coding style tests
+* Access to the web page by './web/Login.html'
 
-Explain what these tests test and why
+### Automatic endpoint testing
+
+* Install npm packages
 
 ```
-Give an example
+npm install mocha
+npm install chai
+npm install chai-http
 ```
 
-## Deployment
+* Run with mocha
 
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+```
+mocha chai-http-tests.js 
+```
 
 ## Authors
 
 * **Huen Oh** - *Initial work* - [heons](https://github.com/heons)
+* **Loveleen** - *Responsive web design* - [loveleenkaur598](https://github.com/loveleenkaur598)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
@@ -87,6 +73,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
 * etc
