@@ -24,15 +24,15 @@
   "dependencies": {
     "@types/mongoose": "^5.5.29",
     "@types/node": "^12.12.5",
-    "@types/restify": "^8.4.1",
+    "@types/restify": "^8.5.6",
     "@types/restify-errors": "^4.3.3",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.8",
     "restify": "^8.4.0",
-    "restify-cors-middleware": "^1.1.1",
+    "restify-cors-middleware2": "^2.2.1",
     "restify-errors": "^8.0.1"
   }
 }

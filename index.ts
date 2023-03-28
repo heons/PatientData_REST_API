@@ -13,7 +13,7 @@
  */
 
 
-import * as corsMiddleware from "restify-cors-middleware";  
+import * as corsMiddleware from "restify-cors-middleware2";  
 //import * as restify from 'restify';
 //import * as errs from 'restify-errors'
 
