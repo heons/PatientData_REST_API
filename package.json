@@ -29,7 +29,7 @@
     "bcrypt": "^5.0.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.7.8",
     "restify": "^8.4.0",
     "restify-cors-middleware2": "^2.2.1",
